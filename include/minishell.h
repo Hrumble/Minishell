@@ -13,6 +13,15 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-typedef struct s_sstatus ;
+#include <unistd.h>
+#include "libft.h"
+#include "printf.h"
+#include "get_next_line.h"
+
+typedef struct s_sstatus {
+} t_sstatus;
+
+// Launches the minishell process
+void	minishell();
 
 #endif
