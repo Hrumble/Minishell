@@ -5,10 +5,10 @@ CFLAGS = -Wall -Wextra -Werror
 SRC_DIR = ./src/
 LIB_DIR = ./lib/
 LDFLAGS = -L./lib/libft
-LDLIBS = -lft
+LDLIBS = -lft -lreadline
 
 OBJECTS = $(addprefix $(SRC_DIR), \
-		  main.o minishell.o \
+		  main.o minishell.o terminal.o \
 		  )
 NAME = minishell
 
@@ -18,11 +18,11 @@ $(NAME): libs $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 $(OBJECTS): %.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) $< -o $@
+	$(CC) -c $(CFLAGS) $(INCLUDES) $< -o $@
 
 libs:
 	$(MAKE) -C $(LIB_DIR)
 
 fclean:
 	$(MAKE) -C $(LIB_DIR) fclean
-	rm -rf $(OBJECTS)
+	rm -rf $(OBJECTS) $(NAME)
