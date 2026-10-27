@@ -17,5 +17,6 @@
 int		terminal_set_icanon(int icanon);
 // sends a command to the terminal (\033 + command)
 void	terminal_send_command(const char *command);
+void	terminal_send_command_count(const char *command, int count);
 
 #endif

@@ -13,15 +13,19 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <stddef.h>
 #include <unistd.h>
 #include "libft.h"
 #include "printf.h"
 #include "get_next_line.h"
 
-typedef struct s_sstatus {
-} t_sstatus;
+typedef struct s_lineinput {
+	char	*buffer;
+	char	*buf_ptr;
+	size_t	buf_size;
+} t_lineinput;
 
 // Launches the minishell process
-void	minishell();
+int	minishell();
 
 #endif

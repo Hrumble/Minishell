@@ -1,6 +1,6 @@
 CC = cc
 INCLUDES = -Iinclude -I./lib/libft/include/
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 
 SRC_DIR = ./src/
 LIB_DIR = ./lib/
