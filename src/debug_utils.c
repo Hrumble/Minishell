@@ -6,13 +6,13 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:48 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/27 18:34:08 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/28 17:45:36 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
-#include "minishell.h"
+#include "internal.h"
 
 void	print_buffer(char *buf, size_t buf_size)
 {

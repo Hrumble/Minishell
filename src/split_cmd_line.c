@@ -6,11 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 19:40:36 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/27 20:42:22 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/28 17:46:10 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "internal.h"
 #include "libft.h"
 #include <assert.h>
 #include <stdlib.h>

@@ -1,11 +1,11 @@
 CC = cc
-INCLUDES = -Iinclude -I./lib/libft/include/
+INCLUDES = -Iinclude -I./lib/libft/include/ -I./src/internal/
 CFLAGS = -Wall -Wextra -Werror -g3
 
 SRC_DIR = ./src/
 LIB_DIR = ./lib/
 LDFLAGS = -L./lib/libft
-LDLIBS = -lft -lreadline
+LDLIBS = -lft
 
 OBJECTS = $(addprefix $(SRC_DIR), \
 		  main.o minishell.o terminal.o parser.o user_input.o debug_utils.o split_cmd_line.o\

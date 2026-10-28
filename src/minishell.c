@@ -6,10 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/27 20:59:46 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/28 17:46:03 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "internal.h"
 #include "minishell.h"
 #include "ft_printf.h"
 #include "terminal.h"

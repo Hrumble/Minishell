@@ -6,13 +6,13 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:05 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/28 10:49:14 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/28 17:46:07 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "libft.h"
-#include "minishell.h"
+#include "internal.h"
 #include <stdlib.h>
 
 static t_cmdline	*new_cmdline(char **av, int ac)

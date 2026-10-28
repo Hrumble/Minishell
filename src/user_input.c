@@ -6,14 +6,15 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:35:20 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/27 20:51:53 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/28 17:46:27 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "minishell.h"
+#include "internal.h"
 #include "terminal.h"
 #include <stddef.h>
+#include <unistd.h>
 
 static void	handle_commands(char *command, size_t command_size, t_lineinput *input)
 {
@@ -54,7 +55,7 @@ static void	insert_char_in_buf(char c, t_lineinput *input)
 
 int	get_user_input(char *prompt, char *buf)
 {
-	char		i_buf[10];
+	char		i_buf[CMDLINE_BUFSIZE];
 	ssize_t		n_read;
 	t_lineinput	input;
 
@@ -62,14 +63,14 @@ int	get_user_input(char *prompt, char *buf)
 	input.buffer = buf;
 	input.buf_size = 0;
 	input.buf_ptr = buf;
-	n_read = read(STDIN_FILENO, i_buf, 10);
+	n_read = read(STDIN_FILENO, i_buf, CMDLINE_BUFSIZE);
 	while (n_read > 0 && *i_buf != '\n')
 	{
 		if (*i_buf == '\033')
 			handle_commands(i_buf, n_read, &input);
 		else
 			insert_char_in_buf(*i_buf, &input);
-		n_read = read(STDIN_FILENO, i_buf, 10);
+		n_read = read(STDIN_FILENO, i_buf, CMDLINE_BUFSIZE);
 	}
 	write(1, "\n", 1);
 	buf[input.buf_size] = 0;
