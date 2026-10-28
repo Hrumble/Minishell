@@ -27,6 +27,7 @@ int	minishell()
 	{
 		get_user_input("metasex> ", buf);
 		cmdline = parse_command_line(buf);
+		print_cmdline(cmdline);
 		if (!cmdline)
 			ft_printf("\033[31mUnknown error occured\033[0m\n");
 		else

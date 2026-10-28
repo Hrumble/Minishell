@@ -82,7 +82,7 @@ char	**split_cmdline(const char *c)
 
 	is_quotes = 0;
 	word_p = 0;
-	av = malloc(arg_count_cmdline(c));
+	av = malloc((arg_count_cmdline(c) + 1) * sizeof(char **));
 	if (!av)
 		return (0);
 	current_index = 0;

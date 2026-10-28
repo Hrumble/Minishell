@@ -41,6 +41,7 @@ char		**split_cmdline(const char *c);
 
 // Debug
 void	print_buffer(char *buf, size_t buf_size);
+void	print_cmdline(t_cmdline *cmdline);
 
 // utils
 // Counts the amount of words in a null terminated array of (?)
