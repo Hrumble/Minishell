@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/24 00:50:09 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/24 01:49:47 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/27 18:42:58 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	terminal_set_icanon(int icanon)
 	return (1);
 }
 
-void	terminal_send_command(const char *command)
+void	terminal_sequence(const char *command)
 {
 	if (!command)
 		return ;
@@ -40,7 +40,7 @@ void	terminal_send_command(const char *command)
 	write(1, command, ft_strlen(command));
 }
 
-void	terminal_send_command_count(const char *command, int count)
+void	terminal_sequence_count(const char *command, int count)
 {
 	if (!command)
 		return ;
