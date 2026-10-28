@@ -1,5 +1,5 @@
 .clangd
 compile_flags.txt
-./minishell
+/minishell
 *.o
 *.out
