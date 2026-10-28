@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:05 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/27 20:58:43 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/28 10:49:14 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int	interpret_command_line(t_cmdline *cmdline)
 {
 	if (!ft_strcmp(*cmdline->av, "echo"))
 		return (builtin_echo(cmdline->av, cmdline->ac));
+	if (!ft_strcmp(*cmdline->av, "exit"))
+		return (builtin_exit(cmdline->av, cmdline->ac));
 	return (0);
 }
 

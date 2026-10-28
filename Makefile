@@ -10,7 +10,7 @@ LDLIBS = -lft -lreadline
 OBJECTS = $(addprefix $(SRC_DIR), \
 		  main.o minishell.o terminal.o parser.o user_input.o debug_utils.o split_cmd_line.o\
 		  ) $(addprefix $(SRC_DIR)builtins/, \
-		  echo.o \
+		  echo.o exit.o\
 		  )
 NAME = minishell
 
