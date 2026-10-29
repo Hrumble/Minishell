@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:48 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 21:14:31 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/29 21:41:48 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	print_token(t_token *tk)
 		ft_printf("Token {type=%s}\n", "REDIRIN");
 	if (tk->type == TK_REDIROUT)
 		ft_printf("Token {type=%s}\n", "REDIROUT");
-	if (tk->type == TK_APPENDIN)
-		ft_printf("Token {type=%s}\n", "APPENDIN");
+	if (tk->type == TK_HEREDOC)
+		ft_printf("Token {type=%s}\n", "HEREDOC");
 	if (tk->type == TK_APPENDOUT)
 		ft_printf("Token {type=%s}\n", "APPENDOUT");
 }

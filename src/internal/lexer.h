@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 21:19:22 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/29 21:41:24 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef enum e_tokentype
 	TK_PIPE,
 	TK_REDIROUT,
 	TK_REDIRIN,
-	TK_APPENDIN,
+	TK_HEREDOC,
 	TK_APPENDOUT,
 }	t_tokentype;
 

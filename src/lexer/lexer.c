@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 21:35:48 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/29 21:41:33 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_tokentype	get_single_char_token(t_lexerattr *attr)
 	{
 		attr->ptr++;
 		if (*attr->ptr == '<')
-			return (TK_APPENDIN);
+			return (TK_HEREDOC);
 		return (TK_REDIRIN);
 	}
 	if (*attr->ptr == '>')

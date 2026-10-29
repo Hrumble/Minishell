@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 21:12:10 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/29 21:41:15 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ typedef struct s_parserattr
 typedef enum e_asttype
 {
 	AST_PRGRM,
-	AST_BINARYOP
+	AST_BINARYOP,
 }	t_asttype;
 
 typedef enum e_binaryop
 {
 	BOP_PIPE,
+	BOP_REDIRIN,
+	BOP_REDIROUT,
 }	t_binaryop;
 
 typedef struct s_ast
@@ -39,8 +41,7 @@ typedef struct s_ast
 	{
 		struct
 		{
-			t_atom	**argv;
-
+			t_atom			**argv;
 		}	s_astprgrm;
 		struct
 		{
