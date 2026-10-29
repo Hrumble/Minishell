@@ -6,42 +6,45 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:44:34 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 20:59:02 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/29 22:56:28 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "libft.h"
 #include "parser.h"
 #include <stdlib.h>
 
-t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
+static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 {
+	char	*substr;
 	t_ast	*prgrm;
 
-	if (!peek(pattr, TK_WRD) || pattr->prev)
-		return (0);
-	prgrm = malloc(sizeof(t_ast));
+	prgrm = new_astprgrm();
 	if (!prgrm)
 		return (0);
-	prgrm->type = AST_PRGRM;
 	consume_token(pattr, lattr);
 	while (peek(pattr, TK_WRD))
+	{
+		substr = ft_substr(pattr->current->atom.ptr, 0,
+				pattr->current->atom.size);
+		if (!substr)
+			return (free(prgrm), (void *)0);
+		prgrm->s_astprgrm.argv[prgrm->s_astprgrm.ac] = substr;
+		prgrm->s_astprgrm.ac++;
+		consume_token(pattr, lattr);
+	}
+	return (prgrm);
 }
 
 t_ast	*parse_ast(char	*buf)
 {
 	t_parserattr	*pattr;
 	t_lexerattr		*lattr;
-	t_ast			*node;
 
 	pattr = new_parserattr();
 	lattr = new_lexerattr(buf);
 	if (!pattr || !lattr)
 		return (free(pattr), free(lattr), NULL);
-	consume_token(pattr, lattr);
-	while (pattr->current)
-	{
-		node = parse_program(pattr, lattr);
-		if (node)
-	}
+	return (parse_program(pattr, lattr));
 }

@@ -13,9 +13,11 @@ OBJECTS = $(addprefix $(SRC_DIR), \
 		  echo.o exit.o \
 		  ) $(addprefix $(SRC_DIR)lexer/, \
 		  lexer.o token.o lexer_attr.o lexer_utils.o\
+		  ) $(addprefix $(SRC_DIR)parser/, \
+		  parser.o parser_utils.o parser_attr.o parse_ast.o ast_nodes.o \
 		  )
 TESTOBJECTS = $(addprefix $(SRC_DIR).test/, \
-			  main.o debug_utils.o test_utils.o \
+			  main.o test_utils.o print_utils.o \
 			  ) $(filter-out $(SRC_DIR)main.o, $(OBJECTS))
 NAME = minishell
 

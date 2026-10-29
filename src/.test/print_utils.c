@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug_utils.c                                      :+:      :+:    :+:   */
+/*   print_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:48 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 21:41:48 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/29 23:00:23 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "lexer.h"
 #include "libft.h"
+#include "parser.h"
+#include <stddef.h>
 
 void	print_buffer(char *buf, size_t buf_size)
 {
@@ -54,4 +56,29 @@ void	print_token(t_token *tk)
 		ft_printf("Token {type=%s}\n", "HEREDOC");
 	if (tk->type == TK_APPENDOUT)
 		ft_printf("Token {type=%s}\n", "APPENDOUT");
+}
+
+void	print_arr(char **arr, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	ft_printf("{");
+	while (i < size)
+		ft_printf("%s, ", arr[i++]);
+	ft_printf("}");
+}
+
+void	print_ast(t_ast *ast)
+{
+	if (!ast)
+		return ((void)ft_printf("AST (NULL)\n"));
+	ft_printf("AST {");
+	if (ast->type == AST_PRGRM)
+	{
+		ft_printf("type=PRGRM, argv=");
+		print_arr(ast->s_astprgrm.argv, ast->s_astprgrm.ac);
+		ft_printf(", ac=%d", ast->s_astprgrm.ac);
+	}
+	ft_printf("}\n");
 }
