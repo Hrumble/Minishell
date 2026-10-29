@@ -27,8 +27,8 @@ test: libs $(TESTOBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(TESTOBJECTS) $(LDFLAGS) $(LDLIBS) -o test
 	./test
 
-$(NAME): libs $(OBJECTS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+$(NAME): libs $(OBJECTS) $(SRC_DIR).test/print_utils.o
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(SRC_DIR).test/print_utils.o $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(INCLUDES) $< -o $@
