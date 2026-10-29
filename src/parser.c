@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:05 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/28 17:46:07 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/29 17:57:45 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ static t_cmdline	*new_cmdline(char **av, int ac)
 	return (cmdline);
 }
 
-void		free_cmdline(t_cmdline *cmdline)
+void	free_cmdline(t_cmdline *cmdline)
 {
 	if (!cmdline)
 		return ;
-	free_split(cmdline->av);
 	free(cmdline);
 }
 
@@ -57,4 +56,3 @@ int	interpret_command_line(t_cmdline *cmdline)
 		return (builtin_exit(cmdline->av, cmdline->ac));
 	return (0);
 }
-

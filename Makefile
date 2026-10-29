@@ -8,18 +8,27 @@ LDFLAGS = -L./lib/libft
 LDLIBS = -lft
 
 OBJECTS = $(addprefix $(SRC_DIR), \
-		  main.o minishell.o terminal.o parser.o user_input.o debug_utils.o split_cmd_line.o\
+		  main.o minishell.o terminal.o user_input.o \
 		  ) $(addprefix $(SRC_DIR)builtins/, \
-		  echo.o exit.o\
+		  echo.o exit.o \
+		  ) $(addprefix $(SRC_DIR)lexer/, \
+		  lexer.o token.o lexer_attr.o lexer_utils.o\
 		  )
+TESTOBJECTS = $(addprefix $(SRC_DIR).test/, \
+			  main.o debug_utils.o test_utils.o \
+			  ) $(filter-out $(SRC_DIR)main.o, $(OBJECTS))
 NAME = minishell
 
 all: $(NAME)
 
+test: libs $(TESTOBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(TESTOBJECTS) $(LDFLAGS) $(LDLIBS) -o test
+	./test
+
 $(NAME): libs $(OBJECTS)
 	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
-$(OBJECTS): %.o: %.c
+%.o: %.c
 	$(CC) -c $(CFLAGS) $(INCLUDES) $< -o $@
 
 libs:
