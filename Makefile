@@ -12,7 +12,7 @@ LDFLAGS = -L./lib/libft
 LDLIBS = -lft
 
 OBJECTS = $(addprefix $(SRC_DIR), \
-		  main.o minishell.o terminal.o user_input.o \
+		  main.o minishell.o terminal.o user_input.o expand.o expand_utils.o\
 		  ) $(addprefix $(SRC_DIR)builtins/, \
 		  echo.o exit.o \
 		  ) $(addprefix $(SRC_DIR)lexer/, \

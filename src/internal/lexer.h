@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 12:29:11 by user             ###   ########.fr       */
+/*   Updated: 2026/10/30 17:09:39 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,11 @@ typedef enum e_redirtype
 // flags (from right to left):
 //
 // 0: is_in_quotes
-// 1: is_in_wrd
 typedef struct s_lexerattr
 {
 	char	*buf;
 	char	*ptr;
-	int		flags : 2;
+	int		flags : 1;
 }	t_lexerattr;
 
 typedef struct s_atom

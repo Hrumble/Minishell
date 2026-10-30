@@ -41,7 +41,7 @@ static t_token	*get_single_char_token(t_lexerattr *attr)
 
 static int	handle_quotes(t_lexerattr *attr)
 {
-	if (*attr->ptr == '"')
+	if (*attr->ptr == '"' || *attr->ptr == '\'')
 	{
 		if (attr->flags & 1)
 		{
