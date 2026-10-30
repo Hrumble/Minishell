@@ -54,24 +54,25 @@ static t_ast	*parse_pipeline(t_parserattr *pattr, t_lexerattr *lattr)
 	t_ast	*pipe;
 
 	l_prgrm = parse_program(pattr, lattr);
-	if (!peek(pattr, TK_PIPE))
-		return (l_prgrm);
-	if (!consume_token(pattr, lattr))
-		return (free_prgrm(l_prgrm), (void *)0);
-	r_prgrm = parse_program(pattr, lattr);
-	if (!r_prgrm)
-		return (free_prgrm(l_prgrm), (void *)0);
-	pipe = new_astbinaryop(l_prgrm, r_prgrm);
-	if (!pipe)
-		return (free_prgrm(l_prgrm), free_prgrm(r_prgrm), (void *)0);
-	return (pipe);
+	while (peek(pattr, TK_PIPE))
+	{
+		if (!consume_token(pattr, lattr))
+			return (free_prgrm(l_prgrm), (void *)0);
+		r_prgrm = parse_program(pattr, lattr);
+		if (!r_prgrm)
+			return (free_prgrm(l_prgrm), (void *)0);
+		pipe = new_astbinaryop(l_prgrm, r_prgrm);
+		if (!pipe)
+			return (free_prgrm(l_prgrm), free_prgrm(r_prgrm), (void *)0);
+		l_prgrm = pipe;
+	}
+	return (l_prgrm);
 }
 
 t_ast	*parse_ast(char	*buf)
 {
 	t_parserattr	*pattr;
 	t_lexerattr		*lattr;
-	t_ast			*node;
 
 	pattr = new_parserattr();
 	lattr = new_lexerattr(buf);
