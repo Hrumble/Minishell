@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 11:15:04 by user             ###   ########.fr       */
+/*   Updated: 2026/10/30 12:40:59 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ t_token			*consume_token(t_parserattr *pattr, t_lexerattr *lattr);
 int				peek(t_parserattr *pattr, t_tokentype type);
 // Parses an input string
 t_ast			*parse_ast(char	*buf);
+// Parses a redirection
+int				parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
+					t_ast *prgrm);
 
 // Constructors
 t_parserattr	*new_parserattr();
