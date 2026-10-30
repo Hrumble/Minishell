@@ -1,5 +1,9 @@
 CC = cc
 INCLUDES = -Iinclude -I./lib/libft/include/ -I./src/internal/
+
+# REMOVE THE FOLLOWING LINE
+INCLUDES += -I./src/.debug/
+
 CFLAGS = -Wall -Wextra -Werror -g3
 
 SRC_DIR = ./src/
@@ -14,21 +18,27 @@ OBJECTS = $(addprefix $(SRC_DIR), \
 		  ) $(addprefix $(SRC_DIR)lexer/, \
 		  lexer.o token.o lexer_attr.o lexer_utils.o\
 		  ) $(addprefix $(SRC_DIR)parser/, \
-		  parser.o parser_utils.o parser_attr.o parse_ast.o ast_nodes.o \
+		  parser.o parser_utils.o parser_attr.o parse_ast.o ast_nodes.o ast_free.o \
 		  )
+DEBUGOBJECTS = $(addprefix $(SRC_DIR).debug/, \
+		print_utils.o enum_utils.o \
+		)
 TESTOBJECTS = $(addprefix $(SRC_DIR).test/, \
-			  main.o test_utils.o print_utils.o \
-			  ) $(filter-out $(SRC_DIR)main.o, $(OBJECTS))
+			  main.o \
+			  ) \
+			  $(filter-out $(SRC_DIR)main.o, $(OBJECTS))
 NAME = minishell
 
 all: $(NAME)
 
-test: libs $(TESTOBJECTS)
-	$(CC) $(CFLAGS) $(INCLUDES) $(TESTOBJECTS) $(LDFLAGS) $(LDLIBS) -o test
-	./test
+test: libs $(TESTOBJECTS) $(DEBUGOBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(TESTOBJECTS) \
+		$(DEBUGOBJECTS) $(LDFLAGS) $(LDLIBS) -o ms_test
+	./ms_test
 
-$(NAME): libs $(OBJECTS) $(SRC_DIR).test/print_utils.o
-	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) $(SRC_DIR).test/print_utils.o $(LDFLAGS) $(LDLIBS) -o $(NAME)
+$(NAME): libs $(OBJECTS) $(DEBUGOBJECTS)
+	$(CC) $(CFLAGS) $(INCLUDES) $(OBJECTS) \
+		$(DEBUGOBJECTS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 %.o: %.c
 	$(CC) -c $(CFLAGS) $(INCLUDES) $< -o $@

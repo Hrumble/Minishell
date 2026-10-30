@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:48 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 23:00:23 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/30 12:29:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,22 @@ void	print_token(t_token *tk)
 		print_buffer(tk->atom.ptr, tk->atom.size);
 		ft_printf("}\n");
 	}
-	if (tk->type == TK_PIPE)
-		ft_printf("Token {type=%s}\n", "PIPE");
-	if (tk->type == TK_QUOTES)
-		ft_printf("Token {type=%s}\n", "QUOTES");
-	if (tk->type == TK_BKQUOTES)
-		ft_printf("Token {type=%s}\n", "BKQUOTES");
-	if (tk->type == TK_BKSLASH)
-		ft_printf("Token {type=%s}\n", "BKSLASH");
-	if (tk->type == TK_REDIRIN)
-		ft_printf("Token {type=%s}\n", "REDIRIN");
-	if (tk->type == TK_REDIROUT)
-		ft_printf("Token {type=%s}\n", "REDIROUT");
-	if (tk->type == TK_HEREDOC)
-		ft_printf("Token {type=%s}\n", "HEREDOC");
-	if (tk->type == TK_APPENDOUT)
-		ft_printf("Token {type=%s}\n", "APPENDOUT");
+	if (tk->type == TK_PIPE) ft_printf("Token {type=PIPE}\n");
+	if (tk->type == TK_QUOTES) ft_printf("Token {type=QUOTES}\n");
+	if (tk->type == TK_BKQUOTES) ft_printf("Token {type=BKQUOTES}\n");
+	if (tk->type == TK_BKSLASH) ft_printf("Token {type=BKSLASH}\n");
+	if (tk->type == TK_REDIR)
+	{
+		ft_printf("Token {type=REDIR, ");
+		if (tk->redir_type == REDIR_IN)
+			ft_printf("redir_type=REDIRIN}\n");
+		if (tk->redir_type == REDIR_OUT)
+			ft_printf("redir_type=REDIROUT}\n");
+		if (tk->redir_type == REDIR_APPENDOUT)
+			ft_printf("redir_type=APPENDIN}\n");
+		if (tk->redir_type == REDIR_HEREDOC)
+			ft_printf("redir_type=HEREDOC}\n");
+	}
 }
 
 void	print_arr(char **arr, size_t size)
@@ -69,16 +69,24 @@ void	print_arr(char **arr, size_t size)
 	ft_printf("}");
 }
 
+void	print_redir(t_prgrmredir *redir)
+{
+	if (!redir)
+		return ((void)ft_printf("(NULL_REDIR)"));
+	ft_printf("redir(type=");
+	if (redir->type == REDIR_IN)
+}
+
 void	print_ast(t_ast *ast)
 {
 	if (!ast)
-		return ((void)ft_printf("AST (NULL)\n"));
+		return ((void)ft_printf("(NULL_AST)\n"));
 	ft_printf("AST {");
 	if (ast->type == AST_PRGRM)
 	{
 		ft_printf("type=PRGRM, argv=");
 		print_arr(ast->s_astprgrm.argv, ast->s_astprgrm.ac);
-		ft_printf(", ac=%d", ast->s_astprgrm.ac);
+		ft_printf(", ac=%d, redir={", ast->s_astprgrm.ac);
 	}
 	ft_printf("}\n");
 }

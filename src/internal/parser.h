@@ -6,13 +6,14 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 22:47:19 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/30 11:15:04 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
 # define ARGV_SIZE 100
+# define REDIR_SIZE 10
 # include "lexer.h"
 #include <stddef.h>
 
@@ -34,19 +35,11 @@ typedef enum e_binaryop
 	BOP_PIPE,
 }	t_binaryop;
 
-typedef enum e_redirtype
-{
-	REDIR_IN,
-	REDIR_OUT,
-	REDIR_APPENDIN,
-	REDIR_HEREDOC,
-}	t_redirtype;
-
-typedef struct s_astredir
+typedef struct s_prgrmredir
 {
 	t_redirtype	type;
 	char		*target;
-} t_astredir;
+} t_prgrmredir;
 
 typedef struct s_ast
 {
@@ -55,9 +48,10 @@ typedef struct s_ast
 	{
 		struct
 		{
-			char		*argv[ARGV_SIZE];
-			int			ac;
-			t_astredir	**redir;
+			char			*argv[ARGV_SIZE];
+			int				ac;
+			t_prgrmredir	*redir[REDIR_SIZE];
+			int				redir_size;
 		}	s_astprgrm;
 		struct
 		{
@@ -78,5 +72,10 @@ t_ast			*parse_ast(char	*buf);
 // Constructors
 t_parserattr	*new_parserattr();
 t_ast			*new_astprgrm();
+t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len);
+
+// Freeing
+void			free_redir(t_prgrmredir *redir);
+void			free_prgrm(t_ast	*prgrm);
 
 #endif

@@ -6,35 +6,35 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 21:41:33 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/30 12:29:52 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 #include "lexer.h"
 
-static t_tokentype	get_single_char_token(t_lexerattr *attr)
+static t_token	*get_single_char_token(t_lexerattr *attr)
 {
 	if (*attr->ptr == '|')
-		return (TK_PIPE);
+		return (new_token(TK_PIPE, 0, 0));
 	if (*attr->ptr == '<')
 	{
 		attr->ptr++;
 		if (*attr->ptr == '<')
-			return (TK_HEREDOC);
-		return (TK_REDIRIN);
+			return (new_token_redir(REDIR_HEREDOC));
+		return (new_token_redir(REDIR_IN));
 	}
 	if (*attr->ptr == '>')
 	{
 		attr->ptr++;
 		if (*attr->ptr == '>')
-			return (TK_APPENDOUT);
-		return (TK_REDIROUT);
+			return (new_token_redir(REDIR_APPENDOUT));
+		return (new_token_redir(REDIR_OUT));
 	}
 	if (*attr->ptr == '`')
-		return (TK_BKQUOTES);
+		return (new_token(TK_BKQUOTES, 0, 0));
 	if (*attr->ptr == '\\')
-		return (TK_BKSLASH);
+		return (new_token(TK_BKSLASH, 0, 0));
 	return (0);
 }
 
@@ -82,14 +82,14 @@ static t_token	*get_wrd_token(t_lexerattr *attr)
 
 t_token	*next_token(t_lexerattr *attr)
 {
-	t_tokentype	ttype;
+	t_token	*new_token;
 
 	while (*attr->ptr == ' ')
 		attr->ptr++;
 	if (!*attr->ptr)
 		return (0);
-	ttype = get_single_char_token(attr);
-	if (ttype)
-		return (attr->ptr++, new_token(ttype, 0, 0));
+	new_token = get_single_char_token(attr);
+	if (new_token)
+		return (attr->ptr++, new_token);
 	return (get_wrd_token(attr));
 }

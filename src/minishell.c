@@ -6,11 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 23:25:52 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/30 11:54:08 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include ".test/tester.h"
+#include "debug.h"
 #include "internal.h"
 #include "minishell.h"
 #include "parser.h"

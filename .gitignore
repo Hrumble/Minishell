@@ -1,6 +1,6 @@
 .clangd
 compile_flags.txt
 /minishell
-/test
+/ms_test
 *.o
 *.out
