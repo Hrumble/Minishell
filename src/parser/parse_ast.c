@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:44:34 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 13:11:20 by user             ###   ########.fr       */
+/*   Updated: 2026/10/30 13:42:20 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,13 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 
 // | grammar:
 // (command or pipe) (| command)?
-static t_ast	*parse_pipe(t_parserattr *pattr, t_lexerattr *lattr)
+static t_ast	*parse_pipeline(t_parserattr *pattr, t_lexerattr *lattr)
 {
 	t_ast	*l_prgrm;
 	t_ast	*r_prgrm;
 	t_ast	*pipe;
 
 	l_prgrm = parse_program(pattr, lattr);
-	if (!l_prgrm)
-		return (0);
 	if (!peek(pattr, TK_PIPE))
 		return (l_prgrm);
 	if (!consume_token(pattr, lattr))
@@ -73,10 +71,11 @@ t_ast	*parse_ast(char	*buf)
 {
 	t_parserattr	*pattr;
 	t_lexerattr		*lattr;
+	t_ast			*node;
 
 	pattr = new_parserattr();
 	lattr = new_lexerattr(buf);
 	if (!pattr || !lattr || !consume_token(pattr, lattr))
 		return (free(pattr), free(lattr), NULL);
-	return (parse_pipe(pattr, lattr));
+	return (parse_pipeline(pattr, lattr));
 }
