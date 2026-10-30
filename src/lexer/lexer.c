@@ -57,27 +57,20 @@ static int	handle_quotes(t_lexerattr *attr)
 static t_token	*get_wrd_token(t_lexerattr *attr)
 {
 	char	*wrd_start;
-	int		is_quotes;
 	
-	is_quotes = 0;
 	wrd_start = 0;
-	if (*attr->ptr == '"')
-	{
-		attr->flags |= 1;
-		attr->ptr++;
-	}
+	handle_quotes(attr);
 	while ((ft_iswrd(*attr->ptr) || attr->flags & 1) && *attr->ptr)
 	{
 		if (!wrd_start)
 			wrd_start = attr->ptr;
 		attr->ptr++;
-		is_quotes = handle_quotes(attr);
-		if (is_quotes)
+		if (handle_quotes(attr))
 			break ;
 	}
 	if (!wrd_start)
 		return (0);
-	return new_token(TK_WRD, wrd_start, (attr->ptr - is_quotes) - wrd_start);
+	return new_token(TK_WRD, wrd_start, attr->ptr - wrd_start);
 }
 
 t_token	*next_token(t_lexerattr *attr)
