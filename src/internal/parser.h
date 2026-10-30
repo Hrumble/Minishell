@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 12:40:59 by user             ###   ########.fr       */
+/*   Updated: 2026/10/30 13:08:47 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int				parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 // Constructors
 t_parserattr	*new_parserattr();
 t_ast			*new_astprgrm();
+t_ast			*new_astbinaryop(t_ast *left, t_ast *right);
 t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len);
 
 // Freeing

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/27 18:33:48 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 12:29:11 by user             ###   ########.fr       */
+/*   Updated: 2026/10/30 13:17:05 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	print_ast(t_ast *ast)
 	{
 		ft_printf("type=PRGRM, argv=");
 		print_arr(ast->s_astprgrm.argv, ast->s_astprgrm.ac);
-		ft_printf(", ac=%d,\nredir={", ast->s_astprgrm.ac);
+		ft_printf(", ac=%d, redir={\n", ast->s_astprgrm.ac);
 		while (i < ast->s_astprgrm.redir_size)
 		{
 			ft_printf("\t");
@@ -101,6 +101,14 @@ void	print_ast(t_ast *ast)
 			ft_printf(",\n");
 		}
 		ft_printf("}, redir_size=%d", ast->s_astprgrm.redir_size);
+	}
+	if (ast->type == AST_BINARYOP)
+	{
+		ft_printf("type=BINARYOP, left={\n\t");
+		print_ast(ast->s_binaryop.left);
+		ft_printf("}\nright={\n\t");
+		print_ast(ast->s_binaryop.right);
+		ft_printf("}");
 	}
 	ft_printf("}\n");
 }
