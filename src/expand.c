@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 18:43:56 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/01 22:25:56 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	expand_argv(t_ast	**prgrm)
 		return (0);
 	av = (*prgrm)->s_astprgrm.argv;
 	ac = (*prgrm)->s_astprgrm.ac;
+	n_prgrm->s_astprgrm.redir_size = (*prgrm)->s_astprgrm.redir_size;
 	i = 0;
 	while (i < ac)
 		expand_arg(n_prgrm, av[i++]);

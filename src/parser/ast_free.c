@@ -30,5 +30,8 @@ void	free_prgrm(t_ast	*prgrm)
 	i = 0;
 	while (i < prgrm->s_astprgrm.ac)
 		free(prgrm->s_astprgrm.argv[i++]);
+	i = 0;
+	while (i < prgrm->s_astprgrm.redir_size)
+		free(prgrm->s_astprgrm.redir[i++]);
 	free(prgrm);
 }

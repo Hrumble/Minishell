@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 17:11:48 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/01 22:20:25 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,11 @@ int			get_user_input(char *prompt, char *buf);
 char		*find_matching_char(char *quote_pos);
 // Expands the program arguments
 int			expand_argv(t_ast	**prgrm);
+
+// Utils
+// Copies a string array
+char		**ft_strarrcpy(char **dest, char **arr, size_t size);
+// Free an array of pointers (frees the pointers too)
+void		free_arr(void **arr, size_t size);
 
 #endif
