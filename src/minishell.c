@@ -20,13 +20,16 @@
 
 int	minishell()
 {
+	t_ast		*ast;
 	char		buf[1024];
 
 	terminal_set_icanon(0);
 	while (1)
 	{
 		get_user_input("metasex> ", buf);
-		print_ast(parse_ast(buf));
+		ast = parse_ast(buf);
+		ast_map(&ast, (void (*))expand_argv);
+		print_ast(ast);
 	}
 
 	return (1);

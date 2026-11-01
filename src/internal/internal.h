@@ -12,6 +12,7 @@
 
 #ifndef INTERNAL_H
 # define INTERNAL_H
+# include "parser.h"
 # define CMDLINE_BUFSIZE 10
 # include <stddef.h>
 
@@ -27,5 +28,7 @@ int			get_user_input(char *prompt, char *buf);
 // Finds the next char that matches the char under `quote_pos`
 // return (NULL) if it can't be found
 char		*find_matching_char(char *quote_pos);
+// Expands the program arguments
+int			expand_argv(t_ast	**prgrm);
 
 #endif

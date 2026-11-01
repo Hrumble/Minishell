@@ -34,3 +34,15 @@ int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 		return (1);
 	return (-1);
 }
+
+void	ast_map(t_ast	**ast, void (*f)(t_ast **ast))
+{
+	if (!ast)
+		return ;
+	if ((*ast)->type == AST_BINARYOP)
+	{
+		ast_map(&(*ast)->s_binaryop.left, f);
+		ast_map(&(*ast)->s_binaryop.right, f);
+	}
+	f(ast);
+}

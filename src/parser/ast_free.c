@@ -29,6 +29,6 @@ void	free_prgrm(t_ast	*prgrm)
 		return ;
 	i = 0;
 	while (i < prgrm->s_astprgrm.ac)
-		free(prgrm->s_astprgrm.argv[i]);
+		free(prgrm->s_astprgrm.argv[i++]);
 	free(prgrm);
 }

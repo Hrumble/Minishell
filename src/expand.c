@@ -25,7 +25,10 @@ static char	*expand_env(char *buf)
 		return (0);
 	end_ptr = buf + 1;
 	while (ft_iswrd(*end_ptr) && *end_ptr != '$')
+	{
 		path_var[end_ptr - buf - 1] = *end_ptr;
+		end_ptr++;
+	}
 	path_var[end_ptr - buf - 1] = 0;
 	var = getenv(path_var);
 	if (!var)
@@ -33,7 +36,7 @@ static char	*expand_env(char *buf)
 	return (var);
 }
 
-static char	*expand_arg(t_ast *prgrm, char *buf)
+static int	expand_arg(t_ast *prgrm, char *buf)
 {
 	int	is_in_squotes;
 
@@ -46,12 +49,11 @@ static char	*expand_arg(t_ast *prgrm, char *buf)
 			is_in_squotes = 1;
 		buf++;
 	}
-	while (*buf)
-	{
-		if (*buf == '$' && !is_in_squotes)
-			prgrm->s_astprgrm.argv[prgrm->s_astprgrm.ac++] = expand_env(buf);
-	}
-	return (0);
+	if (*buf == '$' && !is_in_squotes)
+		prgrm->s_astprgrm.argv[prgrm->s_astprgrm.ac++] = expand_env(buf);
+	else
+		prgrm->s_astprgrm.argv[prgrm->s_astprgrm.ac++] = ft_strdup(buf);
+	return (1);
 }
 
 int	expand_argv(t_ast	**prgrm)
@@ -61,7 +63,7 @@ int	expand_argv(t_ast	**prgrm)
 	int		i;
 	t_ast	*n_prgrm;
 
-	if (!prgrm)
+	if (!prgrm || !*prgrm || (*prgrm)->type != AST_PRGRM)
 		return (0);
 	n_prgrm = new_astprgrm();
 	if (!n_prgrm)
@@ -70,7 +72,7 @@ int	expand_argv(t_ast	**prgrm)
 	ac = (*prgrm)->s_astprgrm.ac;
 	i = 0;
 	while (i < ac)
-		expand_arg(*prgrm, av[i++]);
+		expand_arg(n_prgrm, av[i++]);
 	free_prgrm(*prgrm);
 	*prgrm = n_prgrm;
 	return (1);

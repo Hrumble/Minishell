@@ -71,6 +71,8 @@ t_ast			*parse_ast(char	*buf);
 // Parses a redirection
 int				parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 					t_ast *prgrm);
+// Calls function `f` on every ast node in the list
+void			ast_map(t_ast	**ast, void (*f)(t_ast **ast));
 
 // Constructors
 t_parserattr	*new_parserattr();
