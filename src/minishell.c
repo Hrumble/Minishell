@@ -15,6 +15,7 @@
 #include "minishell.h"
 #include "parser.h"
 #include "terminal.h"
+#include "ft_printf.h"
 #include <stddef.h>
 #include <unistd.h>
 
@@ -26,8 +27,14 @@ int	minishell()
 	terminal_set_icanon(0);
 	while (1)
 	{
-		get_user_input("metasex> ", buf);
+		if (!get_user_input("metasex> ", buf))
+			return (0);
 		ast = parse_ast(buf);
+		if (!ast)
+		{
+			ft_printf("\033[31mERROR!\033[0m\n");
+			continue ;
+		}
 		ast_map(&ast, (void (*))expand_argv);
 		print_ast(ast);
 	}

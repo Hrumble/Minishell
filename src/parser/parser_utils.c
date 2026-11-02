@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "parser.h"
 
 int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
@@ -33,6 +34,30 @@ int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 	if (prgrm_redir[*(prgrm_redir_size) - 1] != 0)
 		return (1);
 	return (-1);
+}
+
+int	prgrm_redircpy(t_prgrmredir **dest, t_prgrmredir **src, int redir_size)
+{
+	int				i;
+	t_prgrmredir	*n_redir;
+
+	i = 0;
+	if (!src || !dest)
+		return (0);
+	while (i < redir_size)
+	{
+		n_redir = new_redir(src[i]->type,
+				src[i]->target, ft_strlen(src[i]->target));
+		if (!n_redir)
+		{
+			while (i--)
+				free_redir(dest[i]);
+			return (0);
+		}
+		dest[i] = n_redir;
+		i++;
+	}
+	return (1);
 }
 
 void	ast_map(t_ast	**ast, void (*f)(t_ast **ast))

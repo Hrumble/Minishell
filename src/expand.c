@@ -38,13 +38,16 @@ static char	*expand_env(char *buf)
 
 static int	expand_arg(t_ast *prgrm, char *buf)
 {
-	int	is_in_squotes;
+	int		is_in_squotes;
+	char	*quote_end;
 
 	is_in_squotes = 0;
 	if (*buf == '\'' || *buf == '"')
 	{
-		if (!find_matching_char(buf))
+		quote_end = find_matching_char(buf);
+		if (quote_end)
 			return (0);
+		*quote_end = 0;
 		if (*buf == '\'')
 			is_in_squotes = 1;
 		buf++;
@@ -71,9 +74,13 @@ int	expand_argv(t_ast	**prgrm)
 	av = (*prgrm)->prgrm.argv;
 	ac = (*prgrm)->prgrm.ac;
 	n_prgrm->prgrm.redir_size = (*prgrm)->prgrm.redir_size;
+	if (!prgrm_redircpy(n_prgrm->prgrm.redir, (*prgrm)->prgrm.redir,
+			(*prgrm)->prgrm.redir_size))
+		return (free(n_prgrm), 0);
 	i = 0;
 	while (i < ac)
-		expand_arg(n_prgrm, av[i++]);
+		if (!expand_arg(n_prgrm, av[i++]))
+			return (free(n_prgrm), 0);
 	free_prgrm(*prgrm);
 	*prgrm = n_prgrm;
 	return (1);

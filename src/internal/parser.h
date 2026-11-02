@@ -79,6 +79,8 @@ t_parserattr	*new_parserattr();
 t_ast			*new_astprgrm();
 t_ast			*new_astbinaryop(t_ast *left, t_ast *right);
 t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len);
+// Copies the array of redir from a program into another
+int				prgrm_redircpy(t_prgrmredir **dest, t_prgrmredir **src, int redir_size);
 
 // Freeing
 void			free_redir(t_prgrmredir *redir);
