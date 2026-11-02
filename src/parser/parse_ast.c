@@ -35,8 +35,8 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 				pattr->current->atom.size);
 		if (!substr)
 			return (free_prgrm(prgrm), (void *)0);
-		prgrm->s_astprgrm.argv[prgrm->s_astprgrm.ac] = substr;
-		prgrm->s_astprgrm.ac++;
+		prgrm->prgrm.argv[prgrm->s_astprgrm.ac] = substr;
+		prgrm->prgrm.ac++;
 		consume_token(pattr, lattr);
 	}
 	return (prgrm);

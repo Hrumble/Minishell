@@ -50,9 +50,9 @@ static int	expand_arg(t_ast *prgrm, char *buf)
 		buf++;
 	}
 	if (*buf == '$' && !is_in_squotes)
-		prgrm->s_astprgrm.argv[prgrm->s_astprgrm.ac++] = expand_env(buf);
+		prgrm->prgrm.argv[prgrm->prgrm.ac++] = expand_env(buf);
 	else
-		prgrm->s_astprgrm.argv[prgrm->s_astprgrm.ac++] = ft_strdup(buf);
+		prgrm->prgrm.argv[prgrm->prgrm.ac++] = ft_strdup(buf);
 	return (1);
 }
 
@@ -68,9 +68,9 @@ int	expand_argv(t_ast	**prgrm)
 	n_prgrm = new_astprgrm();
 	if (!n_prgrm)
 		return (0);
-	av = (*prgrm)->s_astprgrm.argv;
-	ac = (*prgrm)->s_astprgrm.ac;
-	n_prgrm->s_astprgrm.redir_size = (*prgrm)->s_astprgrm.redir_size;
+	av = (*prgrm)->prgrm.argv;
+	ac = (*prgrm)->prgrm.ac;
+	n_prgrm->prgrm.redir_size = (*prgrm)->prgrm.redir_size;
 	i = 0;
 	while (i < ac)
 		expand_arg(n_prgrm, av[i++]);

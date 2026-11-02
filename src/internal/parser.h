@@ -52,13 +52,13 @@ typedef struct s_ast
 			int				ac;
 			t_prgrmredir	*redir[REDIR_SIZE];
 			int				redir_size;
-		}	s_astprgrm;
+		}	prgrm;
 		struct
 		{
 			t_binaryop		binaryop;
 			struct s_ast	*left;
 			struct s_ast	*right;
-		}	s_binaryop;
+		}	bop;
 	};
 }	t_ast;
 

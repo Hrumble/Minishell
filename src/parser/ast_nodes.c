@@ -23,9 +23,9 @@ t_ast	*new_astbinaryop(t_ast *left, t_ast *right)
 	if (!node)
 		return (0);
 	node->type = AST_BINARYOP;
-	node->s_binaryop.binaryop = BOP_PIPE;
-	node->s_binaryop.left = left;
-	node->s_binaryop.right = right;
+	node->bop.binaryop = BOP_PIPE;
+	node->bop.left = left;
+	node->bop.right = right;
 	return (node);
 }
 
@@ -37,8 +37,8 @@ t_ast	*new_astprgrm()
 	if (!prgrm)
 		return (0);
 	prgrm->type = AST_PRGRM;
-	prgrm->s_astprgrm.ac = 0;
-	prgrm->s_astprgrm.redir_size = 0;
+	prgrm->prgrm.ac = 0;
+	prgrm->prgrm.redir_size = 0;
 	return (prgrm);
 }
 

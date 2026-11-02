@@ -19,8 +19,8 @@ int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 	t_prgrmredir	**prgrm_redir;
 	int				*prgrm_redir_size;
 
-	prgrm_redir = prgrm->s_astprgrm.redir;
-	prgrm_redir_size = &prgrm->s_astprgrm.redir_size;
+	prgrm_redir = prgrm->prgrm.redir;
+	prgrm_redir_size = &prgrm->prgrm.redir_size;
 	if (!peek(pattr, TK_REDIR))
 		return (0);
 	redir_tk = pattr->current;
@@ -41,8 +41,8 @@ void	ast_map(t_ast	**ast, void (*f)(t_ast **ast))
 		return ;
 	if ((*ast)->type == AST_BINARYOP)
 	{
-		ast_map(&(*ast)->s_binaryop.left, f);
-		ast_map(&(*ast)->s_binaryop.right, f);
+		ast_map(&(*ast)->bop.left, f);
+		ast_map(&(*ast)->bop.right, f);
 	}
 	f(ast);
 }

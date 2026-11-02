@@ -28,10 +28,10 @@ void	free_prgrm(t_ast	*prgrm)
 	if (!prgrm)
 		return ;
 	i = 0;
-	while (i < prgrm->s_astprgrm.ac)
-		free(prgrm->s_astprgrm.argv[i++]);
+	while (i < prgrm->prgrm.ac)
+		free(prgrm->prgrm.argv[i++]);
 	i = 0;
-	while (i < prgrm->s_astprgrm.redir_size)
-		free(prgrm->s_astprgrm.redir[i++]);
+	while (i < prgrm->prgrm.redir_size)
+		free(prgrm->prgrm.redir[i++]);
 	free(prgrm);
 }
