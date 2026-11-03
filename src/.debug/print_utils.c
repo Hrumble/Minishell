@@ -92,22 +92,22 @@ void	print_ast(t_ast *ast)
 	if (ast->type == AST_PRGRM)
 	{
 		ft_printf("type=PRGRM, argv=");
-		print_arr(ast->s_astprgrm.argv, ast->s_astprgrm.ac);
-		ft_printf(", ac=%d, redir={\n", ast->s_astprgrm.ac);
-		while (i < ast->s_astprgrm.redir_size)
+		print_arr(ast->prgrm.argv, ast->prgrm.ac);
+		ft_printf(", ac=%d, redir={\n", ast->prgrm.ac);
+		while (i < ast->prgrm.redir_size)
 		{
 			ft_printf("\t");
-			print_redir(ast->s_astprgrm.redir[i++]);
+			print_redir(ast->prgrm.redir[i++]);
 			ft_printf(",\n");
 		}
-		ft_printf("}, redir_size=%d", ast->s_astprgrm.redir_size);
+		ft_printf("}, redir_size=%d", ast->prgrm.redir_size);
 	}
 	if (ast->type == AST_BINARYOP)
 	{
 		ft_printf("type=BINARYOP, left={\n\t");
-		print_ast(ast->s_binaryop.left);
+		print_ast(ast->bop.left);
 		ft_printf("}\nright={\n\t");
-		print_ast(ast->s_binaryop.right);
+		print_ast(ast->bop.right);
 		ft_printf("}");
 	}
 	ft_printf("}\n");
