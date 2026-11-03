@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 17:09:39 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/03 17:56:38 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 typedef enum e_tokentype
 {
 	TK_WRD,
+	TK_SPACE,
 	TK_QUOTES,
 	TK_BKQUOTES,
 	TK_BKSLASH,
@@ -70,5 +71,6 @@ t_token		*new_token_redir(t_redirtype type);
 // Returns a new allocated lexer attribute
 t_lexerattr	*new_lexerattr(char *buf);
 int			ft_iswrd(int c);
+int			ft_isspace(int c);
 
 #endif
