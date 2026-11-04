@@ -16,7 +16,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static char	*expand_env(char **buf)
+int	expand_env(char **dest, char **buf)
 {
 	int	i;
 	char	env_name[20];
@@ -31,16 +31,22 @@ static char	*expand_env(char **buf)
 	env_name[i] = 0;
 	env = getenv(env_name);
 	if (env)
-		return (env);
-	return ft_strdup("");
+		*dest = env;
+	else
+		*dest = ft_strdup("");
+	return (1);
 }
 
-static void	expand_quotes(char **buf)
+static void	expand_quotes(char **buf, int *in_squotes)
 {
 	char	*quote_end;
 
 	if (**buf != '"' && **buf != '\'')
 		return ;
+	if (**buf == '\'')
+		*in_squotes = 1;
+	else
+		*in_squotes = 0;
 	quote_end = find_matching_char(*buf);
 	*quote_end = 0;
 	(*buf)++;
@@ -50,19 +56,19 @@ static char	*expand_buf(char *buf)
 {
 	char	*env;
 	size_t	expansion_size;
-	size_t	i;
 	char	*expanded;
+	int		in_squotes;
+	size_t	i;
 
 	expansion_size = EXPANSION_SIZE;
 	expanded = malloc(expansion_size * sizeof(char));
 	if (!expanded)
 		return (0);
-	expand_quotes(&buf);
+	expand_quotes(&buf, &in_squotes);
 	i = 0;
 	while (*buf)
 	{
-		env = expand_env(&buf);
-		if (env)
+		if (!in_squotes && expand_env(&env, &buf))
 		{
 			if (!env_expansioncpy(&expanded, env, &i, &expansion_size))
 				return (free(expanded), (void *)0);
