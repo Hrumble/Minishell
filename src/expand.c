@@ -41,12 +41,11 @@ static void	expand_quotes(char **buf, int *in_squotes)
 {
 	char	*quote_end;
 
+	*in_squotes = 0;
 	if (**buf != '"' && **buf != '\'')
 		return ;
 	if (**buf == '\'')
 		*in_squotes = 1;
-	else
-		*in_squotes = 0;
 	quote_end = find_matching_char(*buf);
 	*quote_end = 0;
 	(*buf)++;
