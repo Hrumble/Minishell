@@ -10,52 +10,74 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "internal.h"
+#include "libft.h"
 #include "parser.h"
+#include <stddef.h>
 #include <stdlib.h>
 
-static char	*expand_env(char *buf)
+static char	*expand_env(char **buf)
 {
-	char	*end_ptr;
-	char	path_var[20];
-	char	*var;
+	int	i;
+	char	env_name[20];
+	char	*env;
 
-	if (!buf || *buf != '$')
+	if (!buf || !*buf || **buf != '$')
 		return (0);
-	end_ptr = buf + 1;
-	while (ft_iswrd(*end_ptr) && *end_ptr != '$')
-	{
-		path_var[end_ptr - buf - 1] = *end_ptr;
-		end_ptr++;
-	}
-	path_var[end_ptr - buf - 1] = 0;
-	var = getenv(path_var);
-	if (!var)
-		return (ft_strdup(""));
-	return (var);
+	(*buf)++;
+	i = 0;
+	while (ft_isalnum(**buf))
+		env_name[i++] = *(*buf)++;
+	env_name[i] = 0;
+	env = getenv(env_name);
+	if (env)
+		return (env);
+	return ft_strdup("");
+}
+
+static int	resize_expansion(char **expanded, size_t env_size, size_t i,
+		size_t *size)
+{
+	char	*new;
+	if (env_size < (*size - i))
+		return (1);
+	new = ft_realloc(*expanded, *size);
+	if (!new)
+		return (0);
+	*size = *size * 2;
+	*expanded = new;
+	return (1);
 }
 
 static int	expand_arg(t_ast *prgrm, char *buf)
 {
-	int		is_in_squotes;
-	char	*quote_end;
+	char	*env;
+	size_t	expansion_size;
+	size_t	i;
+	char	*expanded;
 
-	is_in_squotes = 0;
-	if (*buf == '\'' || *buf == '"')
+	expansion_size = EXPANSION_SIZE;
+	expanded = malloc(expansion_size * sizeof(char));
+	if (!expanded)
+		return (0);
+	i = 0;
+	while (*buf)
 	{
-		quote_end = find_matching_char(buf);
-		if (!quote_end)
-			return (0);
-		*quote_end = 0;
-		if (*buf == '\'')
-			is_in_squotes = 1;
-		buf++;
+		env = expand_env(&buf);
+		if (env)
+		{
+			if (!resize_expansion(&expanded, ft_strlen(env), i, &expansion_size))
+				return (free(expanded), 0);
+			ft_memcpy(&expanded[i], env, ft_strlen(env));
+			i += ft_strlen(env);
+			continue ;
+		}
+		if (!resize_expansion(&expanded, 1, i, &expansion_size))
+			return (free(expanded), 0);
+		expanded[i++] = *buf++;
 	}
-	if (*buf == '$' && !is_in_squotes)
-		prgrm->prgrm.argv[prgrm->prgrm.ac++] = expand_env(buf);
-	else
-		prgrm->prgrm.argv[prgrm->prgrm.ac++] = ft_strdup(buf);
+	expanded[i] = 0;
+	prgrm->prgrm.argv[prgrm->prgrm.ac++] = expanded;
 	return (1);
 }
 

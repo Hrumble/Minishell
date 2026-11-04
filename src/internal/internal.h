@@ -14,6 +14,7 @@
 # define INTERNAL_H
 # include "parser.h"
 # define CMDLINE_BUFSIZE 10
+# define EXPANSION_SIZE 100
 # include <stddef.h>
 
 typedef struct s_lineinput {
