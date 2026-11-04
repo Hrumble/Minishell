@@ -22,7 +22,7 @@ int	expand_env(char **dest, char **buf)
 	char	env_name[20];
 	char	*env;
 
-	if (!buf || !*buf || **buf != '$')
+	if (!buf || !*buf || **buf != '$' || !ft_isalnum(*(*buf + 1)))
 		return (0);
 	(*buf)++;
 	i = 0;
