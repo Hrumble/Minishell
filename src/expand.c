@@ -45,7 +45,7 @@ static int	expand_arg(t_ast *prgrm, char *buf)
 	if (*buf == '\'' || *buf == '"')
 	{
 		quote_end = find_matching_char(buf);
-		if (quote_end)
+		if (!quote_end)
 			return (0);
 		*quote_end = 0;
 		if (*buf == '\'')
