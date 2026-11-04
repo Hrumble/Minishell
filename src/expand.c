@@ -35,21 +35,18 @@ static char	*expand_env(char **buf)
 	return ft_strdup("");
 }
 
-static int	resize_expansion(char **expanded, size_t env_size, size_t i,
-		size_t *size)
+static void	expand_quotes(char **buf)
 {
-	char	*new;
-	if (env_size < (*size - i))
-		return (1);
-	new = ft_realloc(*expanded, *size);
-	if (!new)
-		return (0);
-	*size = *size * 2;
-	*expanded = new;
-	return (1);
+	char	*quote_end;
+
+	if (**buf != '"' && **buf != '\'')
+		return ;
+	quote_end = find_matching_char(*buf);
+	*quote_end = 0;
+	(*buf)++;
 }
 
-static int	expand_arg(t_ast *prgrm, char *buf)
+static char	*expand_buf(char *buf)
 {
 	char	*env;
 	size_t	expansion_size;
@@ -60,25 +57,23 @@ static int	expand_arg(t_ast *prgrm, char *buf)
 	expanded = malloc(expansion_size * sizeof(char));
 	if (!expanded)
 		return (0);
+	expand_quotes(&buf);
 	i = 0;
 	while (*buf)
 	{
 		env = expand_env(&buf);
 		if (env)
 		{
-			if (!resize_expansion(&expanded, ft_strlen(env), i, &expansion_size))
-				return (free(expanded), 0);
-			ft_memcpy(&expanded[i], env, ft_strlen(env));
-			i += ft_strlen(env);
+			if (!env_expansioncpy(&expanded, env, &i, &expansion_size))
+				return (free(expanded), (void *)0);
 			continue ;
 		}
 		if (!resize_expansion(&expanded, 1, i, &expansion_size))
-			return (free(expanded), 0);
+			return (free(expanded), (void *)0);
 		expanded[i++] = *buf++;
 	}
 	expanded[i] = 0;
-	prgrm->prgrm.argv[prgrm->prgrm.ac++] = expanded;
-	return (1);
+	return (expanded);
 }
 
 int	expand_argv(t_ast	**prgrm)
@@ -88,21 +83,18 @@ int	expand_argv(t_ast	**prgrm)
 	int		i;
 	t_ast	*n_prgrm;
 
-	if (!prgrm || !*prgrm || (*prgrm)->type != AST_PRGRM)
-		return (0);
-	n_prgrm = new_astprgrm();
+	n_prgrm = setup_expansion(prgrm);
 	if (!n_prgrm)
 		return (0);
 	av = (*prgrm)->prgrm.argv;
 	ac = (*prgrm)->prgrm.ac;
-	n_prgrm->prgrm.redir_size = (*prgrm)->prgrm.redir_size;
-	if (!prgrm_redircpy(n_prgrm->prgrm.redir, (*prgrm)->prgrm.redir,
-			(*prgrm)->prgrm.redir_size))
-		return (free(n_prgrm), 0);
 	i = 0;
 	while (i < ac)
-		if (!expand_arg(n_prgrm, av[i++]))
+	{
+		n_prgrm->prgrm.argv[n_prgrm->prgrm.ac] = expand_buf(av[i++]);
+		if (!n_prgrm->prgrm.argv[n_prgrm->prgrm.ac++])
 			return (free(n_prgrm), 0);
+	}
 	free_prgrm(*prgrm);
 	*prgrm = n_prgrm;
 	return (1);

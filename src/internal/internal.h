@@ -31,6 +31,14 @@ int			get_user_input(char *prompt, char *buf);
 char		*find_matching_char(char *quote_pos);
 // Expands the program arguments
 int			expand_argv(t_ast	**prgrm);
+// Resizes the expansion char
+int			resize_expansion(char **expanded, size_t env_size, size_t i,
+				size_t *size);
+// Copies the expanded environment var into the expanded char *
+int			env_expansioncpy(char **expanded, char *env, size_t *i,
+				size_t *size);
+// sets up program expansion
+t_ast		*setup_expansion(t_ast **prgrm);
 
 // Utils
 // Copies a string array
