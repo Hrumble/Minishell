@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/03 17:54:33 by ngero            ###   ########.fr       */
+/*   Updated: 2026/10/30 18:54:11 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ typedef struct s_prgrmredir
 	char		*target;
 } t_prgrmredir;
 
-typedef struct s_shellword {
-	t_token	**tokens;
-	size_t	n_tokens;
-} t_shellword;
-
 typedef struct s_ast
 {
 	t_asttype	type;
@@ -53,7 +48,7 @@ typedef struct s_ast
 	{
 		struct
 		{
-			t_shellword		*argv[ARGV_SIZE];
+			char			*argv[ARGV_SIZE];
 			int				ac;
 			t_prgrmredir	*redir[REDIR_SIZE];
 			int				redir_size;
