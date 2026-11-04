@@ -104,3 +104,21 @@ int	expand_argv(t_ast	**prgrm)
 	*prgrm = n_prgrm;
 	return (1);
 }
+
+int	expand_redir(t_ast	**prgrm)
+{
+	char	*expanded;
+	int		i;
+
+	i = 0;
+	while (i < (*prgrm)->prgrm.redir_size)
+	{
+		expanded = expand_buf((*prgrm)->prgrm.redir[i]->target);
+		if (!expanded)
+			return (0);
+		free((*prgrm)->prgrm.redir[i]->target);
+		(*prgrm)->prgrm.redir[i]->target = expanded;
+		i++;
+	}
+	return (1);
+}

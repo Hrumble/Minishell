@@ -31,6 +31,8 @@ int			get_user_input(char *prompt, char *buf);
 char		*find_matching_char(char *quote_pos);
 // Expands the program arguments
 int			expand_argv(t_ast	**prgrm);
+// Expands all the redirections of a program
+int			expand_redir(t_ast	**prgrm);
 // Resizes the expansion char
 int			resize_expansion(char **expanded, size_t env_size, size_t i,
 				size_t *size);

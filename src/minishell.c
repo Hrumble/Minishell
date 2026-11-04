@@ -36,6 +36,7 @@ int	minishell()
 			continue ;
 		}
 		ast_map(&ast, (void (*))expand_argv);
+		ast_map(&ast, (void (*))expand_redir);
 		print_ast(ast);
 	}
 
