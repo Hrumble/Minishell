@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:42:11 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 16:00:37 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,14 @@ static t_token	*get_single_char_token(t_lexerattr *attr)
 		return (new_token(TK_PIPE, 0, 0));
 	if (*attr->ptr == '<')
 	{
-		attr->ptr++;
-		if (*attr->ptr == '<')
-			return (new_token_redir(REDIR_HEREDOC));
+		if (*(attr->ptr + 1) == '<')
+			return (attr->ptr++, new_token_redir(REDIR_HEREDOC));
 		return (new_token_redir(REDIR_IN));
 	}
 	if (*attr->ptr == '>')
 	{
-		attr->ptr++;
-		if (*attr->ptr == '>')
-			return (new_token_redir(REDIR_APPENDOUT));
+		if (*(attr->ptr + 1) == '>')
+			return (attr->ptr++, new_token_redir(REDIR_APPENDOUT));
 		return (new_token_redir(REDIR_OUT));
 	}
 	if (*attr->ptr == '`')
