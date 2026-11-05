@@ -6,11 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 15:04:58 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 17:36:20 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
+#include "executor.h"
 #include "internal.h"
 #include "minishell.h"
 #include "parser.h"
@@ -51,7 +51,7 @@ int	minishell(void)
 			ft_printf("\033[31mParse error\n\033[0m");
 			continue ;
 		}
-		print_ast(ast);
+		fork_and_exec(ast);
 	}
 	return (1);
 }
