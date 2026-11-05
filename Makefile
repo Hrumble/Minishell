@@ -9,7 +9,7 @@ CFLAGS = -Wall -Wextra -Werror -g3
 SRC_DIR = ./src/
 LIB_DIR = ./lib/
 LDFLAGS = -L./lib/libft
-LDLIBS = -lft
+LDLIBS = -lft -lreadline
 
 OBJECTS = $(addprefix $(SRC_DIR), \
 		  main.o minishell.o terminal.o user_input.o expand.o expand_utils.o \

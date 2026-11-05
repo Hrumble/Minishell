@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:47:57 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:54:35 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 15:13:46 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ int	resize_expansion(t_bufexpand *ex, size_t env_size, size_t i)
 {
 	char	*new;
 
-	if (env_size < (ex->exsize - i))
-		return (1);
-	new = ft_realloc(ex->expanded, ex->exsize);
-	if (!new)
-		return (0);
-	ex->exsize = ex->exsize * 2;
-	ex->expanded = new;
+	while (env_size > (ex->exsize - i))
+	{
+		new = ft_realloc(ex->expanded, ex->exsize);
+		if (!new)
+			return (0);
+		ex->exsize = ex->exsize * 2;
+		ex->expanded = new;
+	}
 	return (1);
 }
 
