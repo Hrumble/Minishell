@@ -6,10 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:47:57 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 14:54:35 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
 #include "libft.h"
 #include "internal.h"
 #include "parser.h"
@@ -60,7 +61,9 @@ t_ast	*setup_expansion(t_ast **prgrm)
 
 int	setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf)
 {
-	ex->exsize = EXPANSION_SIZE;
+	if (!buf)
+		return (0);
+	ex->exsize = ft_strlen(buf);
 	ex->in_squotes = 0;
 	ex->buf = buf;
 	ex->expanded = malloc(ex->exsize * sizeof(char));

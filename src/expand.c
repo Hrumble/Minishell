@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 14:53:10 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ static char	*expand_buf(char *buf)
 	t_bufexpand	ex;
 	size_t		i;
 
-	setup_buf_expansion(&ex, &i, buf);
-	if (!expand_quotes(&ex))
+	if (!setup_buf_expansion(&ex, &i, buf)
+		|| !expand_quotes(&ex))
 		return (0);
 	while (*ex.buf)
 	{
