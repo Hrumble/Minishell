@@ -6,61 +6,45 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 17:39:20 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 17:52:48 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "builtins.h"
 #include "libft.h"
 #include "parser.h"
 #include "executor.h"
 #include <stdlib.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <sys/wait.h>
 
-static char	*find_binary_in_path(char *buf)
+static int	_run_builtin(int (*builtin)(char **, int), char **av, int ac)
 {
-	char	concat[PATH_SIZE];
-	char	**c_path;
-	char	**path;
-	int		cpy_out;
+	int	out;
 
-	path = ft_split(getenv("PATH"), ':');
-	if (!path)
-		return (0);
-	c_path = path;
-	while (*c_path)
-	{
-		cpy_out = ft_strlcpy(concat, *c_path, PATH_SIZE); 
-		if (cpy_out > PATH_SIZE - 1)
-			return (free_split(path), (void *)0);
-		concat[cpy_out] = '/';
-		concat[cpy_out + 1] = '\0';
-		if (ft_strlcat(concat, buf, PATH_SIZE) > PATH_SIZE)
-			return (free_split(path), (void *)0);
-		if (!access(concat, X_OK | R_OK))
-			return (free_split(path), ft_strdup(concat));
-		c_path++;
-	}
-	return (free_split(path), (void *)0);
+	out = builtin(av, ac);
+	return (1);
 }
 
-static char	*find_binary(char *buf)
+static int	_exec_builtin(char **av, int ac)
 {
-	if (*buf == '.' || *buf == '/')
-	{
-		if (access(buf, X_OK | R_OK))
-			return (0);
-		else
-			return (buf);
-	}
-	return (find_binary_in_path(buf));
+	if (!ft_strcmp(av[0], "echo"))
+		return (_run_builtin(builtin_echo, av, ac));
+	if (!ft_strcmp(av[0], "cd"))
+		return (_run_builtin(builtin_cd, av, ac));
+	if (!ft_strcmp(av[0], "exit"))
+		return (_run_builtin(builtin_exit, av, ac));
+	return (0);
 }
 
-static void	exec_ast(t_ast *ast)
+static void	_exec_ast(t_ast *ast)
 {
 	char	*binary;
 	
+	if (_exec_builtin(ast->s_prgrm.argv, ast->s_prgrm.ac))
+		return ;
 	binary = find_binary(ast->s_prgrm.argv[0]);
 	if (!binary)
 	{
@@ -78,7 +62,7 @@ int	fork_and_exec(t_ast *ast)
 	if (f_out < 0)
 		return (0);
 	if (f_out == 0)
-		exec_ast(ast);
+		_exec_ast(ast);
 	else
 		waitpid(f_out, NULL, 0);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:02:26 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 17:36:20 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 17:48:39 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 
 // Executes an ast
 int	fork_and_exec(t_ast *ast);
+
+// Finds a binary from relative path or PATH
+// returns (void *)0 on failure to find.
+char	*find_binary(char *buf);
 
 // freeing stuff
 void	free_split(char **split);
