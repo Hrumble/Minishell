@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 17:52:48 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 18:03:17 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	_exec_builtin(char **av, int ac)
 		return (_run_builtin(builtin_cd, av, ac));
 	if (!ft_strcmp(av[0], "exit"))
 		return (_run_builtin(builtin_exit, av, ac));
+	if (!ft_strcmp(av[0], "which"))
+		return (_run_builtin(builtin_which, av, ac));
 	return (0);
 }
 
