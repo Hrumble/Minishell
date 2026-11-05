@@ -13,6 +13,13 @@
 #include "libft.h"
 #include "parser.h"
 
+int	is_empty_prgrm(t_ast *prgrm)
+{
+	if (!prgrm || prgrm->type != AST_PRGRM)
+		return (0);
+	return (prgrm->prgrm.ac == 0);
+}
+
 int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 		t_ast *prgrm)
 {
@@ -60,14 +67,15 @@ int	prgrm_redircpy(t_prgrmredir **dest, t_prgrmredir **src, int redir_size)
 	return (1);
 }
 
-void	ast_map(t_ast	**ast, void (*f)(t_ast **ast))
+int	ast_map(t_ast	**ast, int (*f)(t_ast **ast))
 {
 	if (!ast)
-		return ;
+		return (0);
 	if ((*ast)->type == AST_BINARYOP)
 	{
-		ast_map(&(*ast)->bop.left, f);
-		ast_map(&(*ast)->bop.right, f);
+		if (!ast_map(&(*ast)->bop.left, f)
+			|| !ast_map(&(*ast)->bop.right, f))
+			return (0);
 	}
-	f(ast);
+	return (f(ast));
 }

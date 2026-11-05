@@ -18,7 +18,7 @@
 
 int	expand_env(char **dest, char **buf)
 {
-	int	i;
+	int		i;
 	char	env_name[20];
 	char	*env;
 
@@ -37,48 +37,46 @@ int	expand_env(char **dest, char **buf)
 	return (1);
 }
 
-static void	expand_quotes(char **buf, int *in_squotes)
+static int	expand_quotes(t_bufexpand *ex)
 {
 	char	*quote_end;
 
-	*in_squotes = 0;
-	if (**buf != '"' && **buf != '\'')
-		return ;
-	if (**buf == '\'')
-		*in_squotes = 1;
-	quote_end = find_matching_char(*buf);
+	ex->in_squotes = 0;
+	if (*ex->buf != '"' && *ex->buf != '\'')
+		return (1);
+	if (*ex->buf == '\'')
+		ex->in_squotes = 1;
+	quote_end = find_matching_char(ex->buf);
+	if (!quote_end)
+		return (0);
 	*quote_end = 0;
-	(*buf)++;
+	(ex->buf)++;
+	return (1);
 }
 
 static char	*expand_buf(char *buf)
 {
-	char	*env;
-	size_t	expansion_size;
-	char	*expanded;
-	int		in_squotes;
-	size_t	i;
+	char		*env;
+	t_bufexpand	ex;
+	size_t		i;
 
-	expansion_size = EXPANSION_SIZE;
-	expanded = malloc(expansion_size * sizeof(char));
-	if (!expanded)
+	setup_buf_expansion(&ex, &i, buf);
+	if (!expand_quotes(&ex))
 		return (0);
-	expand_quotes(&buf, &in_squotes);
-	i = 0;
-	while (*buf)
+	while (*ex.buf)
 	{
-		if (!in_squotes && expand_env(&env, &buf))
+		if (!ex.in_squotes && expand_env(&env, &ex.buf))
 		{
-			if (!env_expansioncpy(&expanded, env, &i, &expansion_size))
-				return (free(expanded), (void *)0);
+			if (!env_expansioncpy(&ex, env, &i))
+				return (free(ex.expanded), (void *)0);
 			continue ;
 		}
-		if (!resize_expansion(&expanded, 1, i, &expansion_size))
-			return (free(expanded), (void *)0);
-		expanded[i++] = *buf++;
+		if (!resize_expansion(&ex, 1, i))
+			return (free(ex.expanded), (void *)0);
+		ex.expanded[i++] = *ex.buf++;
 	}
-	expanded[i] = 0;
-	return (expanded);
+	ex.expanded[i] = 0;
+	return (ex.expanded);
 }
 
 int	expand_argv(t_ast	**prgrm)

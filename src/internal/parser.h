@@ -72,18 +72,24 @@ t_ast			*parse_ast(char	*buf);
 int				parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 					t_ast *prgrm);
 // Calls function `f` on every ast node in the list
-void			ast_map(t_ast	**ast, void (*f)(t_ast **ast));
+// ast_map expects a function that returns an int, 0 on failure and
+// 1 on success
+int			ast_map(t_ast	**ast, int (*f)(t_ast **ast));
 
 // Constructors
 t_parserattr	*new_parserattr();
 t_ast			*new_astprgrm();
 t_ast			*new_astbinaryop(t_ast *left, t_ast *right);
 t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len);
-// Copies the array of redir from a program into another
-int				prgrm_redircpy(t_prgrmredir **dest, t_prgrmredir **src, int redir_size);
 
 // Freeing
 void			free_redir(t_prgrmredir *redir);
 void			free_prgrm(t_ast	*prgrm);
+
+// Utils
+// Returns wether or not the program is empty
+int				is_empty_prgrm(t_ast *prgrm);
+// Copies the array of redir from a program into another
+int				prgrm_redircpy(t_prgrmredir **dest, t_prgrmredir **src, int redir_size);
 
 #endif

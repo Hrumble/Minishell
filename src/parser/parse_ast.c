@@ -39,6 +39,8 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 		prgrm->prgrm.ac++;
 		consume_token(pattr, lattr);
 	}
+	if (is_empty_prgrm(prgrm))
+		return (free(prgrm), (void *)0);
 	return (prgrm);
 }
 
@@ -54,6 +56,8 @@ static t_ast	*parse_pipeline(t_parserattr *pattr, t_lexerattr *lattr)
 	t_ast	*pipe;
 
 	l_prgrm = parse_program(pattr, lattr);
+	if (!l_prgrm)
+		return (0);
 	while (peek(pattr, TK_PIPE))
 	{
 		if (!consume_token(pattr, lattr))

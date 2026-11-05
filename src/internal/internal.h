@@ -23,6 +23,13 @@ typedef struct s_lineinput {
 	size_t	buf_size;
 } t_lineinput;
 
+typedef struct s_bufexpand {
+	size_t	exsize;
+	char	*expanded;
+	char	*buf;
+	int		in_squotes;
+} t_bufexpand;
+
 // Gets the user input from the terminal line. 
 // line editing included.
 int			get_user_input(char *prompt, char *buf);
@@ -34,13 +41,13 @@ int			expand_argv(t_ast	**prgrm);
 // Expands all the redirections of a program
 int			expand_redir(t_ast	**prgrm);
 // Resizes the expansion char
-int			resize_expansion(char **expanded, size_t env_size, size_t i,
-				size_t *size);
+int			resize_expansion(t_bufexpand *ex, size_t env_size, size_t i);
 // Copies the expanded environment var into the expanded char *
-int			env_expansioncpy(char **expanded, char *env, size_t *i,
-				size_t *size);
+int			env_expansioncpy(t_bufexpand *ex, char *env, size_t *i);
 // sets up program expansion
 t_ast		*setup_expansion(t_ast **prgrm);
+// sets up buffer expansion
+int			setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf);
 
 // Utils
 // Copies a string array

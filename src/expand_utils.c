@@ -28,17 +28,16 @@ char	*find_matching_char(char *quote_pos)
 	return (sk);
 }
 
-int	resize_expansion(char **expanded, size_t env_size, size_t i,
-		size_t *size)
+int	resize_expansion(t_bufexpand *ex, size_t env_size, size_t i)
 {
 	char	*new;
-	if (env_size < (*size - i))
+	if (env_size < (ex->exsize - i))
 		return (1);
-	new = ft_realloc(*expanded, *size);
+	new = ft_realloc(ex->expanded, ex->exsize);
 	if (!new)
 		return (0);
-	*size = *size * 2;
-	*expanded = new;
+	ex->exsize = ex->exsize * 2;
+	ex->expanded = new;
 	return (1);
 }
 
@@ -58,12 +57,23 @@ t_ast	*setup_expansion(t_ast **prgrm)
 	return (n_prgrm);
 }
 
-int		env_expansioncpy(char **expanded, char *env, size_t *i,
-		size_t *size)
+int	setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf)
 {
-	if (!resize_expansion(expanded, ft_strlen(env), *i, size))
-		return (free(*expanded), 0);
-	ft_memcpy(&(*expanded)[*i], env, ft_strlen(env));
+	ex->exsize = EXPANSION_SIZE;
+	ex->in_squotes = 0;
+	ex->buf = buf;
+	ex->expanded = malloc(ex->exsize * sizeof(char));
+	*i = 0;
+	if (!ex->expanded)
+		return (0);
+	return (1);
+}
+
+int		env_expansioncpy(t_bufexpand *ex, char *env, size_t *i)
+{
+	if (!resize_expansion(ex, ft_strlen(env), *i))
+		return (free(ex->expanded), 0);
+	ft_memcpy(&(ex->expanded[*i]), env, ft_strlen(env));
 	*i += ft_strlen(env);
 	return (1);
 }
