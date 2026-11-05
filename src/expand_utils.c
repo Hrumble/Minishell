@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:47:57 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 17:11:07 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ char	*find_matching_char(char *quote_pos)
 int	resize_expansion(t_bufexpand *ex, size_t env_size, size_t i)
 {
 	char	*new;
+
 	if (env_size < (ex->exsize - i))
 		return (1);
 	new = ft_realloc(ex->expanded, ex->exsize);
@@ -50,9 +51,9 @@ t_ast	*setup_expansion(t_ast **prgrm)
 	n_prgrm = new_astprgrm();
 	if (!n_prgrm)
 		return (0);
-	n_prgrm->prgrm.redir_size = (*prgrm)->prgrm.redir_size;
-	if (!prgrm_redircpy(n_prgrm->prgrm.redir, (*prgrm)->prgrm.redir,
-			(*prgrm)->prgrm.redir_size))
+	n_prgrm->s_prgrm.redir_size = (*prgrm)->s_prgrm.redir_size;
+	if (!prgrm_redircpy(n_prgrm->s_prgrm.redir, (*prgrm)->s_prgrm.redir,
+			(*prgrm)->s_prgrm.redir_size))
 		return (free(n_prgrm), (void *)0);
 	return (n_prgrm);
 }
@@ -69,7 +70,7 @@ int	setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf)
 	return (1);
 }
 
-int		env_expansioncpy(t_bufexpand *ex, char *env, size_t *i)
+int	env_expansioncpy(t_bufexpand *ex, char *env, size_t *i)
 {
 	if (!resize_expansion(ex, ft_strlen(env), *i))
 		return (free(ex->expanded), 0);

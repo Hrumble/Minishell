@@ -6,14 +6,14 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 17:23:28 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 17:24:37 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 14:42:27 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include <stdlib.h>
 
-t_lexerattr *new_lexerattr(char *buf)
+t_lexerattr	*new_lexerattr(char *buf)
 {
 	t_lexerattr	*attr;
 
@@ -27,4 +27,3 @@ t_lexerattr *new_lexerattr(char *buf)
 	attr->flags = 0;
 	return (attr);
 }
-

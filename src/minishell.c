@@ -27,12 +27,12 @@ static t_ast	*parse_user_input(char *input)
 	if (!ast)
 		return (0);
 	if (!ast_map(&ast, expand_argv)
-	&& ast_map(&ast, expand_redir))
+		&& ast_map(&ast, expand_redir))
 		return (0);
 	return (ast);
 }
 
-int	minishell()
+int	minishell(void)
 {
 	t_ast	*ast;
 	char	buf[1024];
@@ -50,6 +50,5 @@ int	minishell()
 		}
 		print_ast(ast);
 	}
-
 	return (1);
 }

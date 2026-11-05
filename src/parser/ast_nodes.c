@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:55:02 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 13:08:32 by user             ###   ########.fr       */
+/*   Updated: 2026/11/05 14:45:08 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ t_ast	*new_astbinaryop(t_ast *left, t_ast *right)
 	if (!node)
 		return (0);
 	node->type = AST_BINARYOP;
-	node->bop.binaryop = BOP_PIPE;
-	node->bop.left = left;
-	node->bop.right = right;
+	node->s_bop.binaryop = BOP_PIPE;
+	node->s_bop.left = left;
+	node->s_bop.right = right;
 	return (node);
 }
 
-t_ast	*new_astprgrm()
+t_ast	*new_astprgrm(void)
 {
 	t_ast	*prgrm;
 
@@ -37,8 +37,8 @@ t_ast	*new_astprgrm()
 	if (!prgrm)
 		return (0);
 	prgrm->type = AST_PRGRM;
-	prgrm->prgrm.ac = 0;
-	prgrm->prgrm.redir_size = 0;
+	prgrm->s_prgrm.ac = 0;
+	prgrm->s_prgrm.redir_size = 0;
 	return (prgrm);
 }
 

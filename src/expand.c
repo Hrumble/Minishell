@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/01 22:25:56 by user             ###   ########.fr       */
+/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ int	expand_argv(t_ast	**prgrm)
 	n_prgrm = setup_expansion(prgrm);
 	if (!n_prgrm)
 		return (0);
-	av = (*prgrm)->prgrm.argv;
-	ac = (*prgrm)->prgrm.ac;
+	av = (*prgrm)->s_prgrm.argv;
+	ac = (*prgrm)->s_prgrm.ac;
 	i = 0;
 	while (i < ac)
 	{
-		n_prgrm->prgrm.argv[n_prgrm->prgrm.ac] = expand_buf(av[i++]);
-		if (!n_prgrm->prgrm.argv[n_prgrm->prgrm.ac++])
+		n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac] = expand_buf(av[i++]);
+		if (!n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac++])
 			return (free(n_prgrm), 0);
 	}
 	free_prgrm(*prgrm);
@@ -109,13 +109,13 @@ int	expand_redir(t_ast	**prgrm)
 	int		i;
 
 	i = 0;
-	while (i < (*prgrm)->prgrm.redir_size)
+	while (i < (*prgrm)->s_prgrm.redir_size)
 	{
-		expanded = expand_buf((*prgrm)->prgrm.redir[i]->target);
+		expanded = expand_buf((*prgrm)->s_prgrm.redir[i]->target);
 		if (!expanded)
 			return (0);
-		free((*prgrm)->prgrm.redir[i]->target);
-		(*prgrm)->prgrm.redir[i]->target = expanded;
+		free((*prgrm)->s_prgrm.redir[i]->target);
+		(*prgrm)->s_prgrm.redir[i]->target = expanded;
 		i++;
 	}
 	return (1);

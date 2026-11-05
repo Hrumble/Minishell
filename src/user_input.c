@@ -16,7 +16,8 @@
 #include <stddef.h>
 #include <unistd.h>
 
-static void	handle_commands(char *command, size_t command_size, t_lineinput *input)
+static void	handle_commands(char *command, size_t command_size,
+		t_lineinput *input)
 {
 	if (!ft_strncmp(command, "\033[C", command_size))
 	{
@@ -42,7 +43,7 @@ static void	insert_char_in_buf(char c, t_lineinput *input)
 	if (!input)
 		return ;
 	if (l_until_eol)
-		ft_memmove(input->buf_ptr+1, input->buf_ptr, l_until_eol);
+		ft_memmove(input->buf_ptr + 1, input->buf_ptr, l_until_eol);
 	*input->buf_ptr = c;
 	write(1, &c, 1);
 	input->buf_ptr += 1;

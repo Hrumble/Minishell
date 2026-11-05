@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 22:05:16 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 19:06:31 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_empty_prgrm(t_ast *prgrm)
 {
 	if (!prgrm || prgrm->type != AST_PRGRM)
 		return (0);
-	return (prgrm->prgrm.ac == 0);
+	return (prgrm->s_prgrm.ac == 0);
 }
 
 int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
@@ -27,8 +27,8 @@ int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 	t_prgrmredir	**prgrm_redir;
 	int				*prgrm_redir_size;
 
-	prgrm_redir = prgrm->prgrm.redir;
-	prgrm_redir_size = &prgrm->prgrm.redir_size;
+	prgrm_redir = prgrm->s_prgrm.redir;
+	prgrm_redir_size = &prgrm->s_prgrm.redir_size;
 	if (!peek(pattr, TK_REDIR))
 		return (0);
 	redir_tk = pattr->current;
@@ -73,8 +73,8 @@ int	ast_map(t_ast	**ast, int (*f)(t_ast **ast))
 		return (0);
 	if ((*ast)->type == AST_BINARYOP)
 	{
-		if (!ast_map(&(*ast)->bop.left, f)
-			|| !ast_map(&(*ast)->bop.right, f))
+		if (!ast_map(&(*ast)->s_bop.left, f)
+			|| !ast_map(&(*ast)->s_bop.right, f))
 			return (0);
 	}
 	return (f(ast));

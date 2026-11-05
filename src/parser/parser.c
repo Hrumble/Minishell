@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:02:49 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 22:54:39 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 14:44:39 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ int	peek(t_parserattr *pattr, t_tokentype type)
 		return (0);
 	return (pattr->current->type == type);
 }
-

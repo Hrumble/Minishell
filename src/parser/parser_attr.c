@@ -6,15 +6,14 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:34:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/29 20:43:49 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/05 14:45:42 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "parser.h"
 #include <stdlib.h>
 
-t_parserattr	*new_parserattr()
+t_parserattr	*new_parserattr(void)
 {
 	t_parserattr	*attr;
 

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 12:29:52 by user             ###   ########.fr       */
+/*   Updated: 2026/11/05 14:42:11 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static t_token	*get_single_char_token(t_lexerattr *attr)
 	return (0);
 }
 
-
 static int	handle_quotes(t_lexerattr *attr)
 {
 	if (*attr->ptr == '"' || *attr->ptr == '\'')
@@ -57,7 +56,7 @@ static int	handle_quotes(t_lexerattr *attr)
 static t_token	*get_wrd_token(t_lexerattr *attr)
 {
 	char	*wrd_start;
-	
+
 	wrd_start = 0;
 	handle_quotes(attr);
 	while ((ft_iswrd(*attr->ptr) || attr->flags & 1) && *attr->ptr)
@@ -70,7 +69,7 @@ static t_token	*get_wrd_token(t_lexerattr *attr)
 	}
 	if (!wrd_start)
 		return (0);
-	return new_token(TK_WRD, wrd_start, attr->ptr - wrd_start);
+	return (new_token(TK_WRD, wrd_start, attr->ptr - wrd_start));
 }
 
 t_token	*next_token(t_lexerattr *attr)

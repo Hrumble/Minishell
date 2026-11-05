@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:44:34 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 13:42:20 by user             ###   ########.fr       */
+/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 				pattr->current->atom.size);
 		if (!substr)
 			return (free_prgrm(prgrm), (void *)0);
-		prgrm->prgrm.argv[prgrm->prgrm.ac] = substr;
-		prgrm->prgrm.ac++;
+		prgrm->s_prgrm.argv[prgrm->s_prgrm.ac] = substr;
+		prgrm->s_prgrm.ac++;
 		consume_token(pattr, lattr);
 	}
 	if (is_empty_prgrm(prgrm))

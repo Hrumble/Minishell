@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/01 22:20:25 by user             ###   ########.fr       */
+/*   Updated: 2026/11/05 14:43:16 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,20 @@
 # define EXPANSION_SIZE 100
 # include <stddef.h>
 
-typedef struct s_lineinput {
+typedef struct s_lineinput
+{
 	char	*buffer;
 	char	*buf_ptr;
 	size_t	buf_size;
-} t_lineinput;
+}	t_lineinput;
 
-typedef struct s_bufexpand {
+typedef struct s_bufexpand
+{
 	size_t	exsize;
 	char	*expanded;
 	char	*buf;
 	int		in_squotes;
-} t_bufexpand;
+}	t_bufexpand;
 
 // Gets the user input from the terminal line. 
 // line editing included.
