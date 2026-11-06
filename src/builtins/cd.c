@@ -18,6 +18,8 @@ int	builtin_cd(char **av, int ac, char **env)
 {
 	char	*home;
 
+	(void)env;
+	(void)av;
 	if (ac < 2)
 	{
 		home = getenv("HOME");
