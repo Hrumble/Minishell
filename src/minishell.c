@@ -6,11 +6,10 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 17:36:20 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:08:58 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
 #include "executor.h"
 #include "internal.h"
 #include "minishell.h"
@@ -42,7 +41,7 @@ int	minishell(char **env)
 	// terminal_set_icanon(0);
 	while (1)
 	{
-		buf = readline("metasex> ");
+		buf = readline("\033[33mmetasex>\033[0m ");
 		if (!buf)
 			return (0);
 		ast = parse_user_input(buf);
@@ -52,7 +51,6 @@ int	minishell(char **env)
 			ft_printf("\033[31mParse error\033[0m\n");
 			continue ;
 		}
-		print_ast(ast);
 		fork_and_exec(ast, env);
 	}
 	return (1);

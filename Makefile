@@ -20,7 +20,7 @@ OBJECTS = $(addprefix $(SRC_DIR), \
 		  ) $(addprefix $(SRC_DIR)parser/, \
 		  parser.o parser_utils.o parser_attr.o parse_ast.o ast_nodes.o ast_free.o \
 		  ) $(addprefix $(SRC_DIR)executor/, \
-		  executor.o executor_utils.o binary.o \
+		  executor.o executor_utils.o binary.o redir_utils.o \
 		  )
 DEBUGOBJECTS = $(addprefix $(SRC_DIR).debug/, \
 		print_utils.o enum_utils.o \
