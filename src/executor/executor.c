@@ -82,7 +82,7 @@ int	fork_and_exec(t_ast *ast, char **env)
 	// 	fork_and_exec(ast->s_bop.right, env);
 	// 	return (1);
 	// }
-	if (_exec_builtin(ast))
+	if (_exec_builtin(ast, env))
 		return (1);
 	f_out = fork();
 	if (f_out < 0)
