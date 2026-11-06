@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "debug.h"
 #include "executor.h"
 #include "internal.h"
 #include "minishell.h"
@@ -28,7 +29,7 @@ static t_ast	*parse_user_input(char *input)
 	if (!ast)
 		return (0);
 	if (!ast_map(&ast, expand_argv)
-		&& ast_map(&ast, expand_redir))
+		|| !ast_map(&ast, expand_redir))
 		return (0);
 	return (ast);
 }
@@ -48,9 +49,10 @@ int	minishell(char **env)
 		free(buf);
 		if (!ast)
 		{
-			ft_printf("\033[31mParse error\n\033[0m");
+			ft_printf("\033[31mParse error\033[0m\n");
 			continue ;
 		}
+		print_ast(ast);
 		fork_and_exec(ast, env);
 	}
 	return (1);

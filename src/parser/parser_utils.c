@@ -76,6 +76,7 @@ int	ast_map(t_ast	**ast, int (*f)(t_ast **ast))
 		if (!ast_map(&(*ast)->s_bop.left, f)
 			|| !ast_map(&(*ast)->s_bop.right, f))
 			return (0);
+		return (1);
 	}
 	return (f(ast));
 }

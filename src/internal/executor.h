@@ -22,6 +22,9 @@ int	fork_and_exec(t_ast *ast, char **env);
 // Finds a binary from relative path or PATH
 // returns (void *)0 on failure to find.
 char	*find_binary(char *buf);
+// Runs a builtin function, providing it **av and ac. Sets the status.
+// always returns (1)
+int		run_builtin(int (*builtin)(char **, int), char **av, int ac);
 
 // freeing stuff
 void	free_split(char **split);

@@ -16,7 +16,6 @@ int	builtin_cd(char **av, int ac)
 {
 	(void)av;
 	(void)ac;
-
 	return (0);
 }
 

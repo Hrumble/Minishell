@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "parser.h"
 #include <stdlib.h>
 
 void	free_split(char **split)
@@ -24,3 +25,18 @@ void	free_split(char **split)
 		free(*seeker++);
 	free(split);
 }
+
+void	handle_redir(t_ast *prgrm)
+{
+	if (!prgrm || prgrm->type != AST_PRGRM)
+		return ;
+}
+
+int	run_builtin(int (*builtin)(char **, int), char **av, int ac)
+{
+	int	out;
+
+	out = builtin(av, ac);
+	return (1);
+}
+

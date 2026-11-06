@@ -16,5 +16,5 @@ int	builtin_exit(char **av, int ac)
 {
 	(void)av;
 	(void)ac;
-	exit(0);
+	exit(1);
 }
