@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:09:06 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:01:01 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:17:08 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int	run_builtin(int (*builtin)(char **, int), t_ast *prgrm)
 
 	if (!setup_prgrm_redirections(prgrm, &credirs, 1))
 	{
-		ft_printf("\033[31mRedirection failed\033[0m\n");
+		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		return (1);
 	}
 	out = builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac);
 	if (!restore_inout(&credirs))
-		ft_printf("\033[31mFailed to restore standard streams!\033[0m\n");
+		ft_putstr("\033[31mFailed to restore standard streams!\033[0m\n");
 	return (1);
 }
 

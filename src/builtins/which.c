@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:59:46 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 18:02:32 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:16:31 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_which(char **av, int ac)
 	char	*bin;
 
 	if (ac < 2)
-		return (ft_printf("Yeah well specify a binary fuckass.\n"), 0);
+		return (ft_putstr("Yeah well specify a binary fuckass.\n"), 0);
 	i = 1;
 	while (i < ac)
 	{

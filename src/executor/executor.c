@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:09:32 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:14:44 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	_child_process(t_ast *ast, char **env, int fd[2])
 
 	if (!setup_prgrm_redirections(ast, &credirs, 0))
 	{
-		ft_printf("\033[31mRedirection failed\033[0m\n");
+		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		exit(1);
 	}
 	_exec_ast(ast, env);
