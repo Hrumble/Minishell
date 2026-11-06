@@ -6,15 +6,16 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 10:47:10 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/28 10:50:07 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:18:52 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-int	builtin_exit(char **av, int ac)
+int	builtin_exit(char **av, int ac, char **env)
 {
 	(void)av;
 	(void)ac;
+	(void)env;
 	exit(1);
 }

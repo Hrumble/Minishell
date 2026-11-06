@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:14:44 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:20:41 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-static int	_exec_builtin(t_ast *prgrm)
+static int	_exec_builtin(t_ast *prgrm, char **env)
 {
 	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "echo"))
-		return (run_builtin(builtin_echo, prgrm));
+		return (run_builtin(builtin_echo, prgrm, env));
 	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "cd"))
-		return (run_builtin(builtin_cd, prgrm));
+		return (run_builtin(builtin_cd, prgrm, env));
 	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "exit"))
-		return (run_builtin(builtin_exit, prgrm));
+		return (run_builtin(builtin_exit, prgrm, env));
 	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "which"))
-		return (run_builtin(builtin_which, prgrm));
+		return (run_builtin(builtin_which, prgrm, env));
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:02:26 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 16:33:27 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:22:00 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int		fork_and_exec(t_ast *ast, char **env);
 char	*find_binary(char *buf);
 // Runs a builtin function, providing it **av and ac. Sets the status.
 // always returns (1)
-int		run_builtin(int (*builtin)(char **, int), t_ast *prgrm);
+int		run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
+			char **env);
 
 // Redirections
 

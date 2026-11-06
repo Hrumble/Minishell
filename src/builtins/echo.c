@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 14:41:45 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:41:45 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/06 17:18:38 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 #include "ft_printf.h"
 #include "libft.h"
 
-int	builtin_echo(char **av, int ac)
+int	builtin_echo(char **av, int ac, char **env)
 {
 	int	n_flag;
 	int	i;
 
+	(void)env;
 	if (ac < 1)
 		return (0);
 	n_flag = 0;
