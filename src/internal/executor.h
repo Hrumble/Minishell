@@ -17,7 +17,7 @@
 #include "parser.h"
 
 // Executes an ast
-int	fork_and_exec(t_ast *ast);
+int	fork_and_exec(t_ast *ast, char **env);
 
 // Finds a binary from relative path or PATH
 // returns (void *)0 on failure to find.

@@ -33,7 +33,7 @@ static t_ast	*parse_user_input(char *input)
 	return (ast);
 }
 
-int	minishell(void)
+int	minishell(char **env)
 {
 	t_ast	*ast;
 	char	*buf;
@@ -51,7 +51,7 @@ int	minishell(void)
 			ft_printf("\033[31mParse error\n\033[0m");
 			continue ;
 		}
-		fork_and_exec(ast);
+		fork_and_exec(ast, env);
 	}
 	return (1);
 }

@@ -14,6 +14,6 @@
 # define MINISHELL_H
 
 // Launches the minishell process
-int			minishell();
+int			minishell(char **env);
 
 #endif

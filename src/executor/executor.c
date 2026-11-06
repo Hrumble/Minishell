@@ -41,7 +41,7 @@ static int	_exec_builtin(char **av, int ac)
 	return (0);
 }
 
-static void	_exec_ast(t_ast *ast)
+static void	_exec_ast(t_ast *ast, char **env)
 {
 	char	*binary;
 	
@@ -53,10 +53,10 @@ static void	_exec_ast(t_ast *ast)
 		ft_printf("\033[31m%s: Command not found\n\033[0m", ast->s_prgrm.argv[0]);
 		exit(1);
 	}
-	execve(binary, ast->s_prgrm.argv, NULL);
+	execve(binary, ast->s_prgrm.argv, env);
 }
 
-int	fork_and_exec(t_ast *ast)
+int	fork_and_exec(t_ast *ast, char **env)
 {
 	pid_t	f_out;
 
@@ -64,7 +64,7 @@ int	fork_and_exec(t_ast *ast)
 	if (f_out < 0)
 		return (0);
 	if (f_out == 0)
-		_exec_ast(ast);
+		_exec_ast(ast, env);
 	else
 		waitpid(f_out, NULL, 0);
 	return (1);

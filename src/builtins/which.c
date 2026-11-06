@@ -12,6 +12,7 @@
 
 #include "executor.h"
 #include "ft_printf.h"
+
 int	builtin_which(char **av, int ac)
 {
 	int		i;
@@ -19,7 +20,7 @@ int	builtin_which(char **av, int ac)
 
 	if (ac < 2)
 		return (ft_printf("Yeah well specify a binary fuckass.\n"), 0);
-	i = 0;
+	i = 1;
 	while (i < ac)
 	{
 		bin = find_binary(av[i]);
