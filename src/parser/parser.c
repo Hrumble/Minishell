@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:02:49 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:44:39 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:46:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_token	*consume_token(t_parserattr *pattr, t_lexerattr *lattr)
 		pattr->next = next_token(lattr);
 		return (pattr->current);
 	}
+	free_token(&pattr->prev);
 	tk = pattr->current;
 	pattr->prev = pattr->current;
 	pattr->current = pattr->next;

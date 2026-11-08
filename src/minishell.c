@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:06:50 by user             ###   ########.fr       */
+/*   Updated: 2026/11/08 18:52:27 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_ast	*parse_user_input(char *input)
 		return (0);
 	if (!ast_map(&ast, expand_argv)
 		|| !ast_map(&ast, expand_redir))
-		return (0);
+		free_ast(&ast);
 	return (ast);
 }
 
@@ -52,6 +52,7 @@ int	minishell(char **env)
 			continue ;
 		}
 		execute_pipeline(ast, env);
+		free_ast(&ast);
 	}
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:53:10 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:54:15 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static char	*expand_buf(char *buf)
 			return (free(ex.expanded), (void *)0);
 		ex.expanded[i++] = *ex.buf++;
 	}
+	if (!resize_expansion(&ex, 1, i))
+		return (free(ex.expanded), (void *)0);
 	ex.expanded[i] = 0;
 	return (ex.expanded);
 }
@@ -96,9 +98,9 @@ int	expand_argv(t_ast	**prgrm)
 	{
 		n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac] = expand_buf(av[i++]);
 		if (!n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac++])
-			return (free(n_prgrm), 0);
+			return (free_prgrm(&n_prgrm), 0);
 	}
-	free_prgrm(*prgrm);
+	free_prgrm(prgrm);
 	*prgrm = n_prgrm;
 	return (1);
 }

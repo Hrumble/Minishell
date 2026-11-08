@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/10/30 17:09:39 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:43:53 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,8 @@ t_token		*new_token_redir(t_redirtype type);
 // Returns a new allocated lexer attribute
 t_lexerattr	*new_lexerattr(char *buf);
 int			ft_iswrd(int c);
+
+// frees a token
+void		free_token(t_token **tk);
 
 #endif

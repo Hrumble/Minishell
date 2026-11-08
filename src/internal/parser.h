@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:44:29 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:49:31 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,10 @@ t_ast			*new_astbinaryop(t_ast *left, t_ast *right);
 t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len);
 
 // Freeing
-void			free_redir(t_prgrmredir *redir);
-void			free_prgrm(t_ast	*prgrm);
+void			free_redir(t_prgrmredir **redir);
+void			free_prgrm(t_ast	**prgrm);
+void			free_ast(t_ast	**ast);
+void			free_pandlattr(t_parserattr **pattr, t_lexerattr **lattr);
 
 // Utils
 // Returns wether or not the program is empty

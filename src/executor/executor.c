@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:03:34 by user             ###   ########.fr       */
+/*   Updated: 2026/11/08 19:03:06 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	_exec_ast(t_ast *ast, char **env)
 	if (!binary)
 	{
 		ft_printf("\033[31m%s: Command not found\n\033[0m", ast->s_prgrm.argv[0]);
+		free_ast(&ast);
 		exit(1);
 	}
 	ast->s_prgrm.argv[ast->s_prgrm.ac] = 0;
@@ -46,6 +47,7 @@ static void	_child_process(t_ast *ast, char **env, int fd[2])
 		|| !setup_prgrm_redirections(ast, &credirs, 0))
 	{
 		ft_putstr("\033[31mRedirection failed\033[0m\n");
+		free_ast(&ast);
 		exit(1);
 	}
 	_exec_ast(ast, env);

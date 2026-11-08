@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:44:34 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:59:10 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 	{
 		ps_redir_out = parse_redir(pattr, lattr, prgrm);
 		if (ps_redir_out == -1)
-			return (free_prgrm(prgrm), (void *)0);
+			return (free_prgrm(&prgrm), (void *)0);
 		else if (ps_redir_out && consume_token(pattr, lattr))
 			continue ;
 		substr = ft_substr(pattr->current->atom.ptr, 0,
 				pattr->current->atom.size);
 		if (!substr)
-			return (free_prgrm(prgrm), (void *)0);
+			return (free_prgrm(&prgrm), (void *)0);
 		prgrm->s_prgrm.argv[prgrm->s_prgrm.ac] = substr;
 		prgrm->s_prgrm.ac++;
 		consume_token(pattr, lattr);
 	}
 	if (is_empty_prgrm(prgrm))
-		return (free(prgrm), (void *)0);
+		return (free_prgrm(&prgrm), (void *)0);
 	return (prgrm);
 }
 
@@ -61,15 +61,16 @@ static t_ast	*parse_pipeline(t_parserattr *pattr, t_lexerattr *lattr)
 	while (peek(pattr, TK_PIPE))
 	{
 		if (!consume_token(pattr, lattr))
-			return (free_prgrm(l_prgrm), (void *)0);
+			return (free_prgrm(&l_prgrm), (void *)0);
 		r_prgrm = parse_program(pattr, lattr);
 		if (!r_prgrm)
-			return (free_prgrm(l_prgrm), (void *)0);
+			return (free_prgrm(&l_prgrm), (void *)0);
 		pipe = new_astbinaryop(l_prgrm, r_prgrm);
 		if (!pipe)
-			return (free_prgrm(l_prgrm), free_prgrm(r_prgrm), (void *)0);
+			return (free_prgrm(&l_prgrm), free_prgrm(&r_prgrm), (void *)0);
 		l_prgrm = pipe;
 	}
+	free_pandlattr(&pattr, &lattr);
 	return (l_prgrm);
 }
 

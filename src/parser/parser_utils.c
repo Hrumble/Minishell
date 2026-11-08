@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 22:05:16 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:43:50 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:31:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	prgrm_redircpy(t_prgrmredir **dest, t_prgrmredir **src, int redir_size)
 		if (!n_redir)
 		{
 			while (i--)
-				free_redir(dest[i]);
+				free_redir(&dest[i]);
 			return (0);
 		}
 		dest[i] = n_redir;
@@ -74,7 +74,7 @@ int	ast_map(t_ast	**ast, int (*f)(t_ast **ast))
 	if ((*ast)->type == AST_BINARYOP)
 	{
 		if (!ast_map(&(*ast)->s_bop.left, f)
-			|| !ast_map(&(*ast)->s_bop.right, f))
+			|| !f(&(*ast)->s_bop.right))
 			return (0);
 		return (1);
 	}
