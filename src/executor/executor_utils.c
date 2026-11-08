@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:09:06 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:22:07 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:13:23 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_printf.h"
 #include "parser.h"
 #include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
 
@@ -42,20 +43,34 @@ int	restore_inout(t_currentredirs *credirs)
 	return (1);
 }
 
+void	await_processes(pid_t *processes, int size)
+{
+	int	i;
+	
+	if (size >= MAX_PROCESSES)
+		return ;
+	i = 0;
+	while (i < size)
+	{
+		if (processes[i] != 1)
+			waitpid(processes[i], NULL, 0);
+		i++;
+	}
+}
+
 int	run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
-		char **env)
+		char **env, int fd[2])
 {
 	t_currentredirs	credirs;
-	int				out;
 
-	if (!setup_prgrm_redirections(prgrm, &credirs, 1))
+	if (!setup_pipeline_redirections(fd)
+		|| !setup_prgrm_redirections(prgrm, &credirs, 1))
 	{
 		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		return (1);
 	}
-	out = builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
+	builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
 	if (!restore_inout(&credirs))
 		ft_putstr("\033[31mFailed to restore standard streams!\033[0m\n");
 	return (1);
 }
-

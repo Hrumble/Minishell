@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:13:13 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:06:50 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	minishell(char **env)
 			ft_putstr("\033[31mParse error\033[0m\n");
 			continue ;
 		}
-		fork_and_exec(ast, env);
+		execute_pipeline(ast, env);
 	}
 	return (1);
 }

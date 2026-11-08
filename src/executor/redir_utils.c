@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:54:13 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 16:59:54 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:11:14 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	setup_prgrm_redirections(t_ast *ast, t_currentredirs *credirs, int builtin)
 		return (0);
 	if (builtin)
 	{
-		credirs->kbfd = dup(0);
+		credirs->kbfd = dup(STDIN_FILENO);
 		if (credirs->kbfd < 0)
 			return (0);
-		credirs->termfd = dup(1);
+		credirs->termfd = dup(STDOUT_FILENO);
 		if (credirs->termfd < 0)
 		{
-			dup2(credirs->kbfd, 0);
+			dup2(credirs->kbfd, STDIN_FILENO);
 			return (close(credirs->kbfd), 0);
 		}
 	}

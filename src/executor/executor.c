@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:20:41 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/08 18:03:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-static int	_exec_builtin(t_ast *prgrm, char **env)
-{
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "echo"))
-		return (run_builtin(builtin_echo, prgrm, env));
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "cd"))
-		return (run_builtin(builtin_cd, prgrm, env));
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "exit"))
-		return (run_builtin(builtin_exit, prgrm, env));
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "which"))
-		return (run_builtin(builtin_which, prgrm, env));
-	return (0);
-}
 
 static int	_exec_ast(t_ast *ast, char **env)
 {
@@ -53,9 +41,9 @@ static int	_exec_ast(t_ast *ast, char **env)
 static void	_child_process(t_ast *ast, char **env, int fd[2])
 {
 	t_currentredirs	credirs;
-	(void)fd;
 
-	if (!setup_prgrm_redirections(ast, &credirs, 0))
+	if (!setup_pipeline_redirections(fd)
+		|| !setup_prgrm_redirections(ast, &credirs, 0))
 	{
 		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		exit(1);
@@ -64,33 +52,29 @@ static void	_child_process(t_ast *ast, char **env, int fd[2])
 	exit(0);
 }
 
-static void	_parent_process(t_ast *ast, char **env, int cpid)
+int	_exec_builtin(t_ast *prgrm, char **env, int fd[2])
 {
-	(void)ast;
-	(void)env;
-	waitpid(cpid, NULL, 0);
+	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "echo"))
+		return (run_builtin(builtin_echo, prgrm, env, fd));
+	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "cd"))
+		return (run_builtin(builtin_cd, prgrm, env, fd));
+	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "exit"))
+		return (run_builtin(builtin_exit, prgrm, env, fd));
+	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "which"))
+		return (run_builtin(builtin_which, prgrm, env, fd));
+	return (0);
 }
 
-int	fork_and_exec(t_ast *ast, char **env)
+int	fork_and_exec(t_ast *ast, char **env, int fd[2])
 {
-	int		fd[2];
 	pid_t	f_out;
 
-	// if (ast->type == AST_BINARYOP)
-	// {
-	// 	fork_and_exec(ast->s_bop.left, env);
-	// 	fork_and_exec(ast->s_bop.right, env);
-	// 	return (1);
-	// }
-	if (_exec_builtin(ast, env))
-		return (1);
+	if (ast->type == AST_BINARYOP)
+		return (execute_pipeline(ast, env));
 	f_out = fork();
 	if (f_out < 0)
 		return (0);
 	if (f_out == 0)
 		_child_process(ast, env, fd);
-	else
-		_parent_process(ast, env, f_out);
-	return (1);
+	return (f_out);
 }
-
