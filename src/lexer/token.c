@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 18:04:06 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:43:39 by user             ###   ########.fr       */
+/*   Updated: 2026/11/08 19:08:04 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,10 @@ t_token	*new_token_redir(t_redirtype type)
 	return (t);
 }
 
-static void _free_atom(t_atom *atom)
-{
-	if (!atom)
-		return ;
-	free(atom->ptr);
-	free(atom);
-}
-
 void	free_token(t_token **tk)
 {
 	if (!tk || !*tk)
 		return ;
-	if ((*tk)->type == TK_WRD)
-		_free_atom(&(*tk)->atom);
 	free(*tk);
 	*tk = 0;
 }
