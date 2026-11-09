@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:47:50 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 17:48:10 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/09 18:15:12 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ int (*get_builtin(char *buf))(char **, int, char **)
 		return (builtin_exit);
 	if (!ft_strcmp(buf, "which"))
 		return (builtin_which);
+	if (!ft_strcmp(buf, "env"))
+		return (builtin_env);
+	if (!ft_strcmp(buf, "export"))
+		return (builtin_export);
 	return (0);
 }
 

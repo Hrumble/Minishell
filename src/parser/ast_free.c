@@ -16,8 +16,16 @@
 
 void	free_ast(t_ast **ast)
 {
-	if (!ast)
+	if (!ast || !*ast)
 		return ;
+	if ((*ast)->type == AST_DEF)
+	{
+		free((*ast)->s_def.key);
+		free((*ast)->s_def.value);
+		free(*ast);
+		*ast = 0;
+		return ;
+	}
 	if ((*ast)->type == AST_BINARYOP)
 	{
 		free_prgrm(&(*ast)->s_bop.right);

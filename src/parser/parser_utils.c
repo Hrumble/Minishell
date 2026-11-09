@@ -78,5 +78,7 @@ int	ast_map(t_ast	**ast, int (*f)(t_ast **ast))
 			return (0);
 		return (1);
 	}
-	return (f(ast));
+	if ((*ast)->type == AST_PRGRM)
+		return (f(ast));
+	return (1);
 }

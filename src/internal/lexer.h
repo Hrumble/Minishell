@@ -17,6 +17,7 @@
 typedef enum e_tokentype
 {
 	TK_WRD,
+	TK_DEF,
 	TK_QUOTES,
 	TK_BKQUOTES,
 	TK_BKSLASH,
@@ -51,11 +52,18 @@ typedef struct s_atom
 	size_t	size;
 }	t_atom;
 
+typedef struct s_defatom
+{
+	t_atom	key;
+	t_atom	val;
+}	t_defatom;
+
 typedef struct s_token
 {
 	t_tokentype	type;
 	union
 	{
+		t_defatom	defvar;
 		t_atom		atom;
 		t_redirtype	redir_type;
 	};
@@ -70,6 +78,7 @@ t_token		*new_token_redir(t_redirtype type);
 // Returns a new allocated lexer attribute
 t_lexerattr	*new_lexerattr(char *buf);
 int			ft_iswrd(int c);
+int			ft_isvar(int c);
 
 // frees a token
 void		free_token(t_token **tk);

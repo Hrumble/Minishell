@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:47:48 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 11:21:46 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 18:33:50 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,14 @@ char	**get_env()
 	i = 0;
 	while (vartable)
 	{
-		env[i] = tostr__variable(vartable->content);
-		if (!env[i])
-			return (free_split(env), (void *)0);
+		if (((t_variable *)vartable->content)->exported)
+		{
+			env[i] = tostr__variable(vartable->content);
+			if (!env[i])
+				return (free_split(env), (void *)0);
+			i++;
+		}
 		vartable = vartable->next;
-		i++;
 	}
 	env[i] = 0;
 	return (env);

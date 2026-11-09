@@ -6,46 +6,57 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:12:53 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 10:40:49 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 19:10:59 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "executor.h"
 #include "ft_printf.h"
+#include "internal.h"
 #include "libft.h"
 #include <stddef.h>
+#include <stdlib.h>
 
-static char	*_parse_var(char *buf)
+static int	_split_len(char **split)
 {
-	char	*sk;
+	int	i;
 
-	sk = buf;
-	if (*sk == '=')
+	if (!split || !*split)
 		return (0);
-	while (*sk && *sk != '=')
-		sk++;
-	if (*sk != '=')
-		return (0);
-	sk++;
-	if (!*sk)
-		return (0);
-	while (*sk)
-		sk++;
-	return (ft_strdup(buf));
+	i = 0;
+	while (*split)
+	{
+		i++;
+		split++;
+	}
+	return (i);
 }
 
-static int	_append_to_env(char **env)
+static int	_parse_var(char *buf)
 {
-	char	**sk;
+	char	**split;
 
-	sk = env;
-	while (*sk)
-		(*sk)++;
+	split = ft_split(buf, '=');
+	if (_split_len(split) != 2)
+		return (-1);
+	if (!declare_variable(split[0], split[1], 1))
+		return (-2);
+	free(split);
+	return (1);
 }
 
 int	builtin_export(char **av, int ac, char **env)
 {
+	int	out;
+	(void)env;
 	if (ac < 2)
 		return (ft_printf("export: missing variable\n"), 1);
 	if (ac > 2)
 		return (ft_printf("export: too many args\n"), 1);
+	out = _parse_var(av[1]);
+	if (out == -1)
+		return (ft_printf("export: Incorrect variable format\n"), 1);
+	if (out == -2)
+		return (ft_printf("export: Failed to declare var\n"), 1);
+	return (0);
 }

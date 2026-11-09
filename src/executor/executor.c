@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "internal.h"
 #include "parser.h"
 #include "executor.h"
 #include <stddef.h>
@@ -67,6 +68,8 @@ int	fork_and_exec(t_ast *ast, char **env, int fd[2])
 {
 	pid_t	f_out;
 
+	if (ast->type == AST_DEF)
+		return (declare_variable(ast->s_def.key, ast->s_def.value, 0));
 	if (ast->type == AST_BINARYOP)
 		return (execute_pipeline(ast, env));
 	f_out = fork();

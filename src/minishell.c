@@ -52,6 +52,7 @@ int	minishell(char **env)
 	// terminal_set_icanon(0);
 	while (1)
 	{
+		varenv = 0;
 		buf = readline("\033[33mmetasex>\033[0m ");
 		if (!buf)
 			return (0);

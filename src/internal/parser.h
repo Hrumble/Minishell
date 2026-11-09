@@ -28,6 +28,7 @@ typedef enum e_asttype
 {
 	AST_PRGRM,
 	AST_BINARYOP,
+	AST_DEF,
 }	t_asttype;
 
 typedef enum e_binaryop
@@ -59,6 +60,11 @@ typedef struct s_ast
 			struct s_ast	*left;
 			struct s_ast	*right;
 		}	s_bop;
+		struct
+		{
+			char	*key;
+			char	*value;
+		}	s_def;
 	};
 }	t_ast;
 
@@ -81,6 +87,7 @@ t_parserattr	*new_parserattr(void);
 t_ast			*new_astprgrm(void);
 t_ast			*new_astbinaryop(t_ast *left, t_ast *right);
 t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len);
+t_ast			*new_astdef(t_defatom *datom);
 
 // Freeing
 void			free_redir(t_prgrmredir **redir);

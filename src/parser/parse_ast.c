@@ -15,16 +15,32 @@
 #include "parser.h"
 #include <stdlib.h>
 
+inline static t_ast	*parse_definition(t_parserattr *pattr, t_lexerattr *lattr)
+{
+	t_ast	*new;
+
+	if (peek(pattr, TK_DEF))
+	{
+		new = new_astdef(&pattr->current->defvar);
+		consume_token(pattr, lattr);
+		return (new);
+	}
+	return (0);
+}
+
 static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 {
 	char	*substr;
 	int		ps_redir_out;
 	t_ast	*prgrm;
 
+	prgrm = parse_definition(pattr, lattr);
+	if (prgrm)
+		return (prgrm);
 	prgrm = new_astprgrm();
 	if (!prgrm)
 		return (0);
-	while (peek(pattr, TK_WRD) || peek(pattr, TK_REDIR))
+	while (peek(pattr, TK_WRD) || peek(pattr, TK_REDIR) || peek(pattr, TK_DEF))
 	{
 		ps_redir_out = parse_redir(pattr, lattr, prgrm);
 		if (ps_redir_out == -1)

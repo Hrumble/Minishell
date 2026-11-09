@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:19:42 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 11:24:22 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 19:11:20 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_list	**init_vtable(char **env)
 			return (0);
 		if (!declare_variable(split[0], split[1], 1))
 			return (free_split(split), (void*)0);
+		free(split);
 		env++;
 	}
 	return (vtable);
@@ -60,6 +61,7 @@ char	*tostr__variable(t_variable *var)
 		return (0);
 	ft_strlcpy(str, var->key, total_size + 1);
 	str[ft_strlen(var->key)] = '=';
+	str[ft_strlen(var->key) + 1] = 0;
 	ft_strlcat(str, var->value, total_size + 1);
 	return (str);
 }

@@ -17,3 +17,8 @@ int	ft_iswrd(int c)
 	return (ft_isalnum(c) || c == '.' || c == '-' || c == '$'
 			|| c == '_' || c == '/' || c == '=');
 }
+
+int	ft_isvar(int c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
