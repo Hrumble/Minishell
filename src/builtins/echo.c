@@ -20,7 +20,7 @@ int	builtin_echo(char **av, int ac, char **env)
 	int	i;
 
 	(void)env;
-	if (ac < 1)
+	if (ac < 2)
 		return (0);
 	n_flag = 0;
 	i = 1;
