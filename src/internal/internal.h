@@ -61,22 +61,28 @@ int			setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf);
 // Environment
 
 // returns the vartable.
-t_list	**get_vartable();
+t_list		**get_vtable();
+// frees the vartable
+void		free_vtable();
 // Adds the variable with the provided key and value to the vartable
 // returns 0 on failure
-int		add_variable(char *key, char *val, int isexported);
+int			declare_variable(char *key, char *val, int isexported);
 // removes the variable with key `key` from the vartable.
 // returns the variable to be freed or 0 if it was not found
 t_variable	*remove_variable(char *key);
 // returns the environment null terminated array built from the vartable
-char	**get_env();
+char		**get_env();
 // Creates a new t_variable struct with the provided key val pair
 t_variable	*new_variable(char *key, char *val, int is_exported);
+// Frees a variable
+void		free_variable(t_variable *var);
+// converts a variable to string
+char		*tostr__variable(t_variable *var);
+// initializes the variable table with the provided env
+t_list		**init_vtable(char **env);
 
 // Utils
 // Copies a string array
 char		**ft_strarrcpy(char **dest, char **arr, size_t size);
-// Free an array of pointers (frees the pointers too)
-void		free_arr(void **arr, size_t size);
 
 #endif

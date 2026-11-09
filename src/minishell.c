@@ -33,11 +33,23 @@ static t_ast	*parse_user_input(char *input)
 	return (ast);
 }
 
+static void	cleanup(t_ast **ast, char **env, char **buf)
+{
+	free_ast(ast);
+	free_split(env);
+	free_vtable();
+	free(*buf);
+	*buf = 0;
+}
+
 int	minishell(char **env)
 {
 	t_ast	*ast;
 	char	*buf;
+	char	**varenv;
 
+	if (!init_vtable(env))
+		return (0);
 	// terminal_set_icanon(0);
 	while (1)
 	{
@@ -45,14 +57,16 @@ int	minishell(char **env)
 		if (!buf)
 			return (0);
 		ast = parse_user_input(buf);
-		free(buf);
 		if (!ast)
-		{
 			ft_putstr("\033[31mParse error\033[0m\n");
-			continue ;
+		else
+		{
+			varenv = get_env();
+			if (!varenv)
+				return (cleanup(&ast, NULL, &buf), 0);
+			execute_pipeline(ast, varenv);
 		}
-		execute_pipeline(ast, env);
-		free_ast(&ast);
+		cleanup(&ast, varenv, &buf);
 	}
 	return (1);
 }
