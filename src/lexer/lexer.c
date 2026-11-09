@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 18:28:57 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/09 19:30:25 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static t_token	*get_wrd_token(t_lexerattr *attr)
 		if (!wrd_start)
 			wrd_start = attr->ptr;
 		if (*attr->ptr == '=' && ft_isvar(*(attr->ptr+1))
-				&& wrd_start && attr->ptr == attr->buf)
+				&& wrd_start && attr->ptr_index == 0)
 			return (get_definition_token(wrd_start, attr));
 		attr->ptr++;
 		if (handle_quotes(attr))
@@ -89,6 +89,7 @@ static t_token	*get_wrd_token(t_lexerattr *attr)
 	}
 	if (!wrd_start)
 		return (0);
+	attr->ptr_index++;
 	return (new_token(TK_WRD, wrd_start, attr->ptr - wrd_start));
 }
 

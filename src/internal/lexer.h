@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 10:15:51 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 19:25:30 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef enum e_redirtype
 
 // The `buf` stands for the entire buffer.
 // The `ptr` is the ptr to the current lexer position within the buffer
+// The `ptr_index` is the position (excluding ignored chars like ' ')
+// of the ptr inside the buffer.
 // The `flag` is a list of flags for the current status
 // flags (from right to left):
 //
@@ -44,6 +46,7 @@ typedef struct s_lexerattr
 	char	*buf;
 	char	*ptr;
 	int		flags : 1;
+	int		ptr_index;
 }	t_lexerattr;
 
 typedef struct s_atom

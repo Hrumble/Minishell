@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 11:21:13 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 19:21:05 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int			setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf);
 
 // returns the vartable.
 t_list		**get_vtable();
+// returns the value of a variable inside the vtable
+char		*vtable_get(char *buf);
 // frees the vartable
 void		free_vtable();
 // Adds the variable with the provided key and value to the vartable

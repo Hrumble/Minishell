@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 17:23:28 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:42:27 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/09 19:25:45 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ t_lexerattr	*new_lexerattr(char *buf)
 	attr->buf = buf;
 	attr->ptr = buf;
 	attr->flags = 0;
+	attr->ptr_index = 0;
 	return (attr);
 }

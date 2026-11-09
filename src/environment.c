@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:47:48 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 18:33:50 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/09 19:20:34 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,20 @@ char	**get_env()
 	}
 	env[i] = 0;
 	return (env);
+}
+
+char	*vtable_get(char *buf)
+{
+	t_list	*vtable;
+
+	if (!buf)
+		return (0);
+	vtable = *get_vtable();
+	while (vtable)
+	{
+		if (!ft_strcmp(buf, ((t_variable *)vtable->content)->key))
+			return ft_strdup(((t_variable *)vtable->content)->value);
+		vtable = vtable->next;
+	}
+	return (0);
 }

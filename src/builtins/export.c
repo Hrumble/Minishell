@@ -6,11 +6,10 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:12:53 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 19:10:59 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/09 19:13:12 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
 #include "ft_printf.h"
 #include "internal.h"
 #include "libft.h"

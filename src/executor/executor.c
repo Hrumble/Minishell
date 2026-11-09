@@ -6,12 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 19:03:06 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 19:59:30 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "internal.h"
 #include "parser.h"
 #include "executor.h"
 #include <stddef.h>
@@ -42,6 +41,8 @@ static void	_child_process(t_ast *ast, char **env, int fd[2])
 {
 	t_currentredirs	credirs;
 
+	if (exec_builtin(ast, env, fd))
+		exit(0);
 	if (!setup_pipeline_redirections(fd)
 		|| !setup_prgrm_redirections(ast, &credirs, 0))
 	{
@@ -68,10 +69,8 @@ int	fork_and_exec(t_ast *ast, char **env, int fd[2])
 {
 	pid_t	f_out;
 
-	if (ast->type == AST_DEF)
-		return (declare_variable(ast->s_def.key, ast->s_def.value, 0));
-	if (ast->type == AST_BINARYOP)
-		return (execute_pipeline(ast, env));
+	if (ast->type != AST_PRGRM)
+		return (0);
 	f_out = fork();
 	if (f_out < 0)
 		return (0);

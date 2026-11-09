@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:54:15 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 19:33:06 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 int	expand_env(char **dest, char **buf)
 {
 	int		i;
-	char	env_name[20];
+	char	env_name[50];
 	char	*env;
 
 	if (!buf || !*buf || **buf != '$' || !ft_isalnum(*(*buf + 1)))
@@ -29,7 +29,7 @@ int	expand_env(char **dest, char **buf)
 	while (ft_isalnum(**buf))
 		env_name[i++] = *(*buf)++;
 	env_name[i] = 0;
-	env = getenv(env_name);
+	env = vtable_get(env_name);
 	if (env)
 		*dest = env;
 	else

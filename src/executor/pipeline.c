@@ -6,11 +6,12 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 15:27:45 by user              #+#    #+#             */
-/*   Updated: 2026/11/08 19:01:25 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 19:56:57 by ngero            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "internal.h"
 #include "parser.h"
 #include <stdlib.h>
 #include <sys/types.h>
@@ -108,7 +109,9 @@ int	execute_pipeline(t_ast	*pipeline, char **env)
 	int		n_proc;
 	pid_t	processes[MAX_PROCESSES];
 
-	if (pipeline->type != AST_BINARYOP)
+	if (pipeline->type == AST_DEF)
+		return (declare_variable(pipeline->s_def.key, pipeline->s_def.value, 0));
+	if (pipeline->type == AST_PRGRM)
 		if (exec_builtin(pipeline, env,
 					(int[2]){STDIN_FILENO, STDOUT_FILENO}))
 			return (1);
