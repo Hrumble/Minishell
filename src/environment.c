@@ -6,12 +6,13 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:47:48 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 11:14:36 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 11:21:46 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "internal.h"
 #include "libft.h"
+#include <stddef.h>
 #include <stdlib.h>
 
 t_list	**get_vartable()
@@ -21,19 +22,16 @@ t_list	**get_vartable()
 	return (&vartable);
 }
 
-int		add_variable(char *key, char *val, int isexported)
+int		add_variable(char *key, char *val, int is_exported)
 {
 	t_list		*new;
 	t_list		**vartable;
 	t_variable	*var;
 
 	vartable = get_vartable();
-	var = malloc(sizeof(t_variable));
+	var = new_variable(key, val, is_exported);
 	if (!var)
 		return (0);
-	var->key = key;
-	var->value = val;
-	var->exported = isexported;
 	new = ft_lstnew(var);
 	if (!new)
 		return (free(var), 0);
@@ -63,4 +61,20 @@ t_variable	*remove_variable(char *key)
 	var = (t_variable *)sk->content;
 	ft_lstremove(vartable, index, 0);
 	return (var);
+}
+
+char	**get_env()
+{
+	t_list	**vartable;
+	size_t	i;
+	size_t	lstsize;
+	char	**env;
+
+	vartable = get_vartable();
+	lstsize = ft_lstsize(*vartable);
+	i = 0;
+	while (i < lstsize)
+	{
+
+	}
 }

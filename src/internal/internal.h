@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 11:16:34 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 11:21:13 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ int		add_variable(char *key, char *val, int isexported);
 // removes the variable with key `key` from the vartable.
 // returns the variable to be freed or 0 if it was not found
 t_variable	*remove_variable(char *key);
+// returns the environment null terminated array built from the vartable
+char	**get_env();
+// Creates a new t_variable struct with the provided key val pair
+t_variable	*new_variable(char *key, char *val, int is_exported);
 
 // Utils
 // Copies a string array
