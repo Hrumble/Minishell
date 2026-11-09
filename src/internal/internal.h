@@ -6,12 +6,13 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 10:50:15 by user             ###   ########.fr       */
+/*   Updated: 2026/11/09 11:16:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef INTERNAL_H
 # define INTERNAL_H
+#include "libft.h"
 # include "parser.h"
 # define CMDLINE_BUFSIZE 10
 # define EXPANSION_SIZE 100
@@ -56,6 +57,17 @@ int			env_expansioncpy(t_bufexpand *ex, char *env, size_t *i);
 t_ast		*setup_expansion(t_ast **prgrm);
 // sets up buffer expansion
 int			setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf);
+
+// Environment
+
+// returns the vartable.
+t_list	**get_vartable();
+// Adds the variable with the provided key and value to the vartable
+// returns 0 on failure
+int		add_variable(char *key, char *val, int isexported);
+// removes the variable with key `key` from the vartable.
+// returns the variable to be freed or 0 if it was not found
+t_variable	*remove_variable(char *key);
 
 // Utils
 // Copies a string array
