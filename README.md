@@ -19,9 +19,9 @@
 - `echo`: OK
 - `exit`: OK
 - `which`: OK
+- `cd`: OK
 
 - `pwd`: NONE (external)
-- `cd`: NONE
 - `export`: NONE
 - `unset`: NONE
 - `env`: NONE

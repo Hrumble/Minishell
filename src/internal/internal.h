@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:43:16 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/09 10:50:15 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ typedef struct s_bufexpand
 	int		in_squotes;
 }	t_bufexpand;
 
+typedef struct s_variable
+{
+	char	*key;
+	char	*value;
+	int		exported;
+}	t_variable;
 // Gets the user input from the terminal line. 
 // line editing included.
 int			get_user_input(char *prompt, char *buf);
