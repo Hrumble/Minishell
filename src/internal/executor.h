@@ -52,8 +52,11 @@ int		restore_inout(t_currentredirs *credirs);
 // The mode is used to specify the mode in which to open the file.
 // O_CREAT should be default
 int		pipe_fd_to_file(int fd, char *path, int mode);
+// Returns a function pointer to the builtin function which the specified name.
+// 0 if none
+int (*get_builtin(char *buf))(char **, int, char **);
 // Executes a builtin shell command
-int		_exec_builtin(t_ast *prgrm, char **env, int fd[2]);
+int		exec_builtin(t_ast *prgrm, char **env, int fd[2]);
 // Executes an entire pipeline. To be called on BOPs
 int		execute_pipeline(t_ast	*pipeline, char **env);
 int		setup_pipeline_redirections(int fd[2]);

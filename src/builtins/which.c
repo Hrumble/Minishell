@@ -20,15 +20,20 @@ int	builtin_which(char **av, int ac, char **env)
 
 	(void)env;
 	if (ac < 2)
-		return (ft_putstr("Yeah well specify a binary fuckass.\n"), 0);
+		return (ft_putstr("which: Yeah well specify a binary fuckass.\n"), 1);
 	i = 1;
 	while (i < ac)
 	{
+		if (get_builtin(av[i]))
+		{
+			ft_printf("which: %s is a builtin\n", av[i++]);
+			continue ;
+		}
 		bin = find_binary(av[i]);
 		if (!bin)
-			return (ft_printf("%s not found\n", av[i]));
+			return (ft_printf("which: %s not found\n", av[i]), 1);
 		ft_printf("%s\n", bin);
 		i++;
 	}
-	return (1);
+	return (0);
 }

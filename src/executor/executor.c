@@ -54,17 +54,15 @@ static void	_child_process(t_ast *ast, char **env, int fd[2])
 	exit(0);
 }
 
-int	_exec_builtin(t_ast *prgrm, char **env, int fd[2])
+int	exec_builtin(t_ast *prgrm, char **env, int fd[2])
 {
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "echo"))
-		return (run_builtin(builtin_echo, prgrm, env, fd));
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "cd"))
-		return (run_builtin(builtin_cd, prgrm, env, fd));
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "exit"))
-		return (run_builtin(builtin_exit, prgrm, env, fd));
-	if (!ft_strcmp(prgrm->s_prgrm.argv[0], "which"))
-		return (run_builtin(builtin_which, prgrm, env, fd));
-	return (0);
+	int	(*f)(char **, int, char **);
+
+	f = get_builtin(prgrm->s_prgrm.argv[0]);
+	if (!f)
+		return (0);
+	run_builtin(f, prgrm, env, fd);
+	return (1);
 }
 
 int	fork_and_exec(t_ast *ast, char **env, int fd[2])

@@ -116,7 +116,7 @@ int	execute_pipeline(t_ast	*pipeline, char **env)
 	pid_t	processes[MAX_PROCESSES];
 
 	if (pipeline->type != AST_BINARYOP)
-		if (_exec_builtin(pipeline, env,
+		if (exec_builtin(pipeline, env,
 					(int[2]){STDIN_FILENO, STDOUT_FILENO}))
 			return (1);
 	programs = _flatten_pipeline(pipeline);

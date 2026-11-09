@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
 #include "executor.h"
 #include "libft.h"
 #include <stdlib.h>
@@ -40,6 +41,19 @@ static char	*find_binary_in_path(char *buf)
 		c_path++;
 	}
 	return (free_split(path), (void *)0);
+}
+
+int (*get_builtin(char *buf))(char **, int, char **)
+{
+	if (!ft_strcmp(buf, "echo"))
+		return (builtin_echo);
+	if (!ft_strcmp(buf, "cd"))
+		return (builtin_cd);
+	if (!ft_strcmp(buf, "exit"))
+		return (builtin_exit);
+	if (!ft_strcmp(buf, "which"))
+		return (builtin_which);
+	return (0);
 }
 
 char	*find_binary(char *buf)
