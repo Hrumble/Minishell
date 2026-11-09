@@ -102,13 +102,6 @@ static int	pipe_and_execute(t_ast **programs, pid_t *processes, char **env)
 	return (i);
 }
 
-// fd is 5 instead of 2, but hear me out
-// say fd is [a, b, c, d, e]
-// a: fd[0]
-// b: fd[1]
-// c: io[0]
-// d: io[1]
-// e: prev_in
 int	execute_pipeline(t_ast	*pipeline, char **env)
 {
 	t_ast	**programs;

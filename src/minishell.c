@@ -37,7 +37,6 @@ static void	cleanup(t_ast **ast, char **env, char **buf)
 {
 	free_ast(ast);
 	free_split(env);
-	free_vtable();
 	free(*buf);
 	*buf = 0;
 }
@@ -68,5 +67,6 @@ int	minishell(char **env)
 		}
 		cleanup(&ast, varenv, &buf);
 	}
+	free_vtable();
 	return (1);
 }
