@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:44:34 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:59:10 by user             ###   ########.fr       */
+/*   Updated: 2026/11/10 10:02:32 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,6 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 	int		ps_redir_out;
 	t_ast	*prgrm;
 
-	prgrm = parse_definition(pattr, lattr);
-	if (prgrm)
-		return (prgrm);
 	prgrm = new_astprgrm();
 	if (!prgrm)
 		return (0);

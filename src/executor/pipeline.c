@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 15:27:45 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 19:56:57 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 10:05:39 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,6 @@ int	execute_pipeline(t_ast	*pipeline, char **env)
 	int		n_proc;
 	pid_t	processes[MAX_PROCESSES];
 
-	if (pipeline->type == AST_DEF)
-		return (declare_variable(pipeline->s_def.key, pipeline->s_def.value, 0));
 	if (pipeline->type == AST_PRGRM)
 		if (exec_builtin(pipeline, env,
 					(int[2]){STDIN_FILENO, STDOUT_FILENO}))
@@ -124,4 +122,3 @@ int	execute_pipeline(t_ast	*pipeline, char **env)
 	await_processes(processes, n_proc);
 	return (free(programs), 1);
 }
-

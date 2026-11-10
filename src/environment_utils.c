@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:19:42 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 19:11:20 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 10:05:13 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,23 @@ t_variable	*new_variable(char *key, char *val, int is_exported)
 char	*tostr__variable(t_variable *var)
 {
 	size_t	total_size;
+	size_t	vallen;
 	char	*str;
 
 	if (!var)
 		return (0);
-	total_size = ft_strlen(var->key) + ft_strlen(var->value) + 1;
+	vallen = 0;
+	if (var->value)
+		vallen = ft_strlen(var->value);
+	total_size = ft_strlen(var->key) + vallen + 1;
 	str = malloc((total_size + 1) * sizeof(char));
 	if (!str)
 		return (0);
 	ft_strlcpy(str, var->key, total_size + 1);
 	str[ft_strlen(var->key)] = '=';
 	str[ft_strlen(var->key) + 1] = 0;
-	ft_strlcat(str, var->value, total_size + 1);
+	if (vallen)
+		ft_strlcat(str, var->value, total_size + 1);
 	return (str);
 }
 

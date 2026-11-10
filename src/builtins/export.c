@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:12:53 by user              #+#    #+#             */
-/*   Updated: 2026/11/09 19:13:12 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 10:33:11 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,46 +16,41 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static int	_split_len(char **split)
+static int	_declare_or_free(char *key, char *val)
 {
-	int	i;
-
-	if (!split || !*split)
-		return (0);
-	i = 0;
-	while (*split)
-	{
-		i++;
-		split++;
-	}
-	return (i);
+	if (!declare_variable(key, val, 1))
+		return (free(key), free(val), 0);
+	return (1);
 }
 
 static int	_parse_var(char *buf)
 {
-	char	**split;
+	int		len[2];
+	char	*key;
 
-	split = ft_split(buf, '=');
-	if (_split_len(split) != 2)
-		return (-1);
-	if (!declare_variable(split[0], split[1], 1))
-		return (-2);
-	free(split);
-	return (1);
+	if (!buf || *buf == '=')
+		return (0);
+	len[0] = len[1] = 0;
+	while (buf[len[0]] && buf[len[0]] != '=')
+		len[0]++;
+	key = ft_substr(buf, 0, len[0]);
+	if (!buf[len[0]])
+		return _declare_or_free(key, NULL);
+	if (!buf[len[0] + 1])
+		return _declare_or_free(key, ft_strdup(""));
+	while (buf[len[0] + 1 + len[1]])
+		len[1]++;
+	return (_declare_or_free(key, ft_substr(buf, len[0] + 1, len[1])));
 }
 
 int	builtin_export(char **av, int ac, char **env)
 {
-	int	out;
 	(void)env;
 	if (ac < 2)
 		return (ft_printf("export: missing variable\n"), 1);
 	if (ac > 2)
 		return (ft_printf("export: too many args\n"), 1);
-	out = _parse_var(av[1]);
-	if (out == -1)
-		return (ft_printf("export: Incorrect variable format\n"), 1);
-	if (out == -2)
-		return (ft_printf("export: Failed to declare var\n"), 1);
+	if (!_parse_var(av[1]))
+		return (ft_printf("Failed to define variable\n"), 1);
 	return (0);
 }
