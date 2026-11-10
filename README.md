@@ -28,3 +28,10 @@
 
 # Issues
 - Half the freeing doesn't work.
+
+# TODO
+- [ ] Heredocs, handle normal delimiter
+- [ ] Heredocs, unquoted delim -> expand $VAR in body (e.g. << EOF)
+- [ ] Heredocs, quoted delim -> do **not** $VAR in body (e.g. << "EOF")
+- [ ] Heredocs, handle multiple (e.g. cat << A << B)
+- [ ] Heredocs, handle pipeline (e.g. grep hello << A | grep lo)
