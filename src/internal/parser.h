@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:49:31 by user             ###   ########.fr       */
+/*   Updated: 2026/11/10 11:22:51 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int				peek(t_parserattr *pattr, t_tokentype type);
 t_ast			*parse_ast(char	*buf);
 // Parses a redirection
 int				parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
+					t_ast *prgrm);
+// parses a word
+int				parse_word(t_parserattr *pattr, t_lexerattr *lattr,
 					t_ast *prgrm);
 // Calls function `f` on every ast node in the list
 // ast_map expects a function that returns an int, 0 on failure and

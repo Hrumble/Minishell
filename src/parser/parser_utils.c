@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 22:05:16 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:31:49 by user             ###   ########.fr       */
+/*   Updated: 2026/11/10 11:26:40 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,33 @@ int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,
 
 	prgrm_redir = prgrm->s_prgrm.redir;
 	prgrm_redir_size = &prgrm->s_prgrm.redir_size;
-	if (!peek(pattr, TK_REDIR))
-		return (0);
 	redir_tk = pattr->current;
 	if (!consume_token(pattr, lattr))
-		return (-1);
+		return (0);
 	if (!peek(pattr, TK_WRD))
-		return (-1);
+		return (0);
 	prgrm_redir[(*prgrm_redir_size)++] = new_redir(redir_tk->redir_type,
 			pattr->current->atom.ptr, pattr->current->atom.size);
-	if (prgrm_redir[*(prgrm_redir_size) - 1] != 0)
-		return (1);
-	return (-1);
+	if (!prgrm_redir[*(prgrm_redir_size) - 1])
+		return (0);
+	if (!consume_token(pattr, lattr))
+		return (0);
+	return (1);
+}
+
+int	parse_word(t_parserattr *pattr, t_lexerattr *lattr, t_ast *prgrm)
+{
+	char	*substr;
+
+	substr = ft_substr(pattr->current->atom.ptr, 0,
+			pattr->current->atom.size);
+	if (!substr)
+		return (0);
+	prgrm->s_prgrm.argv[prgrm->s_prgrm.ac] = substr;
+	prgrm->s_prgrm.ac++;
+	if (!consume_token(pattr, lattr))
+		return (0);
+	return (1);
 }
 
 int	prgrm_redircpy(t_prgrmredir **dest, t_prgrmredir **src, int redir_size)
