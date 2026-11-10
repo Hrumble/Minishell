@@ -6,12 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 10:36:22 by user             ###   ########.fr       */
+/*   Updated: 2026/11/10 10:41:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include <stdlib.h>
 #include "lexer.h"
 
 static t_token	*get_single_char_token(t_lexerattr *attr)

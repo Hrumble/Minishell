@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 19:25:30 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 10:41:28 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 typedef enum e_tokentype
 {
 	TK_WRD,
-	TK_DEF,
 	TK_QUOTES,
 	TK_BKQUOTES,
 	TK_BKSLASH,
@@ -66,7 +65,6 @@ typedef struct s_token
 	t_tokentype	type;
 	union
 	{
-		t_defatom	defvar;
 		t_atom		atom;
 		t_redirtype	redir_type;
 	};

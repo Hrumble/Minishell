@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:44:34 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 10:36:05 by user             ###   ########.fr       */
+/*   Updated: 2026/11/10 10:48:36 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 #include "parser.h"
 #include <stdlib.h>
 
-inline static t_ast	*parse_definition(t_parserattr *pattr, t_lexerattr *lattr)
-{
-	t_ast	*new;
-
-	if (peek(pattr, TK_DEF))
-	{
-		new = new_astdef(&pattr->current->defvar);
-		consume_token(pattr, lattr);
-		return (new);
-	}
-	return (0);
-}
+// inline static t_ast	*parse_definition(t_parserattr *pattr, t_lexerattr *lattr)
+// {
+// 	t_ast	*new;
+//
+// 	if (peek(pattr, TK_DEF))
+// 	{
+// 		new = new_astdef(&pattr->current->defvar);
+// 		consume_token(pattr, lattr);
+// 		return (new);
+// 	}
+// 	return (0);
+// }
 
 static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 {
