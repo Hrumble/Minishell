@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:47:57 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:17:13 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 22:23:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,12 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-char	*find_matching_char(char *quote_pos)
+int	expand_assign_character(t_bufexpand *ex, char c, size_t i)
 {
-	char	*sk;
-
-	sk = quote_pos + 1;
-	while (*sk && *sk != *quote_pos)
-		sk++;
-	if (!*sk)
+	if (!resize_expansion(ex, 1, i))
 		return (0);
-	return (sk);
+	ex->expanded[i] = c;
+	return (1);
 }
 
 int	resize_expansion(t_bufexpand *ex, size_t env_size, size_t i)
@@ -64,7 +60,7 @@ int	setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf)
 	if (!buf)
 		return (0);
 	ex->exsize = ft_strlen(buf);
-	ex->in_squotes = 0;
+	ex->flags = 0;
 	ex->buf = buf;
 	ex->expanded = malloc(ex->exsize * sizeof(char));
 	*i = 0;
@@ -75,9 +71,14 @@ int	setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf)
 
 int	env_expansioncpy(t_bufexpand *ex, char *env, size_t *i)
 {
-	if (!resize_expansion(ex, ft_strlen(env), *i))
-		return (free(ex->expanded), 0);
-	ft_memcpy(&(ex->expanded[*i]), env, ft_strlen(env));
-	*i += ft_strlen(env);
+	size_t	env_len;
+
+	if (!env)
+		return (0);
+	env_len = ft_strlen(env);
+	if (!resize_expansion(ex, env_len, *i))
+		return (0);
+	ft_memcpy(&(ex->expanded[*i]), env, env_len);
+	*i += env_len;
 	return (1);
 }

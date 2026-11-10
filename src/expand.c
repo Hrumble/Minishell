@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 19:33:06 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 22:40:02 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,68 +16,81 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-int	expand_env(char **dest, char **buf)
+int	handle_env_expansion(t_bufexpand *ex, size_t *i)
 {
-	int		i;
+	int		j;
 	char	env_name[50];
 	char	*env;
+	int		ok;
 
-	if (!buf || !*buf || **buf != '$' || !ft_isalnum(*(*buf + 1)))
+	if (*ex->buf != '$' || !ft_isalnum(ex->buf[1]))
 		return (0);
-	(*buf)++;
-	i = 0;
-	while (ft_isalnum(**buf))
-		env_name[i++] = *(*buf)++;
-	env_name[i] = 0;
+	ex->buf++;
+	j = 0;
+	while (ft_isalnum(*ex->buf))
+		env_name[j++] = *ex->buf++;
+	env_name[j] = 0;
 	env = vtable_get(env_name);
 	if (env)
-		*dest = env;
+		ok = env_expansioncpy(ex, env, i);
 	else
-		*dest = ft_strdup("");
-	return (1);
+	{
+		env = ft_strdup("");
+		ok = env_expansioncpy(ex, env, i);
+	}
+	free(env);
+	return (ok);
 }
 
-static int	expand_quotes(t_bufexpand *ex)
+void	handle_quote_expansion(t_bufexpand *ex, size_t *i)
 {
-	char	*quote_end;
-
-	ex->in_squotes = 0;
-	if (*ex->buf != '"' && *ex->buf != '\'')
-		return (1);
-	if (*ex->buf == '\'')
-		ex->in_squotes = 1;
-	quote_end = find_matching_char(ex->buf);
-	if (!quote_end)
-		return (0);
-	*quote_end = 0;
-	(ex->buf)++;
-	return (1);
+	while (ft_isquotes(*ex->buf))
+	{
+		if (!get_bit(ex->flags, 0) && !get_bit(ex->flags, 1))
+		{
+			if (*ex->buf == '"')
+				set_bit(&ex->flags, 0);
+			if (*ex->buf == '\'')
+				set_bit(&ex->flags, 1);
+			ex->buf++;
+			continue ; 
+		}
+		if (get_bit(ex->flags, 0) && *ex->buf == '"')
+		{
+			clear_bit(&ex->flags, 0);
+			ex->buf++;
+			continue ;
+		}
+		if (get_bit(ex->flags, 1) && *ex->buf == '\'')
+		{
+			clear_bit(&ex->flags, 1);
+			ex->buf++;
+			continue ;
+		}
+		expand_assign_character(ex, *ex->buf++, (*i)++);
+	}
 }
 
 static char	*expand_buf(char *buf)
 {
-	char		*env;
 	t_bufexpand	ex;
 	size_t		i;
 
-	if (!setup_buf_expansion(&ex, &i, buf)
-		|| !expand_quotes(&ex))
+	// "hello""world"
+	if (!setup_buf_expansion(&ex, &i, buf))
 		return (0);
 	while (*ex.buf)
 	{
-		if (!ex.in_squotes && expand_env(&env, &ex.buf))
-		{
-			if (!env_expansioncpy(&ex, env, &i))
-				return (free(ex.expanded), (void *)0);
-			continue ;
-		}
-		if (!resize_expansion(&ex, 1, i))
-			return (free(ex.expanded), (void *)0);
-		ex.expanded[i++] = *ex.buf++;
+		if (ft_isquotes(*ex.buf))
+			handle_quote_expansion(&ex, &i);
+		if (*ex.buf == '$' && !get_bit(ex.flags, 1))
+			if (!handle_env_expansion(&ex, &i))
+				return (free(ex.expanded), NULL);
+		if (!*ex.buf)
+			break ;
+		expand_assign_character(&ex, *ex.buf++, i++);
 	}
-	if (!resize_expansion(&ex, 1, i))
-		return (free(ex.expanded), (void *)0);
-	ex.expanded[i] = 0;
+	expand_assign_character(&ex, 0, i);
 	return (ex.expanded);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 19:21:05 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 22:04:10 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_bufexpand
 	size_t	exsize;
 	char	*expanded;
 	char	*buf;
-	int		in_squotes;
+	int		flags;
 }	t_bufexpand;
 
 typedef struct s_variable
@@ -45,6 +45,9 @@ int			get_user_input(char *prompt, char *buf);
 // Finds the next char that matches the char under `quote_pos`
 // return (NULL) if it can't be found
 char		*find_matching_char(char *quote_pos);
+
+// Expansions
+
 // Expands the program arguments
 int			expand_argv(t_ast	**prgrm);
 // Expands all the redirections of a program
@@ -57,6 +60,8 @@ int			env_expansioncpy(t_bufexpand *ex, char *env, size_t *i);
 t_ast		*setup_expansion(t_ast **prgrm);
 // sets up buffer expansion
 int			setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf);
+// Assigns a character at pos i to the expansion buf
+int			expand_assign_character(t_bufexpand *ex, char c, size_t i);
 
 // Environment
 
@@ -86,5 +91,11 @@ t_list		**init_vtable(char **env);
 // Utils
 // Copies a string array
 char		**ft_strarrcpy(char **dest, char **arr, size_t size);
+// returns a specific bit from a bitfield
+int			get_bit(int field, int pos);
+// sets a specific bit to 1
+void		set_bit(int *field, int pos);
+// sets a specific bit to 0
+void		clear_bit(int *field, int pos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 11:29:07 by user             ###   ########.fr       */
+/*   Updated: 2026/11/10 21:14:03 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,46 +29,44 @@ static t_token	*get_single_char_token(t_lexerattr *attr)
 			return (attr->ptr++, new_token_redir(REDIR_APPENDOUT));
 		return (new_token_redir(REDIR_OUT));
 	}
-	if (*attr->ptr == '`')
-		return (new_token(TK_BKQUOTES, 0, 0));
-	if (*attr->ptr == '\\')
-		return (new_token(TK_BKSLASH, 0, 0));
 	return (0);
 }
 
-static int	handle_quotes(t_lexerattr *attr)
+static void	walk_quotes(t_lexerattr *lattr)
 {
-	if (*attr->ptr == '"' || *attr->ptr == '\'')
-	{
-		if (attr->flags & 1)
-		{
-			attr->flags ^= 1;
-			attr->ptr++;
-			return (1);
-		}
-		attr->flags |= 1;
-	}
-	return (0);
+	char	quote_char;
+
+	quote_char = *lattr->ptr++;
+	while (*lattr->ptr != quote_char && *lattr->ptr)
+		lattr->ptr++;
 }
 
-static t_token	*get_wrd_token(t_lexerattr *attr)
+// hello
+// "hello"
+// 'hello'
+// "hey it's me! 'test'"
+// "hello""test"
+// he'l'lo
+// test='cunt'
+// test='test'"hello"
+static t_token	*get_wrd_token(t_lexerattr *lattr)
 {
 	char	*wrd_start;
 
 	wrd_start = 0;
-	handle_quotes(attr);
-	while ((ft_iswrd(*attr->ptr) || attr->flags & 1) && *attr->ptr)
+	while (ft_iswrd(*lattr->ptr) || ft_isquotes(*lattr->ptr))
 	{
 		if (!wrd_start)
-			wrd_start = attr->ptr;
-		attr->ptr++;
-		if (handle_quotes(attr))
-			break ;
+			wrd_start = lattr->ptr;
+		if (ft_isquotes(*lattr->ptr))
+			walk_quotes(lattr);
+		if (!*lattr->ptr)
+			return (0);
+		lattr->ptr++;
 	}
-	if (!wrd_start)
-		return (0);
-	attr->ptr_index++;
-	return (new_token(TK_WRD, wrd_start, attr->ptr - wrd_start));
+	if (wrd_start)
+		return (new_token(TK_WRD, wrd_start, lattr->ptr - wrd_start));
+	return (0);
 }
 
 t_token	*next_token(t_lexerattr *attr)

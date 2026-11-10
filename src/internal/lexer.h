@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 10:41:28 by user             ###   ########.fr       */
+/*   Updated: 2026/11/10 21:05:29 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ typedef enum e_tokentype
 {
 	TK_WRD,
 	TK_QUOTES,
-	TK_BKQUOTES,
-	TK_BKSLASH,
 	TK_PIPE,
 	TK_REDIR,
 }	t_tokentype;
@@ -78,8 +76,11 @@ t_token		*new_token(t_tokentype type, char *ptr, size_t size);
 t_token		*new_token_redir(t_redirtype type);
 // Returns a new allocated lexer attribute
 t_lexerattr	*new_lexerattr(char *buf);
+
+// Utils
 int			ft_iswrd(int c);
 int			ft_isvar(int c);
+int			ft_isquotes(int c);
 
 // frees a token
 void		free_token(t_token **tk);

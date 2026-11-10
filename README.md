@@ -30,6 +30,7 @@
 - Half the freeing doesn't work.
 
 # TODO
+- [ ] Lexer, handle fix quote handling
 - [ ] Heredocs, handle normal delimiter
 - [ ] Heredocs, unquoted delim -> expand $VAR in body (e.g. << EOF)
 - [ ] Heredocs, quoted delim -> do **not** $VAR in body (e.g. << "EOF")
