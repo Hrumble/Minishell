@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 19:30:25 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/10 10:36:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,23 @@ static int	handle_quotes(t_lexerattr *attr)
 	return (0);
 }
 
-static t_token	*get_definition_token(char *key_start, t_lexerattr *attr)
-{
-	t_token	*tk;
-	char	*eq_start;
-
-	tk = malloc(sizeof(t_token));
-	if (!tk)
-		return (0);
-	tk->type = TK_DEF;
-	tk->defvar.key = (t_atom){key_start, attr->ptr - key_start};
-	eq_start = ++attr->ptr;
-	handle_quotes(attr);
-	while ((ft_iswrd(*attr->ptr) || attr->flags & 1) && *attr->ptr)
-		attr->ptr++;
-	tk->defvar.val = (t_atom){eq_start, attr->ptr - eq_start};
-	return (tk);
-}
+// static t_token	*get_definition_token(char *key_start, t_lexerattr *attr)
+// {
+// 	t_token	*tk;
+// 	char	*eq_start;
+//
+// 	tk = malloc(sizeof(t_token));
+// 	if (!tk)
+// 		return (0);
+// 	tk->type = TK_DEF;
+// 	tk->defvar.key = (t_atom){key_start, attr->ptr - key_start};
+// 	eq_start = ++attr->ptr;
+// 	handle_quotes(attr);
+// 	while ((ft_iswrd(*attr->ptr) || attr->flags & 1) && *attr->ptr)
+// 		attr->ptr++;
+// 	tk->defvar.val = (t_atom){eq_start, attr->ptr - eq_start};
+// 	return (tk);
+// }
 
 static t_token	*get_wrd_token(t_lexerattr *attr)
 {
@@ -80,9 +80,9 @@ static t_token	*get_wrd_token(t_lexerattr *attr)
 	{
 		if (!wrd_start)
 			wrd_start = attr->ptr;
-		if (*attr->ptr == '=' && ft_isvar(*(attr->ptr+1))
-				&& wrd_start && attr->ptr_index == 0)
-			return (get_definition_token(wrd_start, attr));
+		// if (*attr->ptr == '=' && ft_isvar(*(attr->ptr+1))
+		// 		&& wrd_start && attr->ptr_index == 0)
+		// 	return (get_definition_token(wrd_start, attr));
 		attr->ptr++;
 		if (handle_quotes(attr))
 			break ;
