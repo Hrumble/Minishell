@@ -12,10 +12,15 @@
 
 #include "libft.h"
 
+int	ft_isvar(int c)
+{
+	return (ft_isalnum(c) || c == '_' || c == '?');
+}
+
 int	ft_iswrd(int c)
 {
-	return (ft_isalnum(c) || c == '.' || c == '-' || c == '$'
-			|| c == '_' || c == '/' || c == '=');
+	return (ft_isvar(c) || c == '.' || c == '-' || c == '$'
+			|| c == '/' || c == '=');
 }
 
 int	ft_isquotes(int c)
@@ -23,7 +28,3 @@ int	ft_isquotes(int c)
 	return (c == '\'' || c == '"');
 }
 
-int	ft_isvar(int c)
-{
-	return (ft_isalnum(c) || c == '_');
-}

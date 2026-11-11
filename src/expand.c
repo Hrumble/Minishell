@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "internal.h"
+#include "lexer.h"
 #include "libft.h"
 #include "parser.h"
 #include <stddef.h>
@@ -23,11 +24,11 @@ int	handle_env_expansion(t_bufexpand *ex, size_t *i)
 	char	*env;
 	int		ok;
 
-	if (*ex->buf != '$' || !ft_isalnum(ex->buf[1]))
-		return (0);
+	if (!ft_isvar(ex->buf[1]))
+		return (expand_assign_character(ex, *ex->buf++, (*i)++));
 	ex->buf++;
 	j = 0;
-	while (ft_isalnum(*ex->buf))
+	while (ft_isvar(*ex->buf))
 		env_name[j++] = *ex->buf++;
 	env_name[j] = 0;
 	env = vtable_get(env_name);
@@ -42,33 +43,29 @@ int	handle_env_expansion(t_bufexpand *ex, size_t *i)
 	return (ok);
 }
 
-void	handle_quote_expansion(t_bufexpand *ex, size_t *i)
+int	handle_quote_expansion(t_bufexpand *ex, size_t *i)
 {
-	while (ft_isquotes(*ex->buf))
+	if (!get_bit(ex->flags, 0) && !get_bit(ex->flags, 1))
 	{
-		if (!get_bit(ex->flags, 0) && !get_bit(ex->flags, 1))
-		{
-			if (*ex->buf == '"')
-				set_bit(&ex->flags, 0);
-			if (*ex->buf == '\'')
-				set_bit(&ex->flags, 1);
-			ex->buf++;
-			continue ; 
-		}
-		if (get_bit(ex->flags, 0) && *ex->buf == '"')
-		{
-			clear_bit(&ex->flags, 0);
-			ex->buf++;
-			continue ;
-		}
-		if (get_bit(ex->flags, 1) && *ex->buf == '\'')
-		{
-			clear_bit(&ex->flags, 1);
-			ex->buf++;
-			continue ;
-		}
-		expand_assign_character(ex, *ex->buf++, (*i)++);
+		if (*ex->buf == '"')
+			set_bit(&ex->flags, 0);
+		if (*ex->buf == '\'')
+			set_bit(&ex->flags, 1);
+		ex->buf++;
 	}
+	else if (get_bit(ex->flags, 0) && *ex->buf == '"')
+	{
+		clear_bit(&ex->flags, 0);
+		ex->buf++;
+	}
+	else if (get_bit(ex->flags, 1) && *ex->buf == '\'')
+	{
+		clear_bit(&ex->flags, 1);
+		ex->buf++;
+	}
+	else
+		return (expand_assign_character(ex, *ex->buf++, (*i)++));
+	return (1);
 }
 
 static char	*expand_buf(char *buf)
@@ -76,21 +73,23 @@ static char	*expand_buf(char *buf)
 	t_bufexpand	ex;
 	size_t		i;
 
-	// "hello""world"
 	if (!setup_buf_expansion(&ex, &i, buf))
 		return (0);
 	while (*ex.buf)
 	{
-		if (ft_isquotes(*ex.buf))
-			handle_quote_expansion(&ex, &i);
-		if (*ex.buf == '$' && !get_bit(ex.flags, 1))
+		while (ft_isquotes(*ex.buf))
+			if (!handle_quote_expansion(&ex, &i))
+				return (free(ex.expanded), NULL);
+		while (*ex.buf == '$' && !get_bit(ex.flags, 1))
 			if (!handle_env_expansion(&ex, &i))
 				return (free(ex.expanded), NULL);
 		if (!*ex.buf)
 			break ;
-		expand_assign_character(&ex, *ex.buf++, i++);
+		if (!expand_assign_character(&ex, *ex.buf++, i++))
+			return (free(ex.expanded), NULL);
 	}
-	expand_assign_character(&ex, 0, i);
+	if (!expand_assign_character(&ex, 0, i))
+		return (free(ex.expanded), NULL);
 	return (ex.expanded);
 }
 

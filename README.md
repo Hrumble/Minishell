@@ -20,17 +20,19 @@
 - `exit`: OK
 - `which`: OK
 - `cd`: OK
+- `export`: OK
+- `env`: OK
 
 - `pwd`: NONE (external)
-- `export`: NONE
 - `unset`: NONE
-- `env`: NONE
 
 # Issues
 - Half the freeing doesn't work.
 
 # TODO
-- [ ] Lexer, handle fix quote handling
+- [x] Lexer, handle fix: quote handling
+- [x] Expansions, fix: quote handling
+- [ ] which command, fix: prints directory if directory is passed as param
 - [ ] Heredocs, handle normal delimiter
 - [ ] Heredocs, unquoted delim -> expand $VAR in body (e.g. << EOF)
 - [ ] Heredocs, quoted delim -> do **not** $VAR in body (e.g. << "EOF")
