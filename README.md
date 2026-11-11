@@ -32,6 +32,10 @@
 # TODO
 - [x] Lexer, handle fix: quote handling
 - [x] Expansions, fix: quote handling
+- [ ] Lexer, fix: does not error on invalid characters, just returns (0) which stands for eof
+- [ ] History, save command history
+- [ ] History, cycle through command history
+- [ ] History, free history
 - [ ] which command, fix: prints directory if directory is passed as param
 - [ ] Heredocs, handle normal delimiter
 - [ ] Heredocs, unquoted delim -> expand $VAR in body (e.g. << EOF)
