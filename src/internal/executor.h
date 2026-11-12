@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:02:26 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 18:03:45 by user             ###   ########.fr       */
+/*   Updated: 2026/11/12 09:39:05 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,14 @@
 #include <sys/types.h>
 # define PATH_SIZE 100
 # define MAX_PROCESSES 100
+# define HEREDOC_FILE_PATH "/tmp/mshell_heredoc"
 
 #include "parser.h"
 
-typedef struct s_currentredirs
+typedef struct s_defaultredir
 {
-	int	in;
-	int	out;
-	int	kbfd;
-	int	termfd;
-}	t_currentredirs;
+	int	default_io[2];
+}	t_defaultredir;
 
 // Executes an ast, returns the pid of the fork on success
 // 0 on failure
@@ -41,12 +39,16 @@ int		run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 // Redirections
 
 // sets up the read and write entries specified by a redir.
-int		pipe_redirection(t_prgrmredir *redir);
+int		pipe_redirection(t_prgrmredir *redir, t_defaultredir *credirs);
+// Handles the heredocs redir
+int		handle_heredocs_redir(char *delim, t_defaultredir *credirs);
 // sets up the redirections for a program.
 // if builtin is set to 1, kbfd and termfd will also be set within the struct
-int		setup_prgrm_redirections(t_ast *ast, t_currentredirs *credirs, int builtin);
-// Restores the default 0 and 1 streams.
-int		restore_inout(t_currentredirs *credirs);
+int		setup_prgrm_redirections(t_ast *ast, t_defaultredir *credirs);
+// Restores the default 0 and 1 streams from the credirs struct
+int		restore_default_streams(t_defaultredir *credirs);
+// Saves the current 0 and 1 streams into the current redirs struct
+int		save_default_streams(t_defaultredir *credirs);
 // Pipes the specified file descriptor to the file specified on path
 // returns the fd of the newly openened file.
 // The mode is used to specify the mode in which to open the file.

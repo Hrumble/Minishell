@@ -6,12 +6,11 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 15:27:45 by user              #+#    #+#             */
-/*   Updated: 2026/11/10 10:05:39 by user             ###   ########.fr       */
+/*   Updated: 2026/11/12 08:59:15 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
-#include "internal.h"
 #include "parser.h"
 #include <stdlib.h>
 #include <sys/types.h>

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 22:04:10 by user             ###   ########.fr       */
+/*   Updated: 2026/11/12 09:58:58 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,7 @@ int			get_bit(int field, int pos);
 void		set_bit(int *field, int pos);
 // sets a specific bit to 0
 void		clear_bit(int *field, int pos);
+// Checks access to a file with at least `mode`
+int			file_access(char *path, int mode);
 
 #endif

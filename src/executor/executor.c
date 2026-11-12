@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 19:59:30 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/12 10:11:43 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ static int	_exec_ast(t_ast *ast, char **env)
 
 static void	_child_process(t_ast *ast, char **env, int fd[2])
 {
-	t_currentredirs	credirs;
+	t_defaultredir	credirs;
 
+	save_default_streams(&credirs);
 	if (exec_builtin(ast, env, fd))
 		exit(0);
-	if (!setup_pipeline_redirections(fd)
-		|| !setup_prgrm_redirections(ast, &credirs, 0))
+	if (!setup_prgrm_redirections(ast, &credirs)
+		|| !setup_pipeline_redirections(fd))
 	{
 		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		free_ast(&ast);

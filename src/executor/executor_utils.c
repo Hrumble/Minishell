@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:09:06 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 10:01:42 by user             ###   ########.fr       */
+/*   Updated: 2026/11/12 10:15:50 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,30 @@ void	free_split(char **split)
 	free(split);
 }
 
-int	restore_inout(t_currentredirs *credirs)
+int	restore_default_streams(t_defaultredir *credirs)
 {
-	if (credirs->kbfd < 0 || credirs->termfd < 0)
+	if (credirs->default_io[0] < 0 || credirs->default_io[1] < 0)
 		return (0);
-	if (dup2(credirs->kbfd, 0) < 0)
-		return (close(credirs->kbfd), 0);
-	if (dup2(credirs->termfd, 1) < 0)
-		return (close(credirs->termfd), 0);
-	close(credirs->kbfd);
-	close(credirs->termfd);
+	if (dup2(credirs->default_io[0], 0) < 0)
+		return (close(credirs->default_io[0]), 0);
+	if (dup2(credirs->default_io[0], 1) < 0)
+		return (close(credirs->default_io[1]), 0);
+	close(credirs->default_io[0]);
+	close(credirs->default_io[1]);
+	return (1);
+}
+
+int	save_default_streams(t_defaultredir *credirs)
+{
+	credirs->default_io[0] = dup(STDIN_FILENO);
+	if (credirs->default_io[0] < 0)
+		return (0);
+	credirs->default_io[1] = dup(STDOUT_FILENO);
+	if (credirs->default_io[1] < 0)
+	{
+		dup2(credirs->default_io[0], STDIN_FILENO);
+		return (close(credirs->default_io[0]), 0);
+	}
 	return (1);
 }
 
@@ -61,16 +75,16 @@ void	await_processes(pid_t *processes, int size)
 int	run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 		char **env, int fd[2])
 {
-	t_currentredirs	credirs;
+	t_defaultredir	credirs;
 
 	if (!setup_pipeline_redirections(fd)
-		|| !setup_prgrm_redirections(prgrm, &credirs, 1))
+		|| !setup_prgrm_redirections(prgrm, &credirs))
 	{
 		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		return (1);
 	}
 	builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
-	if (!restore_inout(&credirs))
+	if (!restore_default_streams(&credirs))
 		ft_putstr("\033[31mFailed to restore standard streams!\033[0m\n");
 	return (1);
 }
