@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:02:26 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/12 09:39:05 by user             ###   ########.fr       */
+/*   Updated: 2026/11/12 10:35:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 // Redirections
 
 // sets up the read and write entries specified by a redir.
-int		pipe_redirection(t_prgrmredir *redir, t_defaultredir *credirs);
+int		set_redirection_stream(t_prgrmredir *redir, t_defaultredir *credirs);
 // Handles the heredocs redir
 int		handle_heredocs_redir(char *delim, t_defaultredir *credirs);
 // sets up the redirections for a program.

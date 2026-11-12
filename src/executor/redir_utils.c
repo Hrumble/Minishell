@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:54:13 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/12 09:49:56 by user             ###   ########.fr       */
+/*   Updated: 2026/11/12 10:35:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int	pipe_redirection(t_prgrmredir *redir, t_defaultredir *credirs)
+int	set_redirection_stream(t_prgrmredir *redir, t_defaultredir *credirs)
 {
 	if (redir->type == REDIR_IN)
 		return (pipe_fd_to_file(STDIN_FILENO,
@@ -41,7 +41,7 @@ int	setup_prgrm_redirections(t_ast *ast, t_defaultredir *credirs)
 		return (0);
 	rsize = 0;
 	while (rsize < ast->s_prgrm.redir_size)
-		if (!pipe_redirection(ast->s_prgrm.redir[rsize++], credirs))
+		if (!set_redirection_stream(ast->s_prgrm.redir[rsize++], credirs))
 			return (restore_default_streams(credirs), 0);
 	return (1);
 }

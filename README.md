@@ -33,6 +33,8 @@
 - [x] Lexer, handle fix: quote handling
 - [x] Expansions, fix: quote handling
 - [ ] Lexer, fix: does not error on invalid characters, just returns (0) which stands for eof
+- [ ] Redirections, fix: redirections must not happen on the fork, they must happen before executing and after parsing
+- [ ] Redirections, fix: pretty sure none of the file descriptors are closed after redir
 - [ ] History, save command history
 - [ ] History, cycle through command history
 - [ ] History, free history
@@ -42,3 +44,4 @@
 - [ ] Heredocs, quoted delim -> do **not** $VAR in body (e.g. << "EOF")
 - [ ] Heredocs, handle multiple (e.g. cat << A << B)
 - [ ] Heredocs, handle pipeline (e.g. grep hello << A | grep lo)
+- [ ] Heredocs, handle pipeline chained heredocs (e.g. cat << EOF | grep << EOF) in that case, grep disregards the output of cat, and takes << as stdin only

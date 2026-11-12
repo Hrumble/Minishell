@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:09:06 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/12 10:15:50 by user             ###   ########.fr       */
+/*   Updated: 2026/11/12 10:35:05 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ int	restore_default_streams(t_defaultredir *credirs)
 	if (dup2(credirs->default_io[0], 1) < 0)
 		return (close(credirs->default_io[1]), 0);
 	close(credirs->default_io[0]);
+	credirs->default_io[0] = -1;
 	close(credirs->default_io[1]);
+	credirs->default_io[1] = -1;
 	return (1);
 }
 
@@ -77,14 +79,11 @@ int	run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 {
 	t_defaultredir	credirs;
 
-	if (!setup_pipeline_redirections(fd)
-		|| !setup_prgrm_redirections(prgrm, &credirs))
-	{
-		ft_putstr("\033[31mRedirection failed\033[0m\n");
-		return (1);
-	}
+	if (!setup_prgrm_redirections(prgrm, &credirs)
+		|| !setup_pipeline_redirections(fd))
+		return (ft_putstr("\033[31mRedirection failed\033[0m\n"), 0);
 	builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
-	if (!restore_default_streams(&credirs))
+if (!restore_default_streams(&credirs))
 		ft_putstr("\033[31mFailed to restore standard streams!\033[0m\n");
 	return (1);
 }
