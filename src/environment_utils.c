@@ -6,11 +6,10 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 11:19:42 by user              #+#    #+#             */
-/*   Updated: 2026/11/10 10:05:13 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 13:09:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "executor.h"
 #include "internal.h"
 #include "libft.h"
 #include <stddef.h>
@@ -18,18 +17,22 @@
 
 t_list	**init_vtable(char **env)
 {
-	char	**split;
+	char	*vstart;
+	char	*key;
 	t_list	**vtable;
 
 	vtable = get_vtable();
 	while (*env)
 	{
-		split = ft_split(*env, '=');
-		if (!split)
-			return (0);
-		if (!declare_variable(split[0], split[1], 1))
-			return (free_split(split), (void*)0);
-		free(split);
+		vstart = ft_strchr(*env, '=');
+		if (!vstart)
+			return (NULL);
+		key = ft_substr(*env, 0, vstart - *env);
+		if (!key)
+			return (NULL);
+		vstart++;
+		if (!declare_variable(key, ft_strdup(vstart), 1))
+			return (free(key), NULL);
 		env++;
 	}
 	return (vtable);
