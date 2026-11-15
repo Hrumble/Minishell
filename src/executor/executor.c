@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/12 10:11:43 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 12:53:27 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <sys/wait.h>
 
 
+// calls execve with the argv and argc of the provided ast program
 static int	_exec_ast(t_ast *ast, char **env)
 {
 	char	*binary;
@@ -37,15 +38,16 @@ static int	_exec_ast(t_ast *ast, char **env)
 	return (execve(binary, ast->s_prgrm.argv, env));
 }
 
-static void	_child_process(t_ast *ast, char **env, int fd[2])
+// The code that gets executed by a forked child
+static void	_child_process(t_ast *ast, char **env, int io[2])
 {
 	t_defaultredir	credirs;
 
 	save_default_streams(&credirs);
-	if (exec_builtin(ast, env, fd))
+	if (exec_builtin(ast, env, io))
 		exit(0);
-	if (!setup_prgrm_redirections(ast, &credirs)
-		|| !setup_pipeline_redirections(fd))
+	if (!set_io_streams(io)
+		|| !setup_prgrm_redirections(ast, &credirs))
 	{
 		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		free_ast(&ast);
@@ -55,6 +57,8 @@ static void	_child_process(t_ast *ast, char **env, int fd[2])
 	exit(0);
 }
 
+// Executes the builtin function specified by argv[0] of `prgrm`
+// returns 0 if it does not manage to find a builtin, 1 otherwise
 int	exec_builtin(t_ast *prgrm, char **env, int fd[2])
 {
 	int	(*f)(char **, int, char **);

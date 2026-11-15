@@ -12,7 +12,7 @@ LDFLAGS = -L./lib/libft
 LDLIBS = -lft -lreadline
 
 OBJECTS = $(addprefix $(SRC_DIR), \
-		  main.o minishell.o terminal.o user_input.o expand.o expand_utils.o environment.o environment_utils.o bit_utils.o file_utils.c \
+		  main.o minishell.o terminal.o user_input.o expand.o expand_utils.o environment.o environment_utils.o bit_utils.o file_utils.o \
 		  ) $(addprefix $(SRC_DIR)builtins/, \
 		  echo.o exit.o cd.o which.o env.o export.o \
 		  ) $(addprefix $(SRC_DIR)lexer/, \
@@ -20,7 +20,7 @@ OBJECTS = $(addprefix $(SRC_DIR), \
 		  ) $(addprefix $(SRC_DIR)parser/, \
 		  parser.o parser_utils.o parser_attr.o parse_ast.o ast_nodes.o ast_free.o \
 		  ) $(addprefix $(SRC_DIR)executor/, \
-		  executor.o executor_utils.o binary.o redir_utils.o pipeline.o heredoc.c \
+		  executor.o executor_utils.o binary.o redir_utils.o pipeline.o heredoc.o pipeline_utils.o \
 		  )
 DEBUGOBJECTS = $(addprefix $(SRC_DIR).debug/, \
 		print_utils.o enum_utils.o \

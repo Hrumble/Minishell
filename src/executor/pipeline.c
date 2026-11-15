@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 15:27:45 by user              #+#    #+#             */
-/*   Updated: 2026/11/12 08:59:15 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 12:52:01 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,65 +17,57 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static int	_count_pipeline_programs(t_ast *pipeline)
+static void	_close_io(int io[2])
 {
-	if (pipeline->type == AST_BINARYOP)
+	if (io[0] != STDIN_FILENO)
+		close(io[0]);
+	if (io[1] != STDOUT_FILENO)
+		close(io[1]);
+}
+
+static int	_set_program_heredoc_io(t_ast *program, int io[2])
+{
+	int	file;
+	int	i;
+
+	i = 0;
+	while (i < program->s_prgrm.redir_size)
 	{
-		return (_count_pipeline_programs(pipeline->s_bop.left)
-		+ _count_pipeline_programs(pipeline->s_bop.right));
+		if (!write_heredoc_file(program->s_prgrm.redir[i]))
+			return (0);
+		if (io[0] != STDIN_FILENO)
+			close(io[0]);
+		file = open_heredoc_file();
+		if (!file)
+			return (0);
+		io[0] = file;
+		i++;
 	}
 	return (1);
 }
 
-// Flattens the pipeline, returns a null terminated array of each
-// program to be ran in order.
-// When freeing, do not free the ast nodes, they are references from the actual
-// AST
-static t_ast	**_flatten_pipeline(t_ast *pipeline)
+static int	_set_program_io(t_ast **programs, int io[2], int *prev)
 {
-	t_ast	**programs;
-	t_ast	*current;
-	int		i;
-	int		size;
+	int	pipe_io[2];
 
-	size = _count_pipeline_programs(pipeline);
-	programs = malloc((size + 1) * sizeof(t_ast *));
-	if (!programs)
-		return (0);
-	programs[size] = 0;
-	i = size - 1;
-	current = pipeline;
-	while (current->type == AST_BINARYOP)
+	io[0] = *prev;
+	io[1] = STDOUT_FILENO;
+	if ((*programs)->s_prgrm.redir_size > 0)
+		if (!_set_program_heredoc_io(*programs, io))
+			return (0);
+	if (programs[1])
 	{
-		programs[i--] = current->s_bop.right;
-		current = current->s_bop.left;
+		if (pipe(pipe_io) < 0)
+			return (0);
+		io[1] = pipe_io[1];
 	}
-	programs[i] = current;
-	return (programs);
-}
-
-int	setup_pipeline_redirections(int fd[2])
-{
-	if (fd[0] != STDIN_FILENO)
-	{
-		if (dup2(fd[0], 0) < 0)
-			return (close(fd[0]), close(fd[1]), 0);
-		close(fd[0]);
-	}
-	if (fd[1] != STDOUT_FILENO)
-	{
-		if (dup2(fd[1], 1) < 0)
-			return (close(fd[1]), 0);
-		close(fd[1]);
-	}
+	*prev = pipe_io[0];
 	return (1);
 }
 
-// returns the number of processes
-static int	pipe_and_execute(t_ast **programs, pid_t *processes, char **env)
+static int	_pipe_and_execute(t_ast **programs, pid_t *processes, char **env)
 {
 	int	io[2];
-	int	fd[2];
 	int	i;
 	int	prev;
 
@@ -83,20 +75,10 @@ static int	pipe_and_execute(t_ast **programs, pid_t *processes, char **env)
 	i = 0;
 	while (programs[i])
 	{
-		io[0] = prev;
-		io[1] = STDOUT_FILENO;
-		if (programs[i + 1])
-		{
-			if (pipe(fd) < 0)
-				return (0);
-			io[1] = fd[1];
-		}
+		if (!_set_program_io(programs + i, io, &prev))
+			return (_close_io(io), 0);
 		processes[i] = fork_and_exec(programs[i], env, io);
-		if (io[0] != STDIN_FILENO)
-			close(io[0]);
-		if (io[1] != STDOUT_FILENO)
-			close(io[1]);
-		prev = fd[0];
+		_close_io(io);
 		i++;
 	}
 	return (i);
@@ -112,10 +94,10 @@ int	execute_pipeline(t_ast	*pipeline, char **env)
 		if (exec_builtin(pipeline, env,
 					(int[2]){STDIN_FILENO, STDOUT_FILENO}))
 			return (1);
-	programs = _flatten_pipeline(pipeline);
+	programs = flatten_pipeline(pipeline);
 	if (!programs)
 		return (0);
-	n_proc = pipe_and_execute(programs, processes, env);
+	n_proc = _pipe_and_execute(programs, processes, env);
 	if (!n_proc)
 		return (free(programs), 0);
 	await_processes(processes, n_proc);

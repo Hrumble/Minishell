@@ -6,13 +6,15 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 08:58:19 by user              #+#    #+#             */
-/*   Updated: 2026/11/12 10:10:22 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 12:52:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
 #include "ft_printf.h"
+#include "lexer.h"
 #include "libft.h"
+#include "parser.h"
 #include <fcntl.h>
 #include <readline/readline.h>
 #include <unistd.h>
@@ -42,16 +44,26 @@ static int	read_until_delim(int fd, char *delim)
 	return (1);
 }
 
-int	handle_heredocs_redir(char *delim, t_defaultredir *credirs)
+int	open_heredoc_file()
 {
-	int		fd;
+	int	file;
 
-	fd = open(HEREDOC_FILE_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (fd < 0)
+	file = open(HEREDOC_FILE_PATH, O_RDONLY);
+	if (file < 0)
 		return (0);
-	restore_default_streams(credirs);
-	read_until_delim(fd, delim);
-	close(fd);
-	save_default_streams(credirs);
-	return (pipe_fd_to_file(STDIN_FILENO, HEREDOC_FILE_PATH, O_RDONLY));
+	return (file);
+}
+
+int	write_heredoc_file(t_prgrmredir *heredoc_redir)
+{
+	int	file;
+
+	if (!heredoc_redir || heredoc_redir->type != REDIR_HEREDOC)
+		return (0);
+	file = open(HEREDOC_FILE_PATH, O_RDWR | O_CREAT | O_TRUNC, 0644);
+	if (file < 0)
+		return (0);
+	read_until_delim(file, heredoc_redir->target);
+	close(file);
+	return (1);
 }
