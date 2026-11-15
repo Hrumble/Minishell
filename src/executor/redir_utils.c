@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:54:13 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 12:46:15 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:47:39 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	set_redirection_stream(t_prgrmredir *redir)
 	return (1);
 }
 
-int	setup_prgrm_redirections(t_ast *ast, t_defaultredir *credirs)
+int	setup_prgrm_redirections(t_ast *ast)
 {
 	int	rsize;
 
@@ -40,7 +40,7 @@ int	setup_prgrm_redirections(t_ast *ast, t_defaultredir *credirs)
 	rsize = 0;
 	while (rsize < ast->s_prgrm.redir_size)
 		if (!set_redirection_stream(ast->s_prgrm.redir[rsize++]))
-			return (restore_default_streams(credirs), 0);
+			return (0);
 	return (1);
 }
 

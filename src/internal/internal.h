@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/12 09:58:58 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:16:30 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ void		set_bit(int *field, int pos);
 void		clear_bit(int *field, int pos);
 // Checks access to a file with at least `mode`
 int			file_access(char *path, int mode);
+// frees a null terminated array
+void		free_arr(void **arr, void (*del)(void *));
 
 #endif

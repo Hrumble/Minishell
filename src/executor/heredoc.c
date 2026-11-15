@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/12 08:58:19 by user              #+#    #+#             */
-/*   Updated: 2026/11/15 12:52:49 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:46:19 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "parser.h"
 #include <fcntl.h>
 #include <readline/readline.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 static int	_is_delim(char *buf, char *delim)
@@ -39,6 +40,7 @@ static int	read_until_delim(int fd, char *delim)
 						delim), 1);
 		write(fd, buf, ft_strlen(buf));
 		write(fd, "\n", 1);
+		free(buf);
 		buf = readline("> ");
 	}
 	return (1);

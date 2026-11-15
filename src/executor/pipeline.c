@@ -6,11 +6,12 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 15:27:45 by user              #+#    #+#             */
-/*   Updated: 2026/11/15 12:52:01 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:42:50 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executor.h"
+#include "lexer.h"
 #include "parser.h"
 #include <stdlib.h>
 #include <sys/types.h>
@@ -33,6 +34,11 @@ static int	_set_program_heredoc_io(t_ast *program, int io[2])
 	i = 0;
 	while (i < program->s_prgrm.redir_size)
 	{
+		if (program->s_prgrm.redir[i]->type != REDIR_HEREDOC)
+		{
+			i++;
+			continue ;
+		}
 		if (!write_heredoc_file(program->s_prgrm.redir[i]))
 			return (0);
 		if (io[0] != STDIN_FILENO)

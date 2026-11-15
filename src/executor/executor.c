@@ -6,11 +6,12 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 12:53:27 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:48:30 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "internal.h"
 #include "parser.h"
 #include "executor.h"
 #include <stddef.h>
@@ -25,36 +26,33 @@ static int	_exec_ast(t_ast *ast, char **env)
 {
 	char	*binary;
 	
-	if (!ast || ast->type != AST_PRGRM)
-		return (0);
 	binary = find_binary(ast->s_prgrm.argv[0]);
 	if (!binary)
 	{
 		ft_printf("\033[31m%s: Command not found\n\033[0m", ast->s_prgrm.argv[0]);
-		free_ast(&ast);
-		exit(1);
+		return (0);
 	}
 	ast->s_prgrm.argv[ast->s_prgrm.ac] = 0;
 	return (execve(binary, ast->s_prgrm.argv, env));
 }
 
 // The code that gets executed by a forked child
-static void	_child_process(t_ast *ast, char **env, int io[2])
+static int	_child_process(t_ast *ast, char **env, int io[2])
 {
-	t_defaultredir	credirs;
-
-	save_default_streams(&credirs);
 	if (exec_builtin(ast, env, io))
+	{
+		free_ast(&ast);
+		free_split(env);
+		free_vtable();
 		exit(0);
+	}
 	if (!set_io_streams(io)
-		|| !setup_prgrm_redirections(ast, &credirs))
+		|| !setup_prgrm_redirections(ast))
 	{
 		ft_putstr("\033[31mRedirection failed\033[0m\n");
-		free_ast(&ast);
-		exit(1);
+		return (0);
 	}
-	_exec_ast(ast, env);
-	exit(0);
+	return (_exec_ast(ast, env));
 }
 
 // Executes the builtin function specified by argv[0] of `prgrm`
@@ -80,6 +78,12 @@ int	fork_and_exec(t_ast *ast, char **env, int fd[2])
 	if (f_out < 0)
 		return (0);
 	if (f_out == 0)
+	{
 		_child_process(ast, env, fd);
+		free_ast(&ast);
+		free_split(env);
+		free_vtable();
+		exit(1);
+	}
 	return (f_out);
 }

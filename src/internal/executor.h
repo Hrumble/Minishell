@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:02:26 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 12:51:07 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:47:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		write_heredoc_file(t_prgrmredir *heredoc_redir);
 int		open_heredoc_file();
 // sets up the redirections for a program.
 // if builtin is set to 1, kbfd and termfd will also be set within the struct
-int		setup_prgrm_redirections(t_ast *ast, t_defaultredir *credirs);
+int		setup_prgrm_redirections(t_ast *ast);
 // Restores the default 0 and 1 streams from the credirs struct
 int		restore_default_streams(t_defaultredir *credirs);
 // Saves the current 0 and 1 streams into the current redirs struct

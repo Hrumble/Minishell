@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 22:40:02 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:12:48 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ int	expand_argv(t_ast	**prgrm)
 	{
 		n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac] = expand_buf(av[i++]);
 		if (!n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac++])
-			return (free_prgrm(&n_prgrm), 0);
+			return (free_ast(&n_prgrm), 0);
 	}
-	free_prgrm(prgrm);
+	free_ast(prgrm);
 	*prgrm = n_prgrm;
 	return (1);
 }

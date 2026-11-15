@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:48:01 by user              #+#    #+#             */
-/*   Updated: 2026/11/08 18:50:48 by user             ###   ########.fr       */
+/*   Updated: 2026/11/15 17:07:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,12 @@ void	free_ast(t_ast **ast)
 {
 	if (!ast || !*ast)
 		return ;
-	if ((*ast)->type == AST_DEF)
-	{
-		free((*ast)->s_def.key);
-		free((*ast)->s_def.value);
-		free(*ast);
-		*ast = 0;
-		return ;
-	}
 	if ((*ast)->type == AST_BINARYOP)
 	{
 		free_prgrm(&(*ast)->s_bop.right);
 		free_ast(&(*ast)->s_bop.left);
+		free(*ast);
+		*ast = 0;
 		return ;
 	}
 	free_prgrm(ast);
@@ -57,8 +51,8 @@ void	free_prgrm(t_ast	**prgrm)
 	i = 0;
 	while (i < (*prgrm)->s_prgrm.redir_size)
 		free_redir(&(*prgrm)->s_prgrm.redir[i++]);
-	*prgrm = 0;
 	free((*prgrm));
+	*prgrm = 0;
 }
 
 void	free_pandlattr(t_parserattr **pattr, t_lexerattr **lattr)

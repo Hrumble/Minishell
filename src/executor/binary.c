@@ -6,37 +6,51 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:47:50 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 18:15:12 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/15 18:04:28 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtins.h"
 #include "executor.h"
+#include "internal.h"
 #include "libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 
-static char	*find_binary_in_path(char *buf)
+static int	_build_binary_path(char *cmd, char *path, char *bin)
+{
+	int	cpy_out;
+
+	cpy_out = ft_strlcpy(bin, path, PATH_SIZE); 
+	if (cpy_out > PATH_SIZE - 1)
+		return (0);
+	bin[cpy_out] = '/';
+	bin[cpy_out + 1] = '\0';
+	if (ft_strlcat(bin, cmd, PATH_SIZE) > PATH_SIZE)
+		return (0);
+	return (1);
+}
+
+static char	*_find_binary_in_path(char *buf)
 {
 	char	concat[PATH_SIZE];
 	char	**c_path;
+	char	*envpath;
 	char	**path;
-	int		cpy_out;
 
-	path = ft_split(getenv("PATH"), ':');
-	if (!path)
+	envpath = vtable_get("PATH");
+	if (!envpath)
 		return (0);
+	path = ft_split(envpath, ':');
+	if (!path)
+		return (free(envpath), NULL);
+	free(envpath);
 	c_path = path;
 	while (*c_path)
 	{
-		cpy_out = ft_strlcpy(concat, *c_path, PATH_SIZE); 
-		if (cpy_out > PATH_SIZE - 1)
-			return (free_split(path), (void *)0);
-		concat[cpy_out] = '/';
-		concat[cpy_out + 1] = '\0';
-		if (ft_strlcat(concat, buf, PATH_SIZE) > PATH_SIZE)
-			return (free_split(path), (void *)0);
-		if (!access(concat, X_OK | R_OK))
+		if (!_build_binary_path(buf, *c_path, concat))
+			return (free_split(path), NULL);
+		if (file_access(concat, X_OK | R_OK))
 			return (free_split(path), ft_strdup(concat));
 		c_path++;
 	}
@@ -69,5 +83,5 @@ char	*find_binary(char *buf)
 		else
 			return (buf);
 	}
-	return (find_binary_in_path(buf));
+	return (_find_binary_in_path(buf));
 }
