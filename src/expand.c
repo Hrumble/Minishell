@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 16:17:38 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 17:12:48 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 16:06:54 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	expand_argv(t_ast	**prgrm)
 		if (!n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac++])
 			return (free_ast(&n_prgrm), 0);
 	}
-	free_ast(prgrm);
+	free_prgrm(prgrm);
 	*prgrm = n_prgrm;
 	return (1);
 }

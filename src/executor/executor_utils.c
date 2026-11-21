@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:09:06 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 17:48:06 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 15:52:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	save_default_streams(t_defaultredir *credirs)
 
 void	await_processes(pid_t *processes, int size)
 {
-	int	i;
+	int			i;
+	extern int	g_exit_status;
 	
 	if (size >= MAX_PROCESSES)
 		return ;
@@ -69,7 +70,13 @@ void	await_processes(pid_t *processes, int size)
 	while (i < size)
 	{
 		if (processes[i] != 1)
-			waitpid(processes[i], NULL, 0);
+		{
+			waitpid(processes[i], &g_exit_status, 0);
+			if (WIFEXITED(g_exit_status))
+				g_exit_status = WEXITSTATUS(g_exit_status);
+			else if (WIFSIGNALED(g_exit_status))
+				g_exit_status = 128 + WTERMSIG(g_exit_status);
+		}
 		i++;
 	}
 }
@@ -78,6 +85,7 @@ int	run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 		char **env, int fd[2])
 {
 	t_defaultredir	credirs;
+	extern int		g_exit_status;
 
 	save_default_streams(&credirs);
 	if (!set_io_streams(fd)
@@ -86,7 +94,7 @@ int	run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 		restore_default_streams(&credirs);
 		return (ft_putstr("\033[31mRedirection failed\033[0m\n"), 0);
 	}
-	builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
+	g_exit_status = builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
 	if (!restore_default_streams(&credirs))
 			ft_putstr("\033[31mFailed to restore standard streams!\033[0m\n");
 	return (1);

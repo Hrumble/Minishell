@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 11:22:51 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 16:05:27 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ t_ast			*new_astdef(t_defatom *datom);
 
 // Freeing
 void			free_redir(t_prgrmredir **redir);
-void			free_prgrm(t_ast	**prgrm);
-void			free_ast(t_ast	**ast);
+void			free_prgrm(t_ast **prgrm);
+void			free_ast(t_ast **ast);
 void			free_pandlattr(t_parserattr **pattr, t_lexerattr **lattr);
 
 // Utils

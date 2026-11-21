@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 17:53:17 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/08 19:12:17 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 15:53:38 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	builtin_cd(char **av, int ac, char **env)
 		ft_printf("cd: wayyyy too many arguments\n");
 		return (1);
 	}
-	_set_dir(av[1]);
-	return (0);
+	return (_set_dir(av[1]));
 }
 

@@ -30,7 +30,7 @@ int	resize_expansion(t_bufexpand *ex, size_t env_size, size_t i)
 
 	while (env_size > (ex->exsize - i))
 	{
-		new = ft_realloc(ex->expanded, ex->exsize);
+		new = ft_realloc(ex->expanded, ex->exsize * 2, ex->exsize);
 		if (!new)
 			return (0);
 		ex->exsize = ex->exsize * 2;

@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:48:01 by user              #+#    #+#             */
-/*   Updated: 2026/11/15 17:07:24 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 16:04:32 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_prgrm(t_ast	**prgrm)
 	i = 0;
 	while (i < (*prgrm)->s_prgrm.redir_size)
 		free_redir(&(*prgrm)->s_prgrm.redir[i++]);
-	free((*prgrm));
+	free(*prgrm);
 	*prgrm = 0;
 }
 

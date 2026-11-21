@@ -22,7 +22,8 @@ static t_arena	*_arena_realloc(t_arena **a)
 
 	if (!a || !*a)
 		return (NULL);
-	new = ft_realloc(*a, sizeof(t_arena) + ((*a)->capacity * 2));
+	new = ft_realloc(*a, sizeof(t_arena) + ((*a)->capacity * 2),
+			sizeof(t_arena) + ((*a)->capacity));
 	if (!new)
 		return (NULL);
 	new->capacity = new->capacity * 2;

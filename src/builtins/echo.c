@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 14:41:45 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/06 17:18:38 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/21 15:56:35 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,13 @@ int	builtin_echo(char **av, int ac, char **env)
 		i++;
 	}
 	while (i < ac)
-		ft_printf("%s ", av[i++]);
+	{
+		if (i != ac - 1)
+			ft_printf("%s ", av[i++]);
+		else
+			ft_printf("%s", av[i++]);
+	}
 	if (!n_flag)
 		ft_putchar('\n');
-	return (1);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:47:48 by user              #+#    #+#             */
-/*   Updated: 2026/11/10 10:03:16 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 15:46:25 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,12 @@ char	**get_env()
 char	*vtable_get(char *buf)
 {
 	t_list	*vtable;
+	extern int	g_exit_status;
 
 	if (!buf)
 		return (0);
+	if (!ft_strcmp(buf, "?"))
+		return (ft_itoa(g_exit_status));
 	vtable = *get_vtable();
 	while (vtable)
 	{
