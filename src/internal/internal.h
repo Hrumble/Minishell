@@ -75,8 +75,8 @@ void		free_vtable();
 // returns 0 on failure
 int			declare_variable(char *key, char *val, int isexported);
 // removes the variable with key `key` from the vartable.
-// returns the variable to be freed or 0 if it was not found
-t_variable	*remove_variable(char *key);
+// returns 1 if found else 0
+int			remove_variable(char *key);
 // returns the environment null terminated array built from the vartable
 char		**get_env();
 // Creates a new t_variable struct with the provided key val pair

@@ -12,6 +12,7 @@
 
 #include "executor.h"
 #include "ft_printf.h"
+#include "libft.h"
 #include "parser.h"
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -92,10 +93,11 @@ int	run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 		|| !setup_prgrm_redirections(prgrm))
 	{
 		restore_default_streams(&credirs);
-		return (ft_putstr("\033[31mRedirection failed\033[0m\n"), 0);
+		g_exit_status = 1;
+		return (ft_putstr_fd("\033[31mRedirection failed\033[0m\n", 2), 0);
 	}
 	g_exit_status = builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
 	if (!restore_default_streams(&credirs))
-			ft_putstr("\033[31mFailed to restore standard streams!\033[0m\n");
+		ft_putstr_fd("\033[31mFailed to restore standard streams!\033[0m\n", 2);
 	return (1);
 }

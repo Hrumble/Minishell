@@ -56,6 +56,11 @@ int	minishell(char **env)
 		buf = readline("\033[33mmetasex>\033[0m ");
 		if (!buf)
 			return (0);
+		if (!*buf)
+		{
+			free(buf);
+			continue ;
+		}
 		ast = parse_user_input(buf);
 		if (!ast)
 			ft_putstr("\033[31mParse error\033[0m\n");

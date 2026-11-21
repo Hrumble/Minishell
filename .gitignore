@@ -1,5 +1,7 @@
 .clangd
 compile_flags.txt
+/test.sh
+/minishell_tester
 /minishell
 /ms_test
 *.o

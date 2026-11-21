@@ -12,13 +12,9 @@
 
 #include "internal.h"
 
-int	unset_var(char *buf)
+static void	_unset_var(char *buf)
 {
-	t_variable	*var;
-
-	var = remove_variable(buf);
-	free_variable(var);
-	return (1);
+	remove_variable(buf);
 }
 
 int	builtin_unset(char **av, int ac, char **env)
@@ -26,8 +22,8 @@ int	builtin_unset(char **av, int ac, char **env)
 	int	i;
 
 	(void)env;
-	i = 0;
+	i = 1;
 	while (i < ac)
-		unset_var(av[i++]);
+		_unset_var(av[i++]);
 	return (0);
 }

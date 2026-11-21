@@ -42,11 +42,10 @@ int		declare_variable(char *key, char *val, int is_exported)
 	return (1);
 }
 
-t_variable	*remove_variable(char *key)
+int	remove_variable(char *key)
 {
 	t_list		*sk;
 	int			index;
-	t_variable	*var;
 	t_list		**vartable;
 
 	if (!key)
@@ -61,9 +60,8 @@ t_variable	*remove_variable(char *key)
 	}
 	if (!sk)
 		return (0);
-	var = (t_variable *)sk->content;
-	ft_lstremove(vartable, index, 0);
-	return (var);
+	ft_lstremove(vartable, index, (void *)free_variable);
+	return (1);
 }
 
 char	**get_env()

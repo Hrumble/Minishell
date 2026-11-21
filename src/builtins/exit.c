@@ -13,17 +13,29 @@
 #include "libft.h"
 #include <stdlib.h>
 
+static int	validate_integer(char *buf)
+{
+	if (*buf == '-' || *buf == '+')
+		buf++;
+	while (*buf)
+		if (!ft_isdigit(*buf++))
+			return (0);
+	return (1);
+}
+
 int	builtin_exit(char **av, int ac, char **env)
 {
 	int	code;
 
 	(void)env;
-	if (ac == 2)
+	if (ac == 1)
 		exit(1);
-	if (ac > 3)
+	if (ac > 2)
 		return (ft_putstr_fd("exit: too many arguments\n", 2), 1);
-	code = ft_atoi(av[0]);
+	if (!validate_integer(av[1]))
+		return (ft_putstr_fd("exit: numeric argument required", 2), 2);
+	code = ft_atoi(av[1]);
 	if (code < 0)
-		exit(WEXITSTATUS(156));
-	exit(WEXITSTATUS(code));
+		exit(156);
+	exit(code);
 }
