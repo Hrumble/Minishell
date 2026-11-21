@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 13:37:05 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 21:20:34 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include "internal.h"
 #include "minishell.h"
 #include "parser.h"
-#include "ft_printf.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 
-static t_ast	*parse_user_input(char *input)
+static t_ast	*_parse_user_input(char *input)
 {
 	t_ast	*ast;
 
@@ -33,7 +34,7 @@ static t_ast	*parse_user_input(char *input)
 	return (ast);
 }
 
-static void	cleanup(t_ast **ast, char **env, char **buf)
+static void	_cleanup(t_ast **ast, char **env, char **buf)
 {
 	free_ast(ast);
 	free_split(env);
@@ -41,38 +42,34 @@ static void	cleanup(t_ast **ast, char **env, char **buf)
 	*buf = 0;
 }
 
-int	minishell(char **env)
+static void _read_loop(void)
 {
 	t_ast	*ast;
 	char	*buf;
 	char	**varenv;
 
+	buf = readline("\033[33mmetasex>\033[0m ");
+	if (!buf || !*buf)
+		return (free(buf));
+	add_history(buf);
+	ast = _parse_user_input(buf);
+	if (!ast)
+		return (ft_putstr_fd("metasex: parse error\n", 2));
+	varenv = get_env();
+	if (!varenv)
+		return (_cleanup(&ast, varenv, &buf));
+	execute_pipeline(ast, varenv);
+	_cleanup(&ast, varenv, &buf);
+}
+
+int	minishell(char **env)
+{
 	if (!init_vtable(env))
 		return (0);
-	// terminal_set_icanon(0);
+	using_history();
 	while (1)
-	{
-		varenv = 0;
-		buf = readline("\033[33mmetasex>\033[0m ");
-		if (!buf)
-			return (0);
-		if (!*buf)
-		{
-			free(buf);
-			continue ;
-		}
-		ast = parse_user_input(buf);
-		if (!ast)
-			ft_putstr_fd("metasex: parse error\n", 2);
-		else
-		{
-			varenv = get_env();
-			if (!varenv)
-				return (cleanup(&ast, NULL, &buf), 0);
-			execute_pipeline(ast, varenv);
-		}
-		cleanup(&ast, varenv, &buf);
-	}
+		_read_loop();
+	clear_history();
 	free_vtable();
 	return (1);
 }
