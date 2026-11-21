@@ -42,8 +42,6 @@ int		run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 int		set_redirection_stream(t_prgrmredir *redir);
 // Handles the heredocs redir. Returns the fd of the written contents
 int		write_heredoc_file(t_prgrmredir *heredoc_redir);
-// Opens the heredoc file in readmode
-int		open_heredoc_file();
 // sets up the redirections for a program.
 // if builtin is set to 1, kbfd and termfd will also be set within the struct
 int		setup_prgrm_redirections(t_ast *ast);

@@ -63,7 +63,7 @@ int	minishell(char **env)
 		}
 		ast = parse_user_input(buf);
 		if (!ast)
-			ft_putstr("\033[31mParse error\033[0m\n");
+			ft_putstr_fd("metasex: parse error\n", 2);
 		else
 		{
 			varenv = get_env();

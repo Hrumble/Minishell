@@ -4,7 +4,7 @@ INCLUDES = -Iinclude -I./lib/libft/include/ -I./src/internal/
 # REMOVE THE FOLLOWING LINE
 INCLUDES += -I./src/.debug/
 
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 SRC_DIR = ./src/
 LIB_DIR = ./lib/

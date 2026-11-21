@@ -41,9 +41,9 @@
 - [ ] History, free history
 - [ ] which command, fix: prints directory if directory is passed as param
 - [x] Heredocs, handle normal delimiter
-- [ ] Heredocs, unquoted delim -> expand $VAR in body (e.g. << EOF)
-- [ ] Heredocs, quoted delim -> do **not** $VAR in body (e.g. << "EOF")
+- [x] Heredocs, unquoted delim -> expand $VAR in body (e.g. << EOF)
+- [x] Heredocs, quoted delim -> do **not** $VAR in body (e.g. << "EOF")
 - [x] Heredocs, handle multiple (e.g. cat << A << B)
 - [x] Heredocs, handle pipeline (e.g. grep hello << A | grep lo)
-- [ ] Heredocs, handle redirection (e.g. cat << A > file.txt | cat << B > file1.txt)
+- [x] Heredocs, handle redirection (e.g. cat << A > file.txt | cat << B > file1.txt)
 - [x] Heredocs, handle pipeline chained heredocs (e.g. cat << EOF | grep << EOF) in that case, grep disregards the output of cat, and takes << as stdin only

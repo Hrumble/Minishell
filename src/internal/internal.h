@@ -62,6 +62,9 @@ t_ast		*setup_expansion(t_ast **prgrm);
 int			setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf);
 // Assigns a character at pos i to the expansion buf
 int			expand_assign_character(t_bufexpand *ex, char c, size_t i);
+// Returns a new string with the expanded buffer. if expand_env is set
+// to true, the environment ($) is also expanded, else only the quotes
+char		*expand_buf(char *buf, int expand_env);
 
 // Environment
 
