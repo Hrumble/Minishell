@@ -32,6 +32,7 @@
 # TODO
 - [x] Lexer, handle fix: quote handling
 - [x] Expansions, fix: quote handling
+- [ ] Exit builtin command doesn't free anything
 - [ ] Lexer, fix: does not error on invalid characters, just returns (0) which stands for eof
 - [x] Redirections, fix: redirections must not happen on the fork, they must happen before executing and after parsing
 - [ ] Redirections, fix: pretty sure none of the file descriptors are closed after redir

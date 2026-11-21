@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 21:17:48 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 21:05:07 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 18:24:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	ft_isvar(int c)
 
 int	ft_iswrd(int c)
 {
-	return (ft_isvar(c) || c == '.' || c == '-' || c == '$'
-			|| c == '/' || c == '=');
+	return (c && c != ' ');
 }
 
 int	ft_isquotes(int c)

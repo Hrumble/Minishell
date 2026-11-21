@@ -85,8 +85,9 @@ static char	*expand_buf(char *buf)
 				return (free(ex.expanded), NULL);
 		if (!*ex.buf)
 			break ;
-		if (!expand_assign_character(&ex, *ex.buf++, i++))
-			return (free(ex.expanded), NULL);
+		if (!ft_isquotes(*ex.buf))
+			if (!expand_assign_character(&ex, *ex.buf++, i++))
+				return (free(ex.expanded), NULL);
 	}
 	if (!expand_assign_character(&ex, 0, i))
 		return (free(ex.expanded), NULL);
