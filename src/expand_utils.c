@@ -33,7 +33,6 @@ int	resize_expansion(t_bufexpand *ex, size_t env_size, size_t i)
 		new = ft_realloc(ex->expanded, ex->exsize);
 		if (!new)
 			return (0);
-		free(ex->expanded);
 		ex->exsize = ex->exsize * 2;
 		ex->expanded = new;
 	}
