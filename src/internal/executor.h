@@ -40,7 +40,7 @@ int		run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
 
 // sets up the read and write entries specified by a redir.
 int		set_redirection_stream(t_prgrmredir *redir);
-// Handles the heredocs redir
+// Handles the heredocs redir. Returns the fd of the written contents
 int		write_heredoc_file(t_prgrmredir *heredoc_redir);
 // Opens the heredoc file in readmode
 int		open_heredoc_file();

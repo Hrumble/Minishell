@@ -58,14 +58,13 @@ int	open_heredoc_file()
 
 int	write_heredoc_file(t_prgrmredir *heredoc_redir)
 {
-	int	file;
+	int	pipe_io[2];
 
 	if (!heredoc_redir || heredoc_redir->type != REDIR_HEREDOC)
-		return (0);
-	file = open(HEREDOC_FILE_PATH, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (file < 0)
-		return (0);
-	read_until_delim(file, heredoc_redir->target);
-	close(file);
-	return (1);
+		return (-1);
+	if (pipe(pipe_io) < 0)
+		return (-1);
+	read_until_delim(pipe_io[1], heredoc_redir->target);
+	close(pipe_io[1]);
+	return (pipe_io[0]);
 }

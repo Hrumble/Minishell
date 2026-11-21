@@ -39,13 +39,11 @@ static int	_set_program_heredoc_io(t_ast *program, int io[2])
 			i++;
 			continue ;
 		}
-		if (!write_heredoc_file(program->s_prgrm.redir[i]))
+		file = write_heredoc_file(program->s_prgrm.redir[i]);
+		if (file < 0)
 			return (0);
 		if (io[0] != STDIN_FILENO)
 			close(io[0]);
-		file = open_heredoc_file();
-		if (!file)
-			return (0);
 		io[0] = file;
 		i++;
 	}
