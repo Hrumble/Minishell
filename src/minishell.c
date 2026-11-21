@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/21 21:20:34 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 21:33:04 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	_cleanup(t_ast **ast, char **env, char **buf)
 	*buf = 0;
 }
 
-static void _read_loop(void)
+static int _read_loop(void)
 {
 	t_ast	*ast;
 	char	*buf;
@@ -50,16 +50,17 @@ static void _read_loop(void)
 
 	buf = readline("\033[33mmetasex>\033[0m ");
 	if (!buf || !*buf)
-		return (free(buf));
+		return (free(buf), 0);
 	add_history(buf);
 	ast = _parse_user_input(buf);
 	if (!ast)
-		return (ft_putstr_fd("metasex: parse error\n", 2));
+		return (ft_putstr_fd("metasex: parse error\n", 2), 1);
 	varenv = get_env();
 	if (!varenv)
-		return (_cleanup(&ast, varenv, &buf));
+		return (_cleanup(&ast, varenv, &buf), 1);
 	execute_pipeline(ast, varenv);
 	_cleanup(&ast, varenv, &buf);
+	return (1);
 }
 
 int	minishell(char **env)
@@ -67,8 +68,7 @@ int	minishell(char **env)
 	if (!init_vtable(env))
 		return (0);
 	using_history();
-	while (1)
-		_read_loop();
+	while (_read_loop());
 	clear_history();
 	free_vtable();
 	return (1);

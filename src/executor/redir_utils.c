@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/06 14:54:13 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 17:47:39 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 21:36:22 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	pipe_fd_to_file(int fd, char *path, int mode)
 
 	ffd = open(path, mode, 0644);
 	if (ffd < 0)
-		return (perror("failed to open file: "), 0);
+		return (perror(""), 0);
 	if (dup2(ffd, fd) < 0)
 		return (close(ffd), 0);
 	close(ffd);

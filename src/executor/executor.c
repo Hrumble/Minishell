@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 17:48:30 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 21:36:50 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ static int	_child_process(t_ast *ast, char **env, int io[2])
 	}
 	if (!set_io_streams(io)
 		|| !setup_prgrm_redirections(ast))
-	{
-		ft_putstr("\033[31mRedirection failed\033[0m\n");
 		return (0);
-	}
 	return (_exec_ast(ast, env));
 }
 
