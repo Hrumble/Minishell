@@ -15,9 +15,19 @@
 
 int	file_access(char *path, int mode)
 {
-	struct stat s;
+	struct stat	s;
 
 	if (stat(path, &s))
 		return (0);
 	return (S_ISREG(s.st_mode) && !access(path, mode));
+}
+
+int	is_file(char *path)
+{
+	struct stat	s;
+
+	if (stat(path, &s))
+		return (0);
+	return (S_ISREG(s.st_mode));
+	
 }

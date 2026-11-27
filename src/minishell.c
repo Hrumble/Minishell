@@ -49,8 +49,10 @@ static int _read_loop(void)
 	char	**varenv;
 
 	buf = readline("\033[33mmetasex>\033[0m ");
-	if (!buf || !*buf)
+	if (!buf)
 		return (free(buf), 0);
+	if (!*buf)
+		return (free(buf), 1);
 	add_history(buf);
 	ast = _parse_user_input(buf);
 	if (!ast)
