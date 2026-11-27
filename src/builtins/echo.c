@@ -12,7 +12,16 @@
 
 #include "builtins.h"
 #include "ft_printf.h"
-#include "libft.h"
+
+int	is_n_flag(char *buf)
+{
+	if (*buf++ != '-')
+		return (0);
+	while (*buf)
+		if (*buf++ != 'n')
+			return (0);
+	return (1);
+}
 
 int	builtin_echo(char **av, int ac, char **env)
 {
@@ -20,11 +29,9 @@ int	builtin_echo(char **av, int ac, char **env)
 	int	i;
 
 	(void)env;
-	if (ac < 2)
-		return (0);
 	n_flag = 0;
 	i = 1;
-	if (!ft_strcmp(av[1], "-n"))
+	while (ac > i && is_n_flag(av[i]))
 	{
 		n_flag = 1;
 		i++;
