@@ -49,6 +49,10 @@ $(NAME): libs $(OBJECTS) $(DEBUGOBJECTS)
 libs:
 	$(MAKE) -C $(LIB_DIR)
 
-fclean:
+clean:
+	$(MAKE) -C $(LIB_DIR) clean
+	rm -rf $(OBJECTS)
+
+fclean: clean
 	$(MAKE) -C $(LIB_DIR) fclean
-	rm -rf $(OBJECTS) $(NAME)
+	rm -rf $(NAME)
