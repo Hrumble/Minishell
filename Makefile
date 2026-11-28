@@ -13,7 +13,7 @@ LDLIBS = -lft -lreadline
 
 OBJECTS = $(addprefix $(SRC_DIR), \
 		  main.o minishell.o terminal.o user_input.o expand.o expand_utils.o environment.o environment_utils.o environment_utils2.o \
-		  bit_utils.o file_utils.o \
+		  bit_utils.o file_utils.o exit_status.o \
 		  ) $(addprefix $(SRC_DIR)builtins/, \
 		  echo.o exit.o cd.o which.o env.o export.o unset.o \
 		  ) $(addprefix $(SRC_DIR)lexer/, \

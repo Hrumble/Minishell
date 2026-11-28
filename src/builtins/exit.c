@@ -6,11 +6,12 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 10:47:10 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/21 18:22:03 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 18:19:44 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "internal.h"
 #include <stdlib.h>
 
 static int	validate_integer(char *buf)
@@ -25,13 +26,12 @@ static int	validate_integer(char *buf)
 
 int	builtin_exit(char **av, int ac, char **env)
 {
-	extern int	g_exit_status;
 	int	code;
 
 	(void)env;
 	code = 0;
 	if (ac == 1)
-		exit(g_exit_status);
+		exit(get_exit_status());
 	if (ac > 2)
 		return (ft_putstr_fd("exit: too many arguments\n", 2), 1);
 	if (!validate_integer(av[1]))

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/21 23:10:12 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 18:19:05 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,12 @@ int			file_access(char *path, int mode);
 int			is_file(char *path);
 // frees a null terminated array
 void		free_arr(void **arr, void (*del)(void *));
+
+// Exit status
+
+// returns the current exit status
+int	get_exit_status();
+// Sets the exit status
+void	set_exit_status(int status);
 
 #endif

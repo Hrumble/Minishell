@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/05 16:11:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/21 21:36:50 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 18:22:19 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	_exec_ast(t_ast *ast, char **env)
 static int	_exec_builtin(t_ast *prgrm, char **env, int fd[2])
 {
 	t_defaultredir	credirs;
-	extern int		g_exit_status;
 	int	(*f)(char **, int, char **);
 
 	f = NULL;
@@ -59,13 +58,13 @@ static int	_exec_builtin(t_ast *prgrm, char **env, int fd[2])
 		|| !setup_prgrm_redirections(prgrm))
 	{
 		restore_default_streams(&credirs);
-		g_exit_status = 1;
+		set_exit_status(1);
 		return (1);
 	}
 	if (prgrm->s_prgrm.ac > 0)
 	{
 		f = get_builtin(prgrm->s_prgrm.argv[0]);
-		g_exit_status = f(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
+		set_exit_status(f(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env));
 	}
 	if (!restore_default_streams(&credirs))
 		ft_putstr_fd("\033[31mFailed to restore standard streams!\033[0m\n", 2);
@@ -75,7 +74,6 @@ static int	_exec_builtin(t_ast *prgrm, char **env, int fd[2])
 int	run(t_ast *ast, char **env, int io[2])
 {
 	int	(*f)(char **, int, char **);
-	extern int	g_exit_status;
 
 	f = NULL;
 	if (ast->s_prgrm.ac > 0)
