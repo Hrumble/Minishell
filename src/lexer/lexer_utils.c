@@ -12,6 +12,14 @@
 
 #include "libft.h"
 
+int	is_in(int c, char *buf)
+{
+	while (*buf)
+		if (c == *buf++)
+			return (1);
+	return (0);
+}
+
 int	ft_isvar(int c)
 {
 	return (ft_isalnum(c) || c == '_' || c == '?');
@@ -19,7 +27,7 @@ int	ft_isvar(int c)
 
 int	ft_iswrd(int c)
 {
-	return (c && c != ' ');
+	return (c && !is_in(c, "| !&<>"));
 }
 
 int	ft_isquotes(int c)

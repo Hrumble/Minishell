@@ -50,7 +50,7 @@ static char	*_find_binary_in_path(char *buf)
 	{
 		if (!_build_binary_path(buf, *c_path, concat))
 			return (free_split(path), NULL);
-		if (file_access(concat, X_OK | R_OK))
+		if (!file_access(concat, X_OK | R_OK))
 			return (free_split(path), ft_strdup(concat));
 		c_path++;
 	}
@@ -76,14 +76,21 @@ int (*get_builtin(char *buf))(char **, int, char **)
 	return (0);
 }
 
-char	*find_binary(char *buf)
+int	find_binary(char *buf, char **bin)
 {
+	int	out;
+
 	if (*buf == '.' || *buf == '/')
 	{
-		if (access(buf, X_OK | R_OK))
-			return (0);
+		out = file_access(buf, X_OK | R_OK);
+		if (out < 0)
+			return (out);
 		else
-			return (buf);
+		{
+			*bin = buf;
+			return (1);
+		}
 	}
-	return (_find_binary_in_path(buf));
+	*bin = _find_binary_in_path(buf);
+	return (*bin != NULL);
 }

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include "internal.h"
 #include "lexer.h"
 #include "libft.h"
@@ -20,7 +19,14 @@
 static int	_declare_or_free(char *key, char *val)
 {
 	if (!key)
-		return (0);
+		return (free(val), 0);
+	if (seek_variable(key))
+	{
+		if (!declare_variable(key, val, 1))
+			return (free(key), free(val), 0);
+		free(key);
+		return (1);
+	}
 	if (!declare_variable(key, val, 1))
 		return (free(key), free(val), 0);
 	return (1);
@@ -71,10 +77,24 @@ static int	_parse_var(char *buf)
 
 int	builtin_export(char **av, int ac, char **env)
 {
+	int	ok;
+	int	i;
+
 	(void)env;
 	if (ac < 2)
 		return (ft_putstr_fd("export: missing variable\n", 2), 1);
-	if (!_parse_var(av[1]))
-		return (ft_putstr_fd("not a valid identifier\n", 2), 1);
-	return (0);
+	ok = 0;
+	i = 1;
+	while (i < ac)
+	{
+		if (!_parse_var(av[i]))
+		{
+			ft_putstr_fd("export: `", 2);
+			ft_putstr_fd(av[i], 2);
+			ft_putstr_fd("\" not a valid identifier\n", 2);
+			ok = 1;
+		}
+		i++;
+	}
+	return (ok);
 }

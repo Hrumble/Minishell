@@ -18,7 +18,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static void	_close_io(int io[2])
+void	close_io(int io[2])
 {
 	if (io[0] != STDIN_FILENO)
 		close(io[0]);
@@ -26,7 +26,7 @@ static void	_close_io(int io[2])
 		close(io[1]);
 }
 
-static int	_set_program_heredoc_io(t_ast *program, int io[2])
+int	set_program_heredoc_io(t_ast *program, int io[2])
 {
 	int	file;
 	int	i;
@@ -57,7 +57,7 @@ static int	_set_program_io(t_ast **programs, int io[2], int *prev)
 	io[0] = *prev;
 	io[1] = STDOUT_FILENO;
 	if ((*programs)->s_prgrm.redir_size > 0)
-		if (!_set_program_heredoc_io(*programs, io))
+		if (!set_program_heredoc_io(*programs, io))
 			return (0);
 	if (programs[1])
 	{
@@ -80,9 +80,9 @@ static int	_pipe_and_execute(t_ast **programs, pid_t *processes, char **env)
 	while (programs[i])
 	{
 		if (!_set_program_io(programs + i, io, &prev))
-			return (_close_io(io), 0);
-		processes[i] = fork_and_exec(programs[i], env, io);
-		_close_io(io);
+			return (close_io(io), 0);
+		processes[i] = fork_and_exec(programs[i], env, io, prev);
+		close_io(io);
 		i++;
 	}
 	return (i);
@@ -95,9 +95,7 @@ int	execute_pipeline(t_ast	*pipeline, char **env)
 	pid_t	processes[MAX_PROCESSES];
 
 	if (pipeline->type == AST_PRGRM)
-		if (exec_builtin(pipeline, env,
-					(int[2]){STDIN_FILENO, STDOUT_FILENO}))
-			return (1);
+		return (run_standalone_program(pipeline, env));
 	programs = flatten_pipeline(pipeline);
 	if (!programs)
 		return (0);

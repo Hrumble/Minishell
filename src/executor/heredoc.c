@@ -37,7 +37,7 @@ static int	_expand_delimiter(char **delim)
 	size_t	len;
 
 	len = ft_strlen(*delim);
-	expanded = expand_buf(*delim, 0);
+	expanded = expand_buf(*delim, 0, 1);
 	if (!expanded)
 		return (-1);
 	*delim = expanded;
@@ -61,7 +61,7 @@ static char	*_read_and_expand(char *delim, int should_expand)
 		return (free(buf), NULL);
 	if (should_expand)
 	{
-		expanded = expand_buf(buf, 1);
+		expanded = expand_buf(buf, 1, 1);
 		free(buf);
 		return (expanded);
 	}

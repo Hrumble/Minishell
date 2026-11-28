@@ -50,7 +50,7 @@ int	pipe_fd_to_file(int fd, char *path, int mode)
 
 	ffd = open(path, mode, 0644);
 	if (ffd < 0)
-		return (perror(""), 0);
+		return (perror("redirection"), 0);
 	if (dup2(ffd, fd) < 0)
 		return (close(ffd), 0);
 	close(ffd);
@@ -61,13 +61,13 @@ int	set_io_streams(int io[2])
 {
 	if (io[0] != STDIN_FILENO)
 	{
-		if (dup2(io[0], 0) < 0)
+		if (dup2(io[0], STDIN_FILENO) < 0)
 			return (close(io[0]), close(io[1]), 0);
 		close(io[0]);
 	}
 	if (io[1] != STDOUT_FILENO)
 	{
-		if (dup2(io[1], 1) < 0)
+		if (dup2(io[1], STDOUT_FILENO) < 0)
 			return (close(io[1]), 0);
 		close(io[1]);
 	}

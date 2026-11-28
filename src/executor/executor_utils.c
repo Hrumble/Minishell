@@ -81,23 +81,3 @@ void	await_processes(pid_t *processes, int size)
 		i++;
 	}
 }
-
-int	run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
-		char **env, int fd[2])
-{
-	t_defaultredir	credirs;
-	extern int		g_exit_status;
-
-	save_default_streams(&credirs);
-	if (!set_io_streams(fd)
-		|| !setup_prgrm_redirections(prgrm))
-	{
-		restore_default_streams(&credirs);
-		g_exit_status = 1;
-		return (0);
-	}
-	g_exit_status = builtin(prgrm->s_prgrm.argv, prgrm->s_prgrm.ac, env);
-	if (!restore_default_streams(&credirs))
-		ft_putstr_fd("\033[31mFailed to restore standard streams!\033[0m\n", 2);
-	return (1);
-}

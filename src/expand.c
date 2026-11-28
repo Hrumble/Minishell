@@ -63,7 +63,7 @@ int	handle_quote_expansion(t_bufexpand *ex, size_t *i)
 	return (1);
 }
 
-char	*expand_buf(char *buf, int expand_env)
+char	*expand_buf(char *buf, int expand_env, int expand_quotes)
 {
 	t_bufexpand	ex;
 	size_t		i;
@@ -72,7 +72,7 @@ char	*expand_buf(char *buf, int expand_env)
 		return (0);
 	while (*ex.buf)
 	{
-		while (ft_isquotes(*ex.buf))
+		while (ft_isquotes(*ex.buf) && expand_quotes)
 			if (!handle_quote_expansion(&ex, &i))
 				return (free(ex.expanded), NULL);
 		while (*ex.buf == '$' && !get_bit(ex.flags, 1) && expand_env)
@@ -80,7 +80,7 @@ char	*expand_buf(char *buf, int expand_env)
 				return (free(ex.expanded), NULL);
 		if (!*ex.buf)
 			break ;
-		if (!ft_isquotes(*ex.buf))
+		if (!ft_isquotes(*ex.buf) && expand_quotes)
 			if (!expand_assign_character(&ex, *ex.buf++, i++))
 				return (free(ex.expanded), NULL);
 	}
@@ -104,7 +104,7 @@ int	expand_argv(t_ast	**prgrm)
 	i = 0;
 	while (i < ac)
 	{
-		n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac] = expand_buf(av[i++], 1);
+		n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac] = expand_buf(av[i++], 1, 1);
 		if (!n_prgrm->s_prgrm.argv[n_prgrm->s_prgrm.ac++])
 			return (free_ast(&n_prgrm), 0);
 	}
@@ -124,7 +124,7 @@ int	expand_redir(t_ast	**prgrm)
 
 		if ((*prgrm)->s_prgrm.redir[i]->type != REDIR_HEREDOC)
 		{
-			new_target = expand_buf((*prgrm)->s_prgrm.redir[i]->target, 1);
+			new_target = expand_buf((*prgrm)->s_prgrm.redir[i]->target, 1, 1);
 			free((*prgrm)->s_prgrm.redir[i]->target);
 			if (!new_target)
 				return (0);

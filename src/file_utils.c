@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "internal.h"
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -18,8 +19,12 @@ int	file_access(char *path, int mode)
 	struct stat	s;
 
 	if (stat(path, &s))
-		return (0);
-	return (S_ISREG(s.st_mode) && !access(path, mode));
+		return (ACC_NOEXIST);
+	if (!S_ISREG(s.st_mode))
+		return (ACC_NOTFILE);
+	if (access(path, mode))
+		return (ACC_NOPERM);
+	return (ACC_OK);
 }
 
 int	is_file(char *path)
@@ -29,5 +34,4 @@ int	is_file(char *path)
 	if (stat(path, &s))
 		return (0);
 	return (S_ISREG(s.st_mode));
-	
 }

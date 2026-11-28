@@ -12,6 +12,7 @@
 
 #ifndef BUILTINS_H
 # define BUILTINS_H
+# define PATH_MARGIN 30
 
 int	builtin_echo(char **av, int ac, char **env);
 int	builtin_cd(char **av, int ac, char **env);

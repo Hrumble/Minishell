@@ -16,6 +16,7 @@
 int	builtin_which(char **av, int ac, char **env)
 {
 	int		i;
+	int		res;
 	char	*bin;
 
 	(void)env;
@@ -29,8 +30,8 @@ int	builtin_which(char **av, int ac, char **env)
 			ft_printf("which: %s is a builtin\n", av[i++]);
 			continue ;
 		}
-		bin = find_binary(av[i]);
-		if (!bin)
+		res = find_binary(av[i], &bin);
+		if (res <= 0)
 			return (ft_printf("which: %s not found\n", av[i]), 1);
 		ft_printf("%s\n", bin);
 		i++;

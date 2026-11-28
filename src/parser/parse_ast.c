@@ -31,8 +31,6 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 		if (!ok)
 			return (free_ast(&prgrm), NULL);
 	}
-	if (is_empty_prgrm(prgrm))
-		return (free_ast(&prgrm), NULL);
 	return (prgrm);
 }
 

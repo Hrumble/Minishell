@@ -17,6 +17,10 @@
 # define CMDLINE_BUFSIZE 10
 # define EXPANSION_SIZE 100
 # include <stddef.h>
+# define ACC_NOTFILE -1
+# define ACC_NOPERM -2
+# define ACC_NOEXIST -3
+# define ACC_OK 0
 
 typedef struct s_lineinput
 {
@@ -64,7 +68,7 @@ int			setup_buf_expansion(t_bufexpand *ex, size_t *i, char *buf);
 int			expand_assign_character(t_bufexpand *ex, char c, size_t i);
 // Returns a new string with the expanded buffer. if expand_env is set
 // to true, the environment ($) is also expanded, else only the quotes
-char		*expand_buf(char *buf, int expand_env);
+char		*expand_buf(char *buf, int expand_env, int expand_quotes);
 
 // Environment
 
@@ -104,6 +108,8 @@ void		set_bit(int *field, int pos);
 void		clear_bit(int *field, int pos);
 // Checks access to a file with at least `mode`
 int			file_access(char *path, int mode);
+// Checks that a path is a file
+int			is_file(char *path);
 // frees a null terminated array
 void		free_arr(void **arr, void (*del)(void *));
 

@@ -26,15 +26,11 @@ typedef struct s_defaultredir
 
 // Executes an ast, returns the pid of the fork on success
 // 0 on failure
-int		fork_and_exec(t_ast *ast, char **env, int fd[2]);
+int		fork_and_exec(t_ast *ast, char **env, int fd[2], int prev);
 
-// Finds a binary from relative path or PATH
-// returns (void *)0 on failure to find.
-char	*find_binary(char *buf);
-// Runs a builtin function, providing it **av and ac. Sets the status.
-// always returns (1)
-int		run_builtin(int (*builtin)(char **, int, char **), t_ast *prgrm,
-			char **env, int fd[2]);
+// Finds a binary from relative path or PATH and puts it in **bin
+// returns 0 if unable to find a binary, -1 if provided buf is dir
+int		find_binary(char *buf, char **bin);
 
 // Redirections
 
@@ -56,14 +52,18 @@ int		save_default_streams(t_defaultredir *credirs);
 int		pipe_fd_to_file(int fd, char *path, int mode);
 // Returns a function pointer to the builtin function which the specified name.
 // 0 if none
-int (*get_builtin(char *buf))(char **, int, char **);
-// Executes a builtin shell command
-int		exec_builtin(t_ast *prgrm, char **env, int fd[2]);
+int		(*get_builtin(char *buf))(char **, int, char **);
 // Executes an entire pipeline. To be called on BOPs
 int		execute_pipeline(t_ast	*pipeline, char **env);
 int		set_io_streams(int fd[2]);
+// Reads the heredoc and sets the io array
+int		set_program_heredoc_io(t_ast *program, int io[2]);
 // awaits every process in the list one by one
 void	await_processes(pid_t *processes, int size);
+// Runs a program
+int		run(t_ast *ast, char **env, int io[2]);
+// Runs a program when there is only a program in the pipeline
+int		run_standalone_program(t_ast *prgrm, char **env);
 
 // Utils
 
@@ -74,6 +74,8 @@ int		_count_pipeline_programs(t_ast *pipeline);
 // When freeing, do not free the ast nodes, they are references from the actual
 // AST
 t_ast	**flatten_pipeline(t_ast *pipeline);
+// Closes io[0] and io[1] as long as they are not stdin and stdout
+void	close_io(int io[2]);
 
 // freeing stuff
 void	free_split(char **split);

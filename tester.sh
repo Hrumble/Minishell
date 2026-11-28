@@ -2014,3 +2014,4 @@ fi
 
 summary
 [ "$FAIL" -eq 0 ] && [ "${SIG_PASS:-0}" = "${SIG_TOTAL:-0}" ]
+
