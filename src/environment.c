@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/09 10:47:48 by user              #+#    #+#             */
-/*   Updated: 2026/11/21 15:46:25 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 23:10:58 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ int		declare_variable(char *key, char *val, int is_exported)
 	if (!key)
 		return (0);
 	vartable = get_vtable();
+	var = seek_variable(key);
+	if (var)
+	{
+		free(var->value);
+		var->value = val;
+		return (1);
+	}
 	var = new_variable(key, val, is_exported);
 	if (!var)
 		return (0);

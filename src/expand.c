@@ -12,7 +12,6 @@
 
 #include "internal.h"
 #include "lexer.h"
-#include "libft.h"
 #include "parser.h"
 #include <stddef.h>
 #include <stdlib.h>
@@ -24,6 +23,7 @@ int	handle_env_expansion(t_bufexpand *ex, size_t *i)
 	char	*env;
 	int		ok;
 
+	ok = 1;
 	if (!ft_isvar(ex->buf[1]))
 		return (expand_assign_character(ex, *ex->buf++, (*i)++));
 	ex->buf++;
@@ -34,11 +34,6 @@ int	handle_env_expansion(t_bufexpand *ex, size_t *i)
 	env = vtable_get(env_name);
 	if (env)
 		ok = env_expansioncpy(ex, env, i);
-	else
-	{
-		env = ft_strdup("");
-		ok = env_expansioncpy(ex, env, i);
-	}
 	free(env);
 	return (ok);
 }

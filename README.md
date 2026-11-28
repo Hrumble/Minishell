@@ -47,3 +47,4 @@
 - [ ] Redirections, fix: pretty sure none of the file descriptors are closed after redir
 - [ ] Exit builtin command doesn't free anything
 - [ ] Lexer, fix: does not error on invalid characters, just returns (0) which stands for eof
+- [ ] exit code on no exec perm is 126 not 127

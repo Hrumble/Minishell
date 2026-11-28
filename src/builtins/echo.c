@@ -13,14 +13,15 @@
 #include "builtins.h"
 #include "ft_printf.h"
 
-int	is_n_flag(char *buf)
+static int	_is_n_flag(char *buf)
 {
 	if (*buf++ != '-')
 		return (0);
-	while (*buf)
-		if (*buf++ != 'n')
-			return (0);
-	return (1);
+	if (*buf != 'n')
+		return (0);
+	while (*buf == 'n')
+		buf++;
+	return (!*buf);
 }
 
 int	builtin_echo(char **av, int ac, char **env)
@@ -31,9 +32,12 @@ int	builtin_echo(char **av, int ac, char **env)
 	(void)env;
 	n_flag = 0;
 	i = 1;
-	while (ac > i && is_n_flag(av[i]))
+	while (ac > i && _is_n_flag(av[i]))
 	{
-		n_flag = 1;
+		if (_is_n_flag(av[i]))
+			n_flag = 1;
+		else
+			break;
 		i++;
 	}
 	while (i < ac)

@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:44:00 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/15 17:16:30 by user             ###   ########.fr       */
+/*   Updated: 2026/11/21 23:10:12 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ char		*expand_buf(char *buf, int expand_env);
 t_list		**get_vtable();
 // returns the value of a variable inside the vtable
 char		*vtable_get(char *buf);
+// Returns a reference to a given variable if it exists, NULL ortherwise
+t_variable	*seek_variable(char *key);
 // frees the vartable
 void		free_vtable();
 // Adds the variable with the provided key and value to the vartable

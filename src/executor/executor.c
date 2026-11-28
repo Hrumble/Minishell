@@ -12,6 +12,7 @@
 
 #include "ft_printf.h"
 #include "internal.h"
+#include "libft.h"
 #include "parser.h"
 #include "executor.h"
 #include <stddef.h>
@@ -24,12 +25,13 @@
 // calls execve with the argv and argc of the provided ast program
 static int	_exec_ast(t_ast *ast, char **env)
 {
-	char	*binary;
+	char		*binary;
 	
 	binary = find_binary(ast->s_prgrm.argv[0]);
 	if (!binary)
 	{
-		ft_printf("\033[31m%s: Command not found\n\033[0m", ast->s_prgrm.argv[0]);
+		ft_putstr_fd(ast->s_prgrm.argv[0], 2);
+		ft_putstr_fd(": program not found\n", 2);
 		return (0);
 	}
 	ast->s_prgrm.argv[ast->s_prgrm.ac] = 0;
@@ -80,7 +82,7 @@ int	fork_and_exec(t_ast *ast, char **env, int fd[2])
 		free_ast(&ast);
 		free_split(env);
 		free_vtable();
-		exit(1);
+		exit(127);
 	}
 	return (f_out);
 }

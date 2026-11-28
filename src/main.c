@@ -20,5 +20,5 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)ac;
 	minishell(env);
-	return (0);
+	return (g_exit_status);
 }
