@@ -61,7 +61,7 @@ static char	*_read_and_expand(char *delim, int should_expand)
 		return (free(buf), NULL);
 	if (should_expand)
 	{
-		expanded = expand_buf(buf, 1, 1);
+		expanded = expand_buf(buf, 1, 0);
 		free(buf);
 		return (expanded);
 	}

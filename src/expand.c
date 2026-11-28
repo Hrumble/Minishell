@@ -80,7 +80,7 @@ char	*expand_buf(char *buf, int expand_env, int expand_quotes)
 				return (free(ex.expanded), NULL);
 		if (!*ex.buf)
 			break ;
-		if (!ft_isquotes(*ex.buf) && expand_quotes)
+		if (!expand_quotes || !ft_isquotes(*ex.buf))
 			if (!expand_assign_character(&ex, *ex.buf++, i++))
 				return (free(ex.expanded), NULL);
 	}
