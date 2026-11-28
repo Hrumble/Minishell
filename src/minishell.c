@@ -6,20 +6,35 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/28 19:18:59 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 19:37:00 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "arena.h"
 #include "executor.h"
+#include "ft_printf.h"
 #include "internal.h"
 #include "minishell.h"
+#include "libft.h"
 #include "parser.h"
+#include <signal.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+
+static int	g_sig;
+
+static void		_sig_handler(int signum)
+{
+	extern int g_sig;
+
+	ft_putstr("\n");
+	g_sig = signum;
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 static t_ast	*_parse_user_input(char *input)
 {
@@ -70,11 +85,13 @@ static int _read_loop(void)
 
 int	minishell(char **env)
 {
+	signal(SIGINT, _sig_handler);
 	if (!init_vtable(env))
 		return (0);
 	using_history();
 	while (_read_loop());
 	clear_history();
 	free_vtable();
+	ft_putstr_fd("Bye bye...\n", 2);
 	return (1);
 }
