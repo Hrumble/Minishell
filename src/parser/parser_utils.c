@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 22:05:16 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 11:26:40 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 18:30:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_empty_prgrm(t_ast *prgrm)
 {
 	if (!prgrm || prgrm->type != AST_PRGRM)
 		return (0);
-	return (prgrm->s_prgrm.ac == 0);
+	return (prgrm->s_prgrm.ac == 0 && prgrm->s_prgrm.redir_size == 0);
 }
 
 int	parse_redir(t_parserattr *pattr, t_lexerattr *lattr,

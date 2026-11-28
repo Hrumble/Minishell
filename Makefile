@@ -17,11 +17,13 @@ OBJECTS = $(addprefix $(SRC_DIR), \
 		  ) $(addprefix $(SRC_DIR)builtins/, \
 		  echo.o exit.o cd.o which.o env.o export.o unset.o \
 		  ) $(addprefix $(SRC_DIR)lexer/, \
-		  lexer.o token.o lexer_attr.o lexer_utils.o quotes_utils.o \
+		  lexer.o token.o lexer_attr.o lexer_utils.o \
 		  ) $(addprefix $(SRC_DIR)parser/, \
 		  parser.o parser_utils.o parser_attr.o parse_ast.o ast_nodes.o ast_free.o \
 		  ) $(addprefix $(SRC_DIR)executor/, \
 		  executor.o executor_utils.o binary.o redir_utils.o pipeline.o heredoc.o pipeline_utils.o \
+		  ) $(addprefix $(SRC_DIR)arena/, \
+		  arena.o arena_utils.o \
 		  )
 DEBUGOBJECTS = $(addprefix $(SRC_DIR).debug/, \
 		print_utils.o enum_utils.o \

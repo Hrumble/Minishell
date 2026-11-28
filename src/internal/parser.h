@@ -6,12 +6,13 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 19:53:19 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/21 16:05:27 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 19:13:10 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
+#include "arena.h"
 # define ARGV_SIZE 100
 # define REDIR_SIZE 10
 # include "lexer.h"
@@ -22,6 +23,7 @@ typedef struct s_parserattr
 	t_token	*prev;
 	t_token	*current;
 	t_token	*next;
+	t_arena	**arena;
 }	t_parserattr;
 
 typedef enum e_asttype
@@ -86,17 +88,15 @@ int				parse_word(t_parserattr *pattr, t_lexerattr *lattr,
 int				ast_map(t_ast	**ast, int (*f)(t_ast **ast));
 
 // Constructors
-t_parserattr	*new_parserattr(void);
+t_parserattr	*new_parserattr(t_arena **arena);
 t_ast			*new_astprgrm(void);
 t_ast			*new_astbinaryop(t_ast *left, t_ast *right);
 t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len);
-t_ast			*new_astdef(t_defatom *datom);
 
 // Freeing
 void			free_redir(t_prgrmredir **redir);
 void			free_prgrm(t_ast **prgrm);
 void			free_ast(t_ast **ast);
-void			free_pandlattr(t_parserattr **pattr, t_lexerattr **lattr);
 
 // Utils
 // Returns wether or not the program is empty

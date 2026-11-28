@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:55:02 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/05 14:45:08 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/28 19:12:59 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,25 +41,6 @@ t_ast	*new_astprgrm(void)
 	prgrm->s_prgrm.ac = 0;
 	prgrm->s_prgrm.redir_size = 0;
 	return (prgrm);
-}
-
-t_ast	*new_astdef(t_defatom *datom)
-{
-	char	*keydup;
-	char	*valdup;
-	t_ast	*def;
-
-	def = malloc(sizeof(t_ast));
-	if (!def)
-		return (0);
-	keydup = ft_substr(datom->key.ptr, 0, datom->key.size);
-	valdup = ft_substr(datom->val.ptr, 0, datom->val.size);
-	if (!keydup || !valdup)
-		return (free(keydup), free(valdup), (void *)0);
-	def->type = AST_DEF;
-	def->s_def.key = keydup;
-	def->s_def.value = valdup;
-	return (def);
 }
 
 t_prgrmredir	*new_redir(t_redirtype type, char *buf, size_t len)

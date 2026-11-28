@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/30 10:48:01 by user              #+#    #+#             */
-/*   Updated: 2026/11/21 16:04:32 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 19:06:24 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,4 @@ void	free_prgrm(t_ast	**prgrm)
 		free_redir(&(*prgrm)->s_prgrm.redir[i++]);
 	free(*prgrm);
 	*prgrm = 0;
-}
-
-void	free_pandlattr(t_parserattr **pattr, t_lexerattr **lattr)
-{
-	if (pattr && *pattr)
-	{
-		free((*pattr)->prev);
-		free((*pattr)->current);
-		free((*pattr)->next);
-		free(*pattr);
-		*pattr = 0;
-	}
-	if (lattr && *lattr)
-	{
-		// free((*lattr)->buf);
-		free(*lattr);
-		*lattr = 0;
-	}
 }

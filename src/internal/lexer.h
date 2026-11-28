@@ -6,12 +6,13 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:12 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 21:05:29 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 18:47:33 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
+#include "arena.h"
 # include <stddef.h>
 
 typedef enum e_tokentype
@@ -40,6 +41,7 @@ typedef enum e_redirtype
 // 0: is_in_quotes
 typedef struct s_lexerattr
 {
+	t_arena	**arena;
 	char	*buf;
 	char	*ptr;
 	int		flags : 1;
@@ -71,11 +73,11 @@ typedef struct s_token
 // Returns the next token in the string
 t_token		*next_token(t_lexerattr *attr);
 // Returns a new heap allocated token struct
-t_token		*new_token(t_tokentype type, char *ptr, size_t size);
+t_token		*new_token(t_tokentype type, char *ptr, size_t size, t_arena **arena);
 // Returns a new heap allocated redir token
-t_token		*new_token_redir(t_redirtype type);
+t_token		*new_token_redir(t_redirtype type, t_arena **arena);
 // Returns a new allocated lexer attribute
-t_lexerattr	*new_lexerattr(char *buf);
+t_lexerattr	*new_lexerattr(char *buf, t_arena **arena);
 
 // Utils
 int			ft_iswrd(int c);

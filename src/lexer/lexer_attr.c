@@ -6,22 +6,23 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 17:23:28 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/09 19:25:45 by ngero            ###   ########.fr       */
+/*   Updated: 2026/11/28 18:36:49 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "arena.h"
 #include "lexer.h"
-#include <stdlib.h>
 
-t_lexerattr	*new_lexerattr(char *buf)
+t_lexerattr	*new_lexerattr(char *buf, t_arena **arena)
 {
 	t_lexerattr	*attr;
 
 	if (!buf)
 		return (0);
-	attr = malloc(sizeof(t_lexerattr));
+	attr = arena_alloc(arena, sizeof(t_lexerattr), D_ALIGNMENT);
 	if (!attr)
 		return (0);
+	attr->arena = arena;
 	attr->buf = buf;
 	attr->ptr = buf;
 	attr->flags = 0;

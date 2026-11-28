@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/21 14:00:12 by user              #+#    #+#             */
-/*   Updated: 2026/11/21 14:37:16 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 19:04:29 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,25 @@ t_arena	*new_arena(size_t initial_capacity)
 		return (NULL);
 	a->capacity = initial_capacity;
 	a->ptr = (char *)a + sizeof(t_arena);
+	a->offset = a->ptr;
 	return (a);
 }
 
 void	*arena_alloc(t_arena **a, size_t size, size_t alignment)
 {
-	char 	*aligned_address;
+	char		*aligned_address;
+	ptrdiff_t	size_left;
 
 	if (!a || !*a)
 		return (0);
 	aligned_address = _get_next_aligned_address(*a, alignment);
-	while ((char *)*a + sizeof(t_arena) + (*a)->capacity - aligned_address < size)
+	size_left = (*a)->offset + (*a)->capacity - aligned_address; 
+	while (size_left < 0 || (size_t)size_left < size)
 	{
 		if (!_arena_realloc(a))
 			return (0);
 		aligned_address = _get_next_aligned_address(*a, alignment);
+		size_left = (*a)->offset + (*a)->capacity - aligned_address; 
 	}
 	(*a)->ptr = aligned_address + size;
 	return (aligned_address);

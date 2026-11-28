@@ -6,10 +6,11 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/29 20:44:34 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 11:26:49 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 19:12:39 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "arena.h"
 #include "lexer.h"
 #include "parser.h"
 #include <stdlib.h>
@@ -31,6 +32,8 @@ static t_ast	*parse_program(t_parserattr *pattr, t_lexerattr *lattr)
 		if (!ok)
 			return (free_ast(&prgrm), NULL);
 	}
+	if (is_empty_prgrm(prgrm))
+		return (free(prgrm), NULL);
 	return (prgrm);
 }
 
@@ -55,7 +58,6 @@ static t_ast	*parse_pipeline(t_parserattr *pattr, t_lexerattr *lattr)
 			return (free_ast(&l_prgrm), free_ast(&r_prgrm), NULL);
 		l_prgrm = pipe;
 	}
-	free_pandlattr(&pattr, &lattr);
 	return (l_prgrm);
 }
 
@@ -63,10 +65,17 @@ t_ast	*parse_ast(char *buf)
 {
 	t_parserattr	*pattr;
 	t_lexerattr		*lattr;
+	t_arena			*arena;
+	t_ast			*ast;
 
-	pattr = new_parserattr();
-	lattr = new_lexerattr(buf);
+	arena = new_arena(1024);
+	if (!arena)
+		return (0);
+	pattr = new_parserattr(&arena);
+	lattr = new_lexerattr(buf, &arena);
 	if (!pattr || !lattr || !consume_token(pattr, lattr))
-		return (free(pattr), free(lattr), NULL);
-	return (parse_pipeline(pattr, lattr));
+		return (free(arena), NULL);
+	ast = parse_pipeline(pattr, lattr);
+	free(arena);
+	return (ast);
 }

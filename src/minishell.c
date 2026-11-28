@@ -6,17 +6,17 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/26 17:58:51 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/21 21:33:04 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 19:18:59 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "arena.h"
 #include "executor.h"
 #include "internal.h"
 #include "minishell.h"
 #include "parser.h"
 #include <stddef.h>
 #include <stdlib.h>
-#include <time.h>
 #include <unistd.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -56,7 +56,10 @@ static int _read_loop(void)
 	add_history(buf);
 	ast = _parse_user_input(buf);
 	if (!ast)
-		return (ft_putstr_fd("metasex: parse error\n", 2), 1);
+	{
+		set_exit_status(2);
+		return (free(buf), ft_putstr_fd("metasex: parse error\n", 2), 1);
+	}
 	varenv = get_env();
 	if (!varenv)
 		return (_cleanup(&ast, varenv, &buf), 1);

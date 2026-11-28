@@ -6,7 +6,7 @@
 /*   By: ngero <ngero@student.codam.nl>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/28 17:47:04 by ngero             #+#    #+#             */
-/*   Updated: 2026/11/10 21:14:03 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 18:48:37 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
 static t_token	*get_single_char_token(t_lexerattr *attr)
 {
 	if (*attr->ptr == '|')
-		return (new_token(TK_PIPE, 0, 0));
+		return (new_token(TK_PIPE, 0, 0, attr->arena));
 	if (*attr->ptr == '<')
 	{
 		if (*(attr->ptr + 1) == '<')
-			return (attr->ptr++, new_token_redir(REDIR_HEREDOC));
-		return (new_token_redir(REDIR_IN));
+			return (attr->ptr++, new_token_redir(REDIR_HEREDOC, attr->arena));
+		return (new_token_redir(REDIR_IN, attr->arena));
 	}
 	if (*attr->ptr == '>')
 	{
 		if (*(attr->ptr + 1) == '>')
-			return (attr->ptr++, new_token_redir(REDIR_APPENDOUT));
-		return (new_token_redir(REDIR_OUT));
+			return (attr->ptr++, new_token_redir(REDIR_APPENDOUT, attr->arena));
+		return (new_token_redir(REDIR_OUT, attr->arena));
 	}
 	return (0);
 }
@@ -65,7 +65,8 @@ static t_token	*get_wrd_token(t_lexerattr *lattr)
 		lattr->ptr++;
 	}
 	if (wrd_start)
-		return (new_token(TK_WRD, wrd_start, lattr->ptr - wrd_start));
+		return (new_token(TK_WRD, wrd_start,
+					lattr->ptr - wrd_start, lattr->arena));
 	return (0);
 }
 

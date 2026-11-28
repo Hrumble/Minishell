@@ -6,7 +6,7 @@
 /*   By: user <ngero@student.codam.nl>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/21 14:00:22 by user              #+#    #+#             */
-/*   Updated: 2026/11/21 14:52:22 by user             ###   ########.fr       */
+/*   Updated: 2026/11/28 18:58:52 by user             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # define D_ALIGNMENT 8
 
 typedef struct s_arena {
-	void	*ptr;
+	char	*ptr;
+	char	*offset;
 	size_t	capacity;
 } t_arena ;
 
